@@ -1,3 +1,4 @@
+#pragma once
 #include <Windows.h>
 
 // Definicija strukture i tipa za jedno pitanje.
