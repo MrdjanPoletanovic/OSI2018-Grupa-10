@@ -1,4 +1,21 @@
-#include "kviz.h" 
+#include "kviz.h"
+#include "baza.h"
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <algorithm>
+#include <ctime>
+#include <cmath>
+
+
+using std::cin;
+using std::cout;
+using std::endl;
+using std::string;
+using std::ofstream;
+using std::ifstream;
+using std::sort;
+
 
 // Funkcija za formatirano upisivanje pitanja, odgovora i rednog broja tacnog odgovora u .CSV fajl.
 void pisanjePitanjaCSV()
