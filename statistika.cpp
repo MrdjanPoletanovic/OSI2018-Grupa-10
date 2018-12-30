@@ -86,10 +86,10 @@ const Node& KruzniBafer::operator[](int i) const
 }
 
 
-void KruzniBafer::enqueue(int x)
+void KruzniBafer::enqueue(int x, const std::string& poruka)
 {
 	rear = (rear+1)%SIZE;
-	niz[rear] = {x};
+	niz[rear] = Node(x, poruka);
 	if (front == rear)
 		front++;
 }
