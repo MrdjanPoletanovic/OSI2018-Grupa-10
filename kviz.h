@@ -13,6 +13,6 @@ typedef struct pitanja_odgovori
 void pisanjePitanjaCSV();
 int stoi (std::string);
 void pisiPitanjeIOdgovore(PITANJA, int);
-bool pritisakNaDugme (DWORD, char);
+bool pritisakNaDugme (DWORD, char&);
 int kviz();
 
