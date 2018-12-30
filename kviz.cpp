@@ -112,7 +112,8 @@ bool pritisakNaDugme(DWORD zavrsnoVrijeme, char &prviKarakter)
 	return false; // Funkcija vraca FALSE ako nista na tastaturi nije pritisnuto prije promjenjive "zavrsnoVrijeme".
 }
 
-int kviz()
+// Funkcija azurira bodove korisnika u realnom vremenu.
+void kviz(int& stanje)
 {
 	int bodovi = 0; // Vrijednost koju ce funkcija vracati.
 	int brojTacnihOdgovora = 0; // Promjenjiva potrebna da bi se moglo dodijeliti dodatnih 50 bodova ako su svih 5 pitanja tacna.
@@ -266,7 +267,7 @@ int kviz()
 			if (!timerControl)
 			{
 				cout << endl << endl << "   ---   ISTEKLO VAM JE VRIJEME !" << endl;
-				bodovi -= 10;
+				stanje -= 10;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
 				continue;
@@ -276,7 +277,7 @@ int kviz()
 			else if (brojPokusaja > 3)
 			{
 				cout << endl << "   ---   TRI PUTA STE NEPRAVILNO UNIJELI ODGOVOR !" << endl;
-				bodovi -= 10;
+				stanje -= 10;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
 				continue;
@@ -286,7 +287,7 @@ int kviz()
 			else if (stoi(odgovor) != listaPitanja[i].tacanOdgovor)
 			{
 				cout << endl << "   ---   NETACNO !" << endl;;
-				bodovi -= 30;
+				stanje -= 30;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
 				continue;
@@ -296,7 +297,7 @@ int kviz()
 			else
 			{
 				cout << endl << "   ---   TACNO !" << endl;
-				bodovi += 20;
+				stanje += 20;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
 				brojTacnihOdgovora++;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
@@ -306,11 +307,11 @@ int kviz()
 		}
 
 		if (brojTacnihOdgovora == 5)
-			bodovi += 50;
+			stanje += 50;
 	}
 	cout << endl << "Ukupan broj bodova na kraju igre: " << bodovi << endl << endl;
 
 	system("PAUSE");
 
-	return bodovi;
+	return;
 }
