@@ -49,7 +49,7 @@ void pisanjePitanjaCSV()
 		datotekaZaUpisPitanja << 22 << ". U kom okrugu se nalazi Dimitrovgrad?\n1. Pirotskom\n2. Moravskom\n3. Niskom\n" << 1 << "\n\n";
 		datotekaZaUpisPitanja << 23 << ". Drzava Zimbabve se ranije zvala:\n1. Zair\n2. Dahomej\n3. Rodezija\n" << 3 << "\n\n";
 		datotekaZaUpisPitanja << 24 << ". Ko je autor pjesme \"Cekaj me\" ?\n1. Milos Crnjanski\n2. Desanka Maksimovic\n3. Konstantin Simonov\n" << 3 << "\n\n";
-		datotekaZaUpisPitanja << 25 << ". Ko je napisao knjigu \"Noz\" ?\n1. Vuk Dra�kovic\n2. Me�a Selimovic\n3. Dobrica Cosic\n" << 1 << "\n\n";
+		datotekaZaUpisPitanja << 25 << ". Ko je napisao knjigu \"Noz\" ?\n1. Vuk Draskovic\n2. Mesa Selimovic\n3. Dobrica Cosic\n" << 1 << "\n\n";
 		datotekaZaUpisPitanja << 26 << ". Koji je sledeci broj u nizu: 1, 4, 9, 16, 25, 36... ?\n1. 81\n2. 47\n3. 49\n" << 3 << "\n\n";
 		datotekaZaUpisPitanja << 27 << ". Srebrena planina ili:\n1. Tara\n2. Kopaonik\n3. Jahorina\n" << 2 << "\n\n";
 		datotekaZaUpisPitanja << 28 << ". Za koji od klubova nije igrao Predrag Danilovic?\n1. Miami Heat\n2. Olimpijakos\n3. Partizan\n" << 2 << "\n\n";
