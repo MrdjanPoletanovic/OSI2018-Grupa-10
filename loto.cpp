@@ -4,13 +4,12 @@
 #include <iomanip>
 #include <chrono>
 #include <random>
-#include <cmath>
 #include <string>
-#include <algorithm>
 #include <thread>
 #define NUM_CARDS 45
 #define NUM_DRAWN 20
 #define NUM_CHOSEN 7
+#define POKUSAJI 80
 
 
 void izvuci(int izvuceni[], int niz[NUM_CARDS], int n)
@@ -131,7 +130,7 @@ void prikazi_izvlacenje(int izvuceni[NUM_DRAWN])
 }
 
 
-int provjera(int izvuceni[NUM_DRAWN], int izabrani[NUM_CHOSEN])
+int provjera(int izvuceni[NUM_DRAWN], int izabrani[NUM_CHOSEN], bool namjestanje)
 {
 	int br=0, bodovi=0, pogodjeni[NUM_DRAWN];
 	for(int i=0; i<NUM_CHOSEN; i++)
@@ -146,14 +145,17 @@ int provjera(int izvuceni[NUM_DRAWN], int izabrani[NUM_CHOSEN])
 			}
 		}
 	}
-	if (br == 0)
-		std::cout << "Niste pogodili nijedan broj. Vise srece drugi put" << std::endl;
-	else
+	if (!namjestanje)
 	{
-		std::cout << "Pogodjeni brojevi: ";
-		for(int i=0; i<br; i++)
-			std::cout << pogodjeni[i] << " ";
-		std::cout << std::endl;
+		if (br == 0)
+			std::cout << "Niste pogodili nijedan broj. Vise srece drugi put" << std::endl;
+		else
+		{
+			std::cout << "Pogodjeni brojevi: ";
+			for(int i=0; i<br; i++)
+				std::cout << pogodjeni[i] << " ";
+			std::cout << std::endl;
+		}
 	}
 	return bodovi;
 }
@@ -172,21 +174,72 @@ bool provjeri_broj(int izabrani[NUM_DRAWN], int i)
 }
 
 
+bool check_namjestanje(int dobitak, int gubitak, int& igranje, int& redni)
+{
+	return (igranje % 3 == redni) && (gubitak != dobitak*1.4);
+}
+
+
+int get_optimalno(int dobitak, int gubitak)
+{
+	return (gubitak - dobitak*1.4);
+}
+
+
+void namjesti(int izabrani[], int izvuceni[], int niz[], int optimalno)
+{
+	int nizovi[POKUSAJI][NUM_DRAWN], index;
+	if (optimalno > 0)
+		for(int best=300, i=0, bodovi; i<POKUSAJI; i++)
+		{
+			izvuci(nizovi[i], niz, NUM_DRAWN);
+			bodovi = provjera(nizovi[i], izabrani, true);
+			if (optimalno - bodovi < best)
+			{
+				best = optimalno - bodovi;
+				index = i;
+			}
+
+		}
+	else
+		for(int min=300, i=0, bodovi; i<POKUSAJI/2; i++)
+		{
+			izvuci(nizovi[i], niz, NUM_DRAWN);
+			bodovi = provjera(nizovi[i], izabrani, true);
+			if (bodovi < min)
+			{
+				min = bodovi;
+				index = i;
+			}
+		}
+	for(int i=0; i<NUM_DRAWN; i++)
+		izvuceni[i] = nizovi[index][i];
+}
+
+
 void loto(int& stanje, int& dobitak, int& gubitak, int& igranje)
 {
-	int niz[45], izvuceni[20], izabrani[7], bodovi;
+	int niz[45], izvuceni[20], izabrani[7], bodovi, redni;
 	for(int i=0; i<45; i++)
 		niz[i] = i+1;
 	do
 	{
 		stanje -= 100;
+		gubitak += 100;
 		std::srand(std::time(0));
 		clear_screen();
+		if (igranje % 3 == 0)
+			redni = std::rand()%3;
 		izaberi(izabrani, niz);
-		izvuci(izvuceni, niz, 20);
+		if (check_namjestanje(dobitak, gubitak,  igranje, redni))
+		{
+			int optimalno = get_optimalno(dobitak, gubitak);
+			namjesti(izabrani, izvuceni, niz, optimalno);
+		}
+		else
+			izvuci(izvuceni, niz, NUM_DRAWN);
 		prikazi_izvlacenje(izvuceni);
 		bodovi = provjera(izvuceni, izabrani);
-		gubitak += 100;
 		igranje++;
 		std::cout << "Osvojili ste " << bodovi << " bodova." << std::endl;
 		dobitak += bodovi;
@@ -199,6 +252,6 @@ void loto(int& stanje, int& dobitak, int& gubitak, int& igranje)
 		}
 	}
 	while(igraj_ponovo());
-	// std::cout << dobitak << std::endl;
-	// std::cout << gubitak << std::endl;
+	std::cout << dobitak << std::endl;
+	std::cout << gubitak << std::endl;
 }
