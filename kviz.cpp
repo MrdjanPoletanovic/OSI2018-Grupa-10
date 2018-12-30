@@ -42,14 +42,14 @@ void pisanjePitanjaCSV()
 		datotekaZaUpisPitanja << 15 << ". Koje godine je zavrsena francuska revolucija?\n1. 1798\n2. 1777\n3. 1799\n" << 3 << "\n\n";
 		datotekaZaUpisPitanja << 16 << ". Ptica feniks je simbol:\n1. Pustosenja\n2. Besmrtnosti\n3. Mudrosti\n" << 2 << "\n\n";
 		datotekaZaUpisPitanja << 17 << ". Poznatu recenicu \"Ne prekidaj neprijatelja dok grijesi\", izgovorio je:\n1. Aleksandar Makedonski\n2. Vinston Cercil\n3. Napoleon\n" << 3 << "\n\n";
-		datotekaZaUpisPitanja << 18 << ". Prije nego što je uzela ime \"Riblja Corba\", ova grupa se zvala:\n1. TNT\n2. Greh\n3. SOS\n" << 3 << "\n\n";
+		datotekaZaUpisPitanja << 18 << ". Prije nego sto je uzela ime \"Riblja Corba\", ova grupa se zvala:\n1. TNT\n2. Greh\n3. SOS\n" << 3 << "\n\n";
 		datotekaZaUpisPitanja << 19 << ". \"Aceto balsamico\" je:\n1. Sirce\n2. Biljka\n3. Ulje\n" << 1 << "\n\n";
 		datotekaZaUpisPitanja << 20 << ". Kakvu vlast ima vlada Republike Srbije?\n1. Apsolutnu\n2. Parlamentarnu\n3. Izvrsnu\n" << 3 << "\n\n";
-		datotekaZaUpisPitanja << 21 << ". Jedna kopnena milja je duga oko:\n1. 1,6 km\n2. 1,4 km\n3. 1.7 km\n" << 1 << "\n\n";
+		datotekaZaUpisPitanja << 21 << ". Jedna kopnena milja je duga oko:\n1. 1.6 km\n2. 1.4 km\n3. 1.7 km\n" << 1 << "\n\n";
 		datotekaZaUpisPitanja << 22 << ". U kom okrugu se nalazi Dimitrovgrad?\n1. Pirotskom\n2. Moravskom\n3. Niskom\n" << 1 << "\n\n";
 		datotekaZaUpisPitanja << 23 << ". Drzava Zimbabve se ranije zvala:\n1. Zair\n2. Dahomej\n3. Rodezija\n" << 3 << "\n\n";
 		datotekaZaUpisPitanja << 24 << ". Ko je autor pjesme \"Cekaj me\" ?\n1. Milos Crnjanski\n2. Desanka Maksimovic\n3. Konstantin Simonov\n" << 3 << "\n\n";
-		datotekaZaUpisPitanja << 25 << ". Ko je napisao knjigu \"Noz\" ?\n1. Vuk Draškovic\n2. Meša Selimovic\n3. Dobrica Cosic\n" << 1 << "\n\n";
+		datotekaZaUpisPitanja << 25 << ". Ko je napisao knjigu \"Noz\" ?\n1. Vuk Dra�kovic\n2. Me�a Selimovic\n3. Dobrica Cosic\n" << 1 << "\n\n";
 		datotekaZaUpisPitanja << 26 << ". Koji je sledeci broj u nizu: 1, 4, 9, 16, 25, 36... ?\n1. 81\n2. 47\n3. 49\n" << 3 << "\n\n";
 		datotekaZaUpisPitanja << 27 << ". Srebrena planina ili:\n1. Tara\n2. Kopaonik\n3. Jahorina\n" << 2 << "\n\n";
 		datotekaZaUpisPitanja << 28 << ". Za koji od klubova nije igrao Predrag Danilovic?\n1. Miami Heat\n2. Olimpijakos\n3. Partizan\n" << 2 << "\n\n";
