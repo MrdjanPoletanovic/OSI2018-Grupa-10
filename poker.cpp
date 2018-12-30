@@ -16,7 +16,6 @@ void poker(int& stanje,int& gubitak,int &dobici)
         {
         stela=(rand()%3)==0;///
         clear_screen();
-        cout<<stela<<endl;
 
         stanje=stanje-5;
         gubitak+=5;
@@ -73,7 +72,6 @@ void poker(int& stanje,int& gubitak,int &dobici)
         for(int i =0;i<5;i++)
             ispis[i]=a[i+5];
         sortiranjeKarata(a);
-        cout<<j<<endl;
         if(dobitak(a)==0)
             break;
         }while(NamjestanjePoker(stela,dobici+dobitak(a),gubitak) && j<30);
