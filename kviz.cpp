@@ -69,7 +69,7 @@ int stoi (string s)
     for (int i=0, p=1; s[i]; i++)
     {
         suma = suma * p + s[i] - 0x30;
-        p * =10;
+        p*=10;
     }
     return suma;
 }
@@ -126,7 +126,7 @@ void kviz(int& stanje)
 		for (int i = 0; i < 5; i++)
 		{
 			int control = 1;
-			int tempRedniBrojPitanja = rand() % 15 + 1; // Generisanje random broja izmedju 0 i 15.
+			int tempRedniBrojPitanja = rand() % 30 + 1; // Generisanje random broja izmedju 0 i 15.
 
 			// Provjera da li je novi redni broj pitanja ranije generisan.
 			for (int j = 0; j <= i; j++)
@@ -267,6 +267,7 @@ void kviz(int& stanje)
 			if (!timerControl)
 			{
 				cout << endl << endl << "   ---   ISTEKLO VAM JE VRIJEME !" << endl;
+				bodovi -= 10;
 				stanje -= 10;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
@@ -277,6 +278,7 @@ void kviz(int& stanje)
 			else if (brojPokusaja > 3)
 			{
 				cout << endl << "   ---   TRI PUTA STE NEPRAVILNO UNIJELI ODGOVOR !" << endl;
+				bodovi -= 10;
 				stanje -= 10;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
@@ -287,6 +289,7 @@ void kviz(int& stanje)
 			else if (stoi(odgovor) != listaPitanja[i].tacanOdgovor)
 			{
 				cout << endl << "   ---   NETACNO !" << endl;;
+				bodovi -= 30;
 				stanje -= 30;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
@@ -297,6 +300,7 @@ void kviz(int& stanje)
 			else
 			{
 				cout << endl << "   ---   TACNO !" << endl;
+				bodovi +=20;
 				stanje += 20;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
 				brojTacnihOdgovora++;
@@ -307,9 +311,14 @@ void kviz(int& stanje)
 		}
 
 		if (brojTacnihOdgovora == 5)
+        {
+            bodovi += 50;
 			stanje += 50;
+        }
 	}
-	cout << endl << "Ukupan broj bodova na kraju igre: " << bodovi << endl << endl;
+
+	cout << endl << "Ukupan broj bodova na kraju igre: " << bodovi << endl;
+	cout << endl << "Ukupan broj bodova na vasem nalogu: " << stanje << endl << endl;
 
 	system("PAUSE");
 
