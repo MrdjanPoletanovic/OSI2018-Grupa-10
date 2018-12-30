@@ -1,0 +1,32 @@
+<username> <password>
+
+Rezultati:
+1. <naziv igre> <vrijeme igranja>
+
+//rezultati opadajuce sortirani
+
+
+
+2. <naziv igre> <vrijeme igranja>
+
+
+//rezultati opadajuce sortirani
+
+
+3. <naziv igre> <vrijeme igranja>
+
+
+
+//rezultati opadajuce sortirani
+
+
+4.<naziv igre> <vrijeme igranja>
+
+
+//rezultati opadajuce sortirani
+
+---------------------------------------------
+sledeci korisnik
+---------------------------------------------
+<username> <password>
+....
