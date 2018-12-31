@@ -13,19 +13,19 @@ void signUp()
         controlIme = true;
         controlLozinka = true;
 
-        cin.sync();
+        cin.sync(); // Ciscenje ulaznog bafera.
         cout << "\nMolim unesite korisnicko ime: ";
         cin >> korisnickoIme;
 
-        for (int j = 0; j < (int)korisnickoIme.length(); j++)
+        for (int j = 0; j < (int)korisnickoIme.length(); j++) // Provjera da li unijeto korisnicko ime sadrzi nedozvoljene karaktere.
             if (!(isalpha(korisnickoIme.at(j)) || isdigit(korisnickoIme.at(j)) || korisnickoIme.at(j) == '_' || korisnickoIme.at(j) == '.'))
                 controlIme = false;
 
-        cin.sync();
+        cin.sync(); // Ciscenje ulaznog bafera.
         cout << "Molim unesite lozinku: ";
         cin >> lozinka;
 
-        for (int j = 0; j < (int)lozinka.length(); j++)
+        for (int j = 0; j < (int)lozinka.length(); j++)  // Provjera da li unijeta lozinka sadrzi nedozvoljene karaktere.
             if (!(isalpha(lozinka.at(j)) || isdigit(lozinka.at(j))))
                 controlLozinka = false;
 
@@ -39,13 +39,14 @@ void signUp()
     }
     while (!controlIme || !controlLozinka);
 
-    std::ifstream datotekaSaNalozima;
+    std::ifstream datotekaSaNalozima; // Otvaranje datoteke za iscitavanje naloga kao "Input File Stream".
     datotekaSaNalozima.open("nalozi.csv");
 
     string compareUsername, demPassword;
     bool control = true;
 
     if (datotekaSaNalozima.is_open())
+        // Poredjenje naloga iz fajla sa unijetim nalogom.
         while(!datotekaSaNalozima.eof())
         {
             getline(datotekaSaNalozima, compareUsername, ',');
@@ -58,14 +59,15 @@ void signUp()
                 break;
             }
         }
-
+    // Zatvaranje datoteke u modu za pisanje.
     datotekaSaNalozima.close();
 
+    // Otvaranje datoteke u modu za upisivanje "Output File Stream" u "Append" modu.
     std::ofstream datotekaSaNalozimaUpis;
     datotekaSaNalozimaUpis.open("nalozi.csv", std::ios::app);
 
     if (control)
-        datotekaSaNalozimaUpis << korisnickoIme << ',' << lozinka << '\n';
+        datotekaSaNalozimaUpis << korisnickoIme << ',' << lozinka << '\n'; // Formatiran upis korisnickog imena i lozinke u fajl.
 
     datotekaSaNalozimaUpis.close();
 
