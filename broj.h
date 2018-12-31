@@ -1,16 +1,7 @@
 #pragma once
 
-#include <iostream>
-#include <ctime>
-#include <cstdio>
-#include <cstdlib>
+#include "baza.h"
 
-//#define jeste true
-//#define nije false
-
-using std::cout;
-using std::cin;
-using std::endl;
-
-void pogodiBroj();
+void broj(int& stanje, int& dobitak, int& pokusaj);
+int unos(int i);
 
