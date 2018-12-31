@@ -6,7 +6,7 @@
 bool provjera(std::string &userName, std::string &password)
 {
     std::ifstream dataBase;
-    dataBase.open("nalozi.csv");          //otvaranje csv fajla pod imenom "nalozi"; promijeniti naziv fajla
+    dataBase.open("nalozi.csv");          //otvaranje csv fajla pod imenom "nalozi"; po potrebi promijeniti naziv fajla
     while(dataBase.good())
     {
         std::string _name, _password, ignore;
