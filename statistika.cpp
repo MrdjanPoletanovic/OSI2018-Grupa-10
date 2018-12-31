@@ -3,15 +3,15 @@
 #include <algorithm>
 
 
-Node::Node() : Node(0, "")
+Node::Node() : Node(0, "", "")
 {}
 
 
-Node::Node(int r, const std::string& s) : rezultat(r), poruka(s)
+Node::Node(int r, const std::string& s, const std::string& t) : rezultat(r), poruka(s), vrijeme(t)
 {}
 
 
-Node KruzniBafer::errorNode = Node(-1, "greska");
+Node KruzniBafer::errorNode = Node(-1, "greska", "greska");
 
 
 KruzniBafer::KruzniBafer() : niz(new Node[SIZE]), front(0), rear(0)
@@ -86,10 +86,10 @@ const Node& KruzniBafer::operator[](int i) const
 }
 
 
-void KruzniBafer::enqueue(int x, const std::string& poruka)
+void KruzniBafer::enqueue(int x, const std::string& poruka, const std::string& vrijeme)
 {
 	rear = (rear+1)%SIZE;
-	niz[rear] = Node(x, poruka);
+	niz[rear] = Node(x, poruka, vrijeme);
 	if (front == rear)
 		front++;
 }
