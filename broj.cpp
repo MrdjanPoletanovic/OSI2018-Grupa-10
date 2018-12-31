@@ -82,23 +82,3 @@ void broj(int& stanje, int& dobitak, int& pokusaj)
 	}
 	while(igraj_ponovo());
 }
-
-    }
-
-    if(pogodio==false)
-        cout<<"Trazeni broj je "<<zadaniBroj<<endl;
-    cout<<"Ukupno bodova: "<<bodovi<<endl;
-    cout<<"Da li zelite da nastavite? (da/ne): ";
-    cin>>pitanje;
-    while(pitanje != "da" && pitanje!="DA" && pitanje!="Da" && pitanje!="ne" && pitanje!="NE" && pitanje!="Ne")
-    {
-        cout<<"Pogresan unos! Unesite da ili ne. "<<endl;
-        cin>>pitanje;
-    }
-    system("CLS");
-   }
-
-    f=fopen("bodovi.txt", "w");
-        fprintf(f,"%d",bodovi);
-        fclose(f);
-}
