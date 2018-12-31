@@ -9,7 +9,7 @@ bool provjera(std::string &userName, std::string &password)
     dataBase.open("nalozi.csv");          //otvaranje csv fajla pod imenom "nalozi"; po potrebi promijeniti naziv fajla
     while(dataBase.good())
     {
-        std::string _name, _password, ignore;
+        std::string _name, _password;
         getline(dataBase, _name, ',');
         getline(dataBase, _password, '\n');     // pretpostavka da u tabeli postoje samo 2 kolone: username i password
         if(userName.compare(_name)==0 && password.compare(_password)==0)
