@@ -17,4 +17,3 @@ bool provjera(std::string &userName, std::string &password)
     }
     return false;
 }
-
