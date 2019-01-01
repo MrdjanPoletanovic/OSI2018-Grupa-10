@@ -1,3 +1,3 @@
 #pragma once
 
-void prijava();
+bool logIn();
