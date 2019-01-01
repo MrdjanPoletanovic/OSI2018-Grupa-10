@@ -18,7 +18,7 @@ void prikazi_izvlacenje(int izvuceni[]);
 int provjera(int izvuceni[], int izabrani[], bool is_namjestanje=false);
 
 // glavna funkcija koja je zaduzena za izvrsavanje cijele igre
-void loto(int& stanje, int& dobitak, int& gubitak, int& igranje);
+int loto(int& stanje, int& dobitak, int& gubitak, int& igranje);
 
 // funkcija koja provjerava da li je broj u dozvoljenom opsegu
 // koristi se kao pomocna funkcija u provjeri korisnickog unosa

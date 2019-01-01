@@ -1,7 +1,9 @@
 #include "poker.h"
+#include "baza.h"
+#include <iostream>
 
 
-void poker(int& stanje,int& gubitak,int &dobici)
+int poker(int& stanje,int& gubitak,int &dobici)
 {
         struct karta a[10];
         struct karta ispis[5];
@@ -19,8 +21,8 @@ void poker(int& stanje,int& gubitak,int &dobici)
 
         stanje=stanje-5;
         gubitak+=5;
-        //cout<<"Dobitak:"<<dobici<<" Gubitak:"<<gubitak<<endl;
-        cout<<"Trenutno stanje na racunu je "<<stanje<<" bodova"<<endl;
+        //std::cout<<"Dobitak:"<<dobici<<" Gubitak:"<<gubitak<<std::endl;
+        std::cout<<"Trenutno stanje na racunu je "<<stanje<<" bodova"<<std::endl;
 
         j=0;
         do
@@ -37,8 +39,8 @@ void poker(int& stanje,int& gubitak,int &dobici)
         for(int i=0;i<5;i++)
             a[i]=ispis[i];
 
-        cout<<"Unesite kombinaciju  //Primjer:(da ne da ne ne)"<<endl;
-        std::getline(cin,filter);
+        std::cout<<"Unesite kombinaciju  //Primjer:(da ne da ne ne)"<<std::endl;
+        std::getline(std::cin,filter);
 
         while(!( ((filter[0]=='d' && filter[1]=='a') || (filter[0]=='n' && filter[1]=='e'))
                && filter[2]==' '
@@ -51,8 +53,8 @@ void poker(int& stanje,int& gubitak,int &dobici)
                    && ((filter[12]=='d' && filter[13]=='a') || (filter[12]=='n' && filter[13]=='e'))
                    && filter[14]==0))
                    {
-                      cout<<"Neispravan unos, unesite ponovo //Primjer:(da ne da ne ne)"<<endl;
-                        std::getline(cin,filter);
+                      std::cout<<"Neispravan unos, unesite ponovo //Primjer:(da ne da ne ne)"<<std::endl;
+                        std::getline(std::cin,filter);
                    }
         for(int i=0;i<5;i++)
         {
@@ -63,7 +65,7 @@ void poker(int& stanje,int& gubitak,int &dobici)
         odluke[i]="ne";
         }
         j=0;
-        cout<<endl;
+        std::cout<<std::endl;
         do
         {
         j++;
@@ -82,7 +84,7 @@ void poker(int& stanje,int& gubitak,int &dobici)
         stanje=stanje+dobit;
         dobici=dobici+dobit;
         ispisDobitka(dobit);
-        cout<<endl<<"Trenutno stanje na racunu je "<<stanje<<" bodova"<<endl;
+        std::cout<<std::endl<<"Trenutno stanje na racunu je "<<stanje<<" bodova"<<std::endl;
         } while(igraj_ponovo());
 }
 
@@ -108,29 +110,29 @@ void ispisKarata(karta a[10],int pd)
     for(i=0+pd;i<5+pd;i++)
       {
       if(a[i].broj==1)
-      cout<<"A";
+      std::cout<<"A";
       else
       if(a[i].broj==11)
-      cout<<"J";
+      std::cout<<"J";
       else
       if(a[i].broj==12)
-      cout<<"Q";
+      std::cout<<"Q";
       else
       if(a[i].broj==13)
-      cout<<"K";
+      std::cout<<"K";
       else
-      cout<<a[i].broj;
+      std::cout<<a[i].broj;
       if(a[i].znak==1)
-      cout<<char(3);
+      std::cout<<char(3);
       if(a[i].znak==2)
-      cout<<char(4);
+      std::cout<<char(4);
       if(a[i].znak==3)
-      cout<<char(5);
+      std::cout<<char(5);
       if(a[i].znak==4)
-      cout<<char(6);
-      cout<<" ";
+      std::cout<<char(6);
+      std::cout<<" ";
       }
-      cout<<endl;
+      std::cout<<std::endl;
 }
 
 void mjenjanjeKarata(karta a[10],std::string odluke[5])
@@ -159,7 +161,7 @@ void mjenjanjeKarata(karta a[10],std::string odluke[5])
       if(l=="da")
       a[i+5]=a[i];
       }
-    //  cout<<endl;
+    //  std::cout<<std::endl;
 }
 
 void sortiranjeKarata(karta a[10])
@@ -234,15 +236,21 @@ void ispisDobitka(int dobit)
 {
     switch(dobit)
     {
-        case 4000 : cout<<endl<<"Dobili ste Royal Flush"<<" osvojili ste "<<dobit<<" bodova"<<endl;break;
-        case 250  : cout<<endl<<"Dobili ste Straight Flush"<<" osvojili ste "<<dobit<<" bodova"<<endl;break;
-        case 125  : cout<<endl<<"Dobili ste Poker"<<" osvojili ste "<<dobit<<" bodova"<<endl;break;
-        case 45   : cout<<endl<<"Dobili ste Full House"<<" osvojili ste "<<dobit<<" bodova"<<endl;break;
-        case 30   : cout<<endl<<"Dobili ste Flush"<<" osvojili ste "<<dobit<<" bodova"<<endl;break;
-        case 20   : cout<<endl<<"Dobili ste Straight"<<" osvojili ste "<<dobit<<" bodova"<<endl;break;
-        case 15   : cout<<endl<<"Dobili ste Three of a Kind"<<" osvojili ste "<<dobit<<" bodova"<<endl;break;
-        case 10   : cout<<endl<<"Dobili ste Two Pairs"<<" osvojili ste "<<dobit<<" bodova"<<endl;break;
-        case 5    : cout<<endl<<"Dobili ste Jack's of Better"<<" osvojili ste "<<dobit<<" bodova"<<endl;break;
-        case 0    : cout<<endl<<"Dobili ste "<<dobit<<" bodova"<<endl;break;
+        case 4000 : std::cout<<std::endl<<"Dobili ste Royal Flush"<<" osvojili ste "<<dobit<<" bodova"<<std::endl;break;
+        case 250  : std::cout<<std::endl<<"Dobili ste Straight Flush"<<" osvojili ste "<<dobit<<" bodova"<<std::endl;break;
+        case 125  : std::cout<<std::endl<<"Dobili ste Poker"<<" osvojili ste "<<dobit<<" bodova"<<std::endl;break;
+        case 45   : std::cout<<std::endl<<"Dobili ste Full House"<<" osvojili ste "<<dobit<<" bodova"<<std::endl;break;
+        case 30   : std::cout<<std::endl<<"Dobili ste Flush"<<" osvojili ste "<<dobit<<" bodova"<<std::endl;break;
+        case 20   : std::cout<<std::endl<<"Dobili ste Straight"<<" osvojili ste "<<dobit<<" bodova"<<std::endl;break;
+        case 15   : std::cout<<std::endl<<"Dobili ste Three of a Kind"<<" osvojili ste "<<dobit<<" bodova"<<std::endl;break;
+        case 10   : std::cout<<std::endl<<"Dobili ste Two Pairs"<<" osvojili ste "<<dobit<<" bodova"<<std::endl;break;
+        case 5    : std::cout<<std::endl<<"Dobili ste Jack's of Better"<<" osvojili ste "<<dobit<<" bodova"<<std::endl;break;
+        case 0    : std::cout<<std::endl<<"Dobili ste "<<dobit<<" bodova"<<std::endl;break;
     }
+}
+
+
+bool NamjestanjePoker(bool stela,int ukupna_dobit,int gubitak)
+{
+    return (stela && ((14*ukupna_dobit)>(10*gubitak)));
 }

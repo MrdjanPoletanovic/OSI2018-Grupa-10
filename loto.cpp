@@ -217,41 +217,31 @@ void namjesti(int izabrani[], int izvuceni[], int niz[], int optimalno)
 }
 
 
-void loto(int& stanje, int& dobitak, int& gubitak, int& igranje)
+int loto(int& stanje, int& dobitak, int& gubitak, int& igranje)
 {
 	int niz[45], izvuceni[20], izabrani[7], bodovi, redni;
 	for(int i=0; i<45; i++)
 		niz[i] = i+1;
-	do
+	stanje -= 100;
+	gubitak += 100;
+	std::srand(std::time(0));
+	clear_screen();
+	if (igranje % 3 == 0)
+		redni = std::rand()%3;
+	izaberi(izabrani, niz);
+	if (check_namjestanje(dobitak, gubitak,  igranje, redni))
 	{
-		stanje -= 100;
-		gubitak += 100;
-		std::srand(std::time(0));
-		clear_screen();
-		if (igranje % 3 == 0)
-			redni = std::rand()%3;
-		izaberi(izabrani, niz);
-		if (check_namjestanje(dobitak, gubitak,  igranje, redni))
-		{
-			int optimalno = get_optimalno(dobitak, gubitak);
-			namjesti(izabrani, izvuceni, niz, optimalno);
-		}
-		else
-			izvuci(izvuceni, niz, NUM_DRAWN);
-		prikazi_izvlacenje(izvuceni);
-		bodovi = provjera(izvuceni, izabrani);
-		igranje++;
-		std::cout << "Osvojili ste " << bodovi << " bodova." << std::endl;
-		dobitak += bodovi;
-		stanje += bodovi;
-		std::cout << "Trenutno stanje: " << stanje << std::endl << std::endl;
-		if (stanje < 100)
-		{
-			std::cout << "Nemate dovoljno sredstava da ponovo igrate." << std::endl << std::endl;
-			break;
-		}
+		int optimalno = get_optimalno(dobitak, gubitak);
+		namjesti(izabrani, izvuceni, niz, optimalno);
 	}
-	while(igraj_ponovo());
-	std::cout << dobitak << std::endl;
-	std::cout << gubitak << std::endl;
+	else
+		izvuci(izvuceni, niz, NUM_DRAWN);
+	prikazi_izvlacenje(izvuceni);
+	bodovi = provjera(izvuceni, izabrani);
+	igranje++;
+	std::cout << "Osvojili ste " << bodovi << " bodova." << std::endl;
+	dobitak += bodovi;
+	stanje += bodovi;
+	std::cout << "Trenutno stanje: " << stanje << std::endl << std::endl;
+	return bodovi;
 }

@@ -1,8 +1,5 @@
 #pragma once
-
-
-#include "baza.h"
-#include "NamjestanjePoker.h"
+#include <string>
 
 
 struct karta
@@ -12,7 +9,7 @@ struct karta
 };
 
 
-void poker(int& pare,int& gubitak,int& dobitci);
+int poker(int& pare,int& gubitak,int& dobitci);
 void dobijanjeKarata(karta a[10]);
 void ispisKarata(karta a[10],int pd);
 void mjenjanjeKarata(karta a[10],std::string odluke[5]);
@@ -20,3 +17,4 @@ void sortiranjeKarata(karta a[10]);
 int dobitak(karta a[10]);
 void ispisDobitka(int dobit);
 bool nastavitiIgru();
+bool NamjestanjePoker(bool,int,int);
