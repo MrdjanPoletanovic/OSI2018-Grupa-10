@@ -2,8 +2,9 @@
 #include <iostream>
 #include <string>
 #include <conio.h>
+#include "provjeraPrijave.h"
 
-void prijava()
+bool logIn()
 {
     std::cout<<"User name: ";
     std::string name;
@@ -29,4 +30,6 @@ void prijava()
             password+=x;
         }
     }while(x!='\r');
+    if(provjera(name, password)) return true;
+    else return false;
 }
