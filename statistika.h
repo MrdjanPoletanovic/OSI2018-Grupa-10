@@ -21,12 +21,14 @@ public:
 	static Node errorNode;
 	KruzniBafer();
 	KruzniBafer(const KruzniBafer&);
+	KruzniBafer(FILE*);
 	KruzniBafer(KruzniBafer&&);
 	KruzniBafer& operator=(const KruzniBafer&);
 	KruzniBafer& operator=(KruzniBafer&&);
 	void enqueue(int, const std::string&, const std::string&); //funkcija za upis u kruzni bafer sa prepisom
 	Node dequeue(); // brisanje elementa iz bafera koristeci front parametar
 	const Node& operator[](int) const;
+	void print() const;
 	~KruzniBafer();
 private:
 	void copy(const KruzniBafer&);

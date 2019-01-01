@@ -1,6 +1,7 @@
 #include "statistika.h"
 #include <utility>
 #include <algorithm>
+#include <iostream>
 
 
 Node::Node() : Node(0, "", "")
@@ -103,5 +104,15 @@ Node KruzniBafer::dequeue()
 	{
 		front = (front+1)%SIZE;
 		return niz[front];
+	}
+}
+
+
+void KruzniBafer::print() const
+{
+	for(int i=front+1; i != front; i = (i+1)%SIZE)
+	{
+		std::cout << niz[i].rezultat << " " << niz[i].poruka << " ";
+		std::cout << niz[i].vrijeme << std::endl;
 	}
 }
