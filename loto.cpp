@@ -1,5 +1,4 @@
 #include "loto.h"
-#include "baza.h"
 #include <iostream>
 #include <iomanip>
 #include <chrono>
@@ -98,17 +97,10 @@ bool check_input(std::string& unos, int izabrani[NUM_CHOSEN], int niz[NUM_CARDS]
 void izaberi(int izabrani[NUM_CHOSEN], int niz[NUM_CARDS])
 {
 	std::string unos;
-	int broj_pokusaja = 0;
 	do
 	{
 		std::cout << "Izaberite 7 brojeva: ";
 		std::getline(std::cin, unos);
-		broj_pokusaja++;
-		if (broj_pokusaja == 4)
-		{
-			clear_screen();
-			broj_pokusaja = 0;
-		}
 	}
 	while(check_input(unos, izabrani, niz));
 }
@@ -225,7 +217,6 @@ int loto(int& stanje, int& dobitak, int& gubitak, int& igranje)
 	stanje -= 100;
 	gubitak += 100;
 	std::srand(std::time(0));
-	clear_screen();
 	if (igranje % 3 == 0)
 		redni = std::rand()%3;
 	izaberi(izabrani, niz);

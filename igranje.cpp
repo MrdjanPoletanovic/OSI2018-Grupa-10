@@ -85,6 +85,7 @@ void igraj_loto(KruzniBafer& k, Igrac& i)
 	int bodovi;
 	do
 	{
+		clear_screen();
 		bodovi = loto(i.getStanje(), i.getDobitak(), i.getGubitak(), i.getPL());
 		k.enqueue(bodovi, convertBodoviToMessageLoto(bodovi), getTime());
 		if (i.getStanje() < 100)
@@ -102,6 +103,7 @@ void igraj_broj(KruzniBafer& k, Igrac& i)
 	int bodovi;
 	do
 	{
+		clear_screen();
 		bodovi = broj(i.getStanje(), i.getDobitak(), i.getPB());
 		k.enqueue(bodovi, convertBodoviToMessageBroj(bodovi), getTime());
 	}

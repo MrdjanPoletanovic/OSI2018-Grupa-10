@@ -1,5 +1,4 @@
 #include "broj.h"
-#include "baza.h"
 #include <string>
 #include <iostream>
 
@@ -45,7 +44,6 @@ int unos(int i)
 
 int broj(int& stanje, int& dobitak, int& pokusaj)
 {
-	clear_screen();
 	srand (time(0));
 	int zadaniBroj=rand()%100+1;
 	int s=rand()%5+1; //s je slucajan broj od 1 do 5 koji odlucuje u kojem pokusaju ce igra omoguciti pogodak (za prva 3 igranja)
