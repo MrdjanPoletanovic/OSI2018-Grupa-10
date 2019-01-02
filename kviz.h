@@ -14,4 +14,4 @@ void pisanjePitanjaCSV();
 int stoi (std::string);
 void pisiPitanjeIOdgovore(PITANJA, int);
 bool pritisakNaDugme (DWORD, char&);
-void kviz(int& stanje);
+int kviz(int&, int*, int*, int*);
