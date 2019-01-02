@@ -18,35 +18,39 @@ std::string convertBodoviToMessageLoto(int x)
 		poruka = "Nije pogodjen nijedan broj.";
 		break;
 	}
-	case 1:
+	case 10:
 	{
-		poruka = "Pogodjen 1 broj.";
+		poruka = "Pogodjen 1 broj";
 		break;
 	}
-	case 2:
+	case 30:
 	{
-		poruka = "Pogodjena 2 broja.";
+		poruka = "Pogodjena 2 broja";
 		break;
 	}
-	case 3:
+	case 60:
 	{
-		poruka = "Pogodjena 3 broja.";
+		poruka = "Pogodjena 3 broja";
 		break;
 	}
-	case 4:
+	case 100:
 	{
-		poruka = "Pogodjena 4 broja.";
+		poruka = "Pogodjena 4 broja";
 		break;
 	}
-	case 5:
+	case 150:
 	{
-		poruka = "Pogodjeno 5 brojeva.";
+		poruka = "Pogodjeno 5 brojeva";
 		break;
 	}
-	case 6:
+	case 210:
 	{
-		poruka = "Pogodjeno 6 brojeva.";
+		poruka = "Pogodjeno 6 brojeva";
 		break;
+	}
+	case 280:
+	{
+		poruka = "Pogodjeno 7 brojeva";
 	}
 	}
 	return poruka;
