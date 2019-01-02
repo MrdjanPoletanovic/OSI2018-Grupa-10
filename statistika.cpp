@@ -2,6 +2,7 @@
 #include <utility>
 #include <algorithm>
 #include <iostream>
+#include <vector>
 
 
 Node::Node() : Node(0, "", "")
@@ -110,10 +111,16 @@ Node KruzniBafer::dequeue()
 
 void KruzniBafer::print() const
 {
+	std::vector<Node> tmp;
 	for(int i=front+1; i != rear+1; i = (i+1)%SIZE)
 	{
-		std::cout << niz[i].rezultat << " " << niz[i].poruka << " ";
-		std::cout << niz[i].vrijeme << std::endl;
+		tmp.push_back(niz[i]);
 	}
+	std::sort(tmp.begin(), tmp.end(), [](const Node& n1, const Node& n2)
+					  {
+						  return n1.rezultat > n2.rezultat;
+					  });
+	for(auto x : tmp)
+		std::cout << x.rezultat << "  " << x.poruka << "  " << x.vrijeme << std::endl;
 	std::cout << std::endl;
 }

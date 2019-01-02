@@ -1,6 +1,7 @@
 #include "igrac_igranje.h"
 #include "loto.h"
 #include "broj.h"
+#include "poker.h"
 #include <iostream>
 #include <iomanip>
 #include <ctime>
@@ -76,6 +77,45 @@ std::string convertBodoviToMessageBroj(int bodovi)
 }
 
 
+std::string convertBodoviToMessagePoker(int bodovi)
+{
+	std::string poruka;
+	switch(bodovi)
+	{
+	case 4000:
+		poruka = "Royal Flush";
+		break;
+	case 250:
+		poruka = "Straight Flush";
+		break;
+	case 125:
+		poruka = "Poker";
+		break;
+	case 45:
+		poruka = "Full House";
+		break;
+	case 30:
+		poruka = "Flush";
+		break;
+	case 20:
+		poruka = "Straight";
+		break;
+	case 15:
+		poruka = "Three of a Kind";
+		break;
+	case 10:
+		poruka = "Two Pairs";
+		break;
+	case 5:
+		poruka = "Jack's or Better";
+		break;
+	default:
+		poruka = "Nista niste osvojili";
+	}
+	return poruka;
+}
+
+
 std::string getTime()
 {
 	auto t = std::time(nullptr);
@@ -93,7 +133,7 @@ void Igrac::igraj_loto()
 	{
 		if (stanje < 100)
 		{
-			std::cout << "Nemate dovoljno sredstava da ponovo igrate." << std::endl;
+			std::cout << "Nemate dovoljno sredstava da igrate loto." << std::endl;
 			break;
 		}
 		clear_screen();
@@ -120,6 +160,28 @@ void Igrac::igraj_broj()
 		stanje+=bodovi;
 		dobitak+=bodovi;
 		nizovi[0].enqueue(bodovi, convertBodoviToMessageBroj(bodovi), getTime());
+	}
+	while(igraj_ponovo());
+}
+
+
+void Igrac::igraj_poker()
+{
+	int bodovi;
+	do
+	{
+		if (stanje < 5)
+		{
+			std::cout << "Nemate dovoljno sredstava da igrate poker." << std::endl;
+			break;
+		}
+		clear_screen();
+		gubitak += 5;
+		stanje -= 5;
+		bodovi = poker(stanje, dobitak, gubitak);
+		nizovi[3].enqueue(bodovi, convertBodoviToMessagePoker(bodovi), getTime());
+		dobitak += bodovi;
+		stanje += bodovi;
 	}
 	while(igraj_ponovo());
 }

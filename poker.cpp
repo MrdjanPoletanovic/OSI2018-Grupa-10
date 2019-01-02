@@ -1,9 +1,8 @@
 #include "poker.h"
-#include "baza.h"
 #include <iostream>
 
 
-int poker(int& stanje,int& gubitak,int &dobici)
+int poker(int stanje,int gubitak,int dobici)
 {
         struct karta a[10];
         struct karta ispis[5];
@@ -14,78 +13,74 @@ int poker(int& stanje,int& gubitak,int &dobici)
 
         int  dobit,j;
         srand(time(NULL));
-        do
-        {
-        stela=(rand()%3)==0;///
-        clear_screen();
+	stela=(rand()%3)==0;///
 
-        stanje=stanje-5;
-        gubitak+=5;
-        //std::cout<<"Dobitak:"<<dobici<<" Gubitak:"<<gubitak<<std::endl;
-        std::cout<<"Trenutno stanje na racunu je "<<stanje<<" bodova"<<std::endl;
+	stanje=stanje-5;
+	gubitak+=5;
+	std::cout<<"Trenutno stanje na racunu je "<<stanje<<" bodova"<<std::endl;
 
-        j=0;
-        do
-        {
-            j++;
-        dobijanjeKarata(a);
-        for(int i=0;i<5;i++)
-            ispis[i]=a[i];
-        sortiranjeKarata(a-5);
-        if(dobitak(a-5)==0)
-            break;
-        }while(NamjestanjePoker(stela,dobici+dobitak(a-5),gubitak) && j<30);
-        ispisKarata(ispis,0);
-        for(int i=0;i<5;i++)
-            a[i]=ispis[i];
+	j=0;
+	do
+	{
+		j++;
+		dobijanjeKarata(a);
+		for(int i=0;i<5;i++)
+			ispis[i]=a[i];
+		sortiranjeKarata(a-5);
+		if(dobitak(a-5)==0)
+			break;
+	}
+	while(NamjestanjePoker(stela,dobici+dobitak(a-5),gubitak) && j<30);
+	ispisKarata(ispis,0);
+	for(int i=0;i<5;i++)
+		a[i]=ispis[i];
 
-        std::cout<<"Unesite kombinaciju  //Primjer:(da ne da ne ne)"<<std::endl;
-        std::getline(std::cin,filter);
+	std::cout<<"Unesite kombinaciju  //Primjer:(da ne da ne ne)"<<std::endl;
+	std::getline(std::cin,filter);
 
-        while(!( ((filter[0]=='d' && filter[1]=='a') || (filter[0]=='n' && filter[1]=='e'))
-               && filter[2]==' '
-               && ((filter[3]=='d' && filter[4]=='a') || (filter[3]=='n' && filter[4]=='e'))
-               && filter[5]==' '
-               && ((filter[6]=='d' && filter[7]=='a') || (filter[6]=='n' && filter[7]=='e'))
-                   && filter[8]==' '
-                   && ((filter[9]=='d' && filter[10]=='a') || (filter[9]=='n' && filter[10]=='e'))
-                   && filter[11]==' '
-                   && ((filter[12]=='d' && filter[13]=='a') || (filter[12]=='n' && filter[13]=='e'))
-                   && filter[14]==0))
-                   {
-                      std::cout<<"Neispravan unos, unesite ponovo //Primjer:(da ne da ne ne)"<<std::endl;
-                        std::getline(std::cin,filter);
-                   }
-        for(int i=0;i<5;i++)
-        {
+	while(!( ((filter[0]=='d' && filter[1]=='a') || (filter[0]=='n' && filter[1]=='e'))
+		 && filter[2]==' '
+		 && ((filter[3]=='d' && filter[4]=='a') || (filter[3]=='n' && filter[4]=='e'))
+		 && filter[5]==' '
+		 && ((filter[6]=='d' && filter[7]=='a') || (filter[6]=='n' && filter[7]=='e'))
+		 && filter[8]==' '
+		 && ((filter[9]=='d' && filter[10]=='a') || (filter[9]=='n' && filter[10]=='e'))
+		 && filter[11]==' '
+		 && ((filter[12]=='d' && filter[13]=='a') || (filter[12]=='n' && filter[13]=='e'))
+		 && filter[14]==0))
+	{
+		std::cout<<"Neispravan unos, unesite ponovo //Primjer:(da ne da ne ne)"<<std::endl;
+		std::getline(std::cin,filter);
+	}
+	for(int i=0;i<5;i++)
+	{
 
-        if(filter[i*3]=='d')
-        odluke[i]="da";
-        else
-        odluke[i]="ne";
-        }
-        j=0;
-        std::cout<<std::endl;
-        do
-        {
-        j++;
-        mjenjanjeKarata(a,odluke);
+		if(filter[i*3]=='d')
+			odluke[i]="da";
+		else
+			odluke[i]="ne";
+	}
+	j=0;
+	std::cout<<std::endl;
+	do
+	{
+		j++;
+		mjenjanjeKarata(a,odluke);
 
-        for(int i =0;i<5;i++)
-            ispis[i]=a[i+5];
-        sortiranjeKarata(a);
-        if(dobitak(a)==0)
-            break;
-        }while(NamjestanjePoker(stela,dobici+dobitak(a),gubitak) && j<30);
+		for(int i =0;i<5;i++)
+			ispis[i]=a[i+5];
+		sortiranjeKarata(a);
+		if(dobitak(a)==0)
+			break;
+	}while(NamjestanjePoker(stela,dobici+dobitak(a),gubitak) && j<30);
 
-        ispisKarata(ispis,0);
-        sortiranjeKarata(a);
-        dobit=dobitak(a);
-        stanje=stanje+dobit;
-        dobici=dobici+dobit;
-        ispisDobitka(dobit);
-        std::cout<<std::endl<<"Trenutno stanje na racunu je "<<stanje<<" bodova"<<std::endl;
-        } while(igraj_ponovo());
+	ispisKarata(ispis,0);
+	sortiranjeKarata(a);
+	dobit=dobitak(a);
+	stanje=stanje+dobit;
+	ispisDobitka(dobit);
+	std::cout<<std::endl<<"Trenutno stanje na racunu je "<<stanje<<" bodova"<<std::endl;
+	return dobit;
 }
 
 void dobijanjeKarata(karta a[10])
