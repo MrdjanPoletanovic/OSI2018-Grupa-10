@@ -110,7 +110,7 @@ Node KruzniBafer::dequeue()
 
 void KruzniBafer::print() const
 {
-	for(int i=front+1; i != front; i = (i+1)%SIZE)
+	for(int i=front+1; i != rear+1; i = (i+1)%SIZE)
 	{
 		std::cout << niz[i].rezultat << " " << niz[i].poruka << " ";
 		std::cout << niz[i].vrijeme << std::endl;

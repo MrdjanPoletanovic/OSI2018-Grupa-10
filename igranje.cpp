@@ -90,13 +90,13 @@ void igraj_loto(KruzniBafer& k, Igrac& i)
 	do
 	{
 		clear_screen();
-		bodovi = loto(i.getStanje(), i.getDobitak(), i.getGubitak(), i.getPL());
-		k.enqueue(bodovi, convertBodoviToMessageLoto(bodovi), getTime());
 		if (i.getStanje() < 100)
 		{
 			std::cout << "Nemate dovoljno sredstava da ponovo igrate." << std::endl;
 			break;
 		}
+		bodovi = loto(i.getStanje(), i.getDobitak(), i.getGubitak(), i.getPL());
+		k.enqueue(bodovi, convertBodoviToMessageLoto(bodovi), getTime());
 	}
 	while(igraj_ponovo());
 }

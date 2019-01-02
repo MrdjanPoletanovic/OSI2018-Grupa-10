@@ -194,7 +194,7 @@ void namjesti(int izabrani[], int izvuceni[], int niz[], int optimalno)
 
 		}
 	else
-		for(int min=300, i=0, bodovi; i<POKUSAJI/2; i++)
+		for(int min=300, i=0, bodovi; i<POKUSAJI; i++)
 		{
 			izvuci(nizovi[i], niz, NUM_DRAWN);
 			bodovi = provjera(nizovi[i], izabrani, true);
