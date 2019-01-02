@@ -18,6 +18,10 @@ public:
 	inline int getStanje() const {return stanje;}
 	inline int getPL() const {return pokusajLoto;}
 	inline int getPB() const {return pokusajBroj;}
+	inline void printStatBroj() const {nizovi[0].print();}
+	inline void printStatKviz() const {nizovi[1].print();}
+	inline void printStatLoto() const {nizovi[2].print();}
+	inline void printStatPoker() const {nizovi[3].print();}
 	void igraj_loto();
 	void igraj_poker();
 	void igraj_broj();

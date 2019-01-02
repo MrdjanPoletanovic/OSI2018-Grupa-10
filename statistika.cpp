@@ -115,4 +115,5 @@ void KruzniBafer::print() const
 		std::cout << niz[i].rezultat << " " << niz[i].poruka << " ";
 		std::cout << niz[i].vrijeme << std::endl;
 	}
+	std::cout << std::endl;
 }
