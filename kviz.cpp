@@ -113,9 +113,9 @@ bool pritisakNaDugme(DWORD zavrsnoVrijeme, char &prviKarakter)
 }
 
 // Funkcija azurira bodove korisnika u realnom vremenu.
-void kviz(int& stanje)
+int kviz(int& stanje, int* tacni, int* netacni, int* neodgovoreni)
 {
-	int bodovi = 0; // Vrijednost koju ce funkcija vracati.
+    int bodovi = 0; // Vrijednost koju ce funkcija vracati.
 	int brojTacnihOdgovora = 0; // Promjenjiva potrebna da bi se moglo dodijeliti dodatnih 50 bodova ako su svih 5 pitanja tacna.
 	int redniBrojPitanja[5] = { 0 }; // Definicija i inicijalizacija na 0 niza od 5 random odabranih brojeva.
 	PITANJA listaPitanja[5] = { 0 }; // Definicija i inicijalizacija na 0 niza od 5 pitanja koja ce biti prikazana.
@@ -270,6 +270,7 @@ void kviz(int& stanje)
 				bodovi -= 10;
 				stanje -= 10;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
+				(*neodgovoreni)++;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
 				continue;
 			}
@@ -281,6 +282,7 @@ void kviz(int& stanje)
 				bodovi -= 10;
 				stanje -= 10;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
+                		(*neodgovoreni)++;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
 				continue;
 			}
@@ -292,6 +294,7 @@ void kviz(int& stanje)
 				bodovi -= 30;
 				stanje -= 30;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
+				(*netacni)++;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
 				continue;
 			}
@@ -304,6 +307,7 @@ void kviz(int& stanje)
 				stanje += 20;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
 				brojTacnihOdgovora++;
+				(*tacni)++;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
 				continue;
 			}
@@ -320,7 +324,5 @@ void kviz(int& stanje)
 	cout << endl << "Ukupan broj bodova na kraju igre: " << bodovi << endl;
 	cout << endl << "Ukupan broj bodova na vasem nalogu: " << stanje << endl << endl;
 
-	system("PAUSE");
-
-	return;
+	return bodovi;
 }
