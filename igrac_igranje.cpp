@@ -186,6 +186,39 @@ void Igrac::igraj_poker()
 	while(igraj_ponovo());
 }
 
+// Kviz 
+void Igrac::igraj_kviz()
+{
+	int bodovi, tacni = 0, netacni = 0, neodgovoreni = 0;
+	do
+	{
+		if (stanje < 5) // Potrebno znati koliko bodova je potrebno za kviz.
+		{
+			std::cout << "Nemate dovoljno sredstava da igrate kviz." << std::endl;
+			break;
+		}
+		clear_screen();
+		stanje -= 5;
+		bodovi = kviz(this->stanje, &tacni, &netacni, &neodgovoreni);
+		// Prototip funkcije kviz: int kviz (int& stanje, int* tacni, int* netacni, int* neodgovoreni);
+		nizovi[1].enqueue(bodovi, convertBodoviToMessageKviz (tacni, netacni, neodgovoreni), getTime());
+		stanje += bodovi;
+	}
+	while(igraj_ponovo());
+}
+
+std::string convertBodoviToMessageKviz (int tacni, int netacni, int neodgovoreni)
+{
+    std::string returnString = "";
+
+    if (bodovi>=0)
+        returnString = "Imali ste " + itoa(tacni) " tacnih odgovora, " + itoa(netacni) + " netacnih odgovora i " itoa (neodgovoreni) + " neodgovorenih pitanja.";
+    else
+        returnString = "Imali ste " + itoa(tacni) " tacnih odgovora, " + itoa(netacni) + " netacnih odgovora i " itoa (neodgovoreni) + " neodgovorenih pitanja.";
+
+    return returnString;
+}
+
 
 void clear_screen()
 {
