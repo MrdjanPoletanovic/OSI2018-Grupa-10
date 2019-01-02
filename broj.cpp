@@ -42,7 +42,7 @@ int unos(int i)
 
 
 
-int broj(int& stanje, int& dobitak, int& pokusaj)
+int broj(int pokusaj)
 {
 	srand (time(0));
 	int zadaniBroj=rand()%100+1;
@@ -77,8 +77,6 @@ int broj(int& stanje, int& dobitak, int& pokusaj)
 	}
 	if(pogodio==false)
 		std::cout<<"Trazeni broj je "<< zadaniBroj << std::endl;
-	stanje += bodovi;
-	dobitak += bodovi;
 	return bodovi;
 }
 

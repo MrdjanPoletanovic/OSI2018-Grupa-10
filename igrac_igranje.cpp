@@ -1,11 +1,13 @@
-#include "igranje.h"
-#include "baza.h"
+#include "igrac_igranje.h"
 #include "loto.h"
-#include "poker.h"
 #include "broj.h"
 #include <iostream>
 #include <iomanip>
 #include <ctime>
+
+
+Igrac::Igrac(const std::string& ime, const std::string& sifra) : korisnicko_ime(ime), sifra(sifra), dobitak(0), gubitak(0), stanje(100), pokusajBroj(0), pokusajLoto(0)
+{}
 
 
 std::string convertBodoviToMessageLoto(int x)
@@ -84,32 +86,74 @@ std::string getTime()
 }
 
 
-void igraj_loto(KruzniBafer& k, Igrac& i)
+void Igrac::igraj_loto()
 {
 	int bodovi;
 	do
 	{
-		clear_screen();
-		if (i.getStanje() < 100)
+		if (stanje < 100)
 		{
 			std::cout << "Nemate dovoljno sredstava da ponovo igrate." << std::endl;
 			break;
 		}
-		bodovi = loto(i.getStanje(), i.getDobitak(), i.getGubitak(), i.getPL());
-		k.enqueue(bodovi, convertBodoviToMessageLoto(bodovi), getTime());
+		clear_screen();
+		stanje-=100;
+		gubitak+=100;
+		pokusajLoto++;
+		bodovi = loto(stanje, dobitak, gubitak, pokusajLoto);
+		dobitak+=bodovi;
+		stanje+=bodovi;
+		nizovi[2].enqueue(bodovi, convertBodoviToMessageLoto(bodovi), getTime());
 	}
 	while(igraj_ponovo());
 }
 
 
-void igraj_broj(KruzniBafer& k, Igrac& i)
+void Igrac::igraj_broj()
 {
 	int bodovi;
 	do
 	{
 		clear_screen();
-		bodovi = broj(i.getStanje(), i.getDobitak(), i.getPB());
-		k.enqueue(bodovi, convertBodoviToMessageBroj(bodovi), getTime());
+		bodovi = broj(pokusajBroj);
+		pokusajBroj++;
+		stanje+=bodovi;
+		dobitak+=bodovi;
+		nizovi[0].enqueue(bodovi, convertBodoviToMessageBroj(bodovi), getTime());
 	}
 	while(igraj_ponovo());
+}
+
+
+void clear_screen()
+{
+#ifdef _WIN32
+	std::system("cls");
+#elif _WIN64
+    std::system("cls");
+	// Assume POSIX;
+#else
+	std::system ("clear");
+#endif
+}
+
+
+bool igraj_ponovo()
+{
+	int i = 0;
+	std::string odgovor;
+	do
+	{
+		std::cout << "Da li zelite ponovo da igrate? (da/ne) ";
+		std::getline(std::cin, odgovor);
+		for(i=0; odgovor[i]==' '; i++);
+		if ((odgovor[i] == 'd' || odgovor[i] == 'D') &&
+		    (odgovor[i+1] == 'a' || odgovor[i+1] == 'A'))
+			return true;
+		else if ((odgovor[i] == 'n' || odgovor[i] == 'N') &&
+			 (odgovor[i+1] == 'e' || odgovor[i+1] == 'E'))
+			return false;
+		std::cout << "Neispravan unos!" << std::endl;
+	}
+	while(true);
 }

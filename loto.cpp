@@ -166,9 +166,9 @@ bool provjeri_broj(int izabrani[NUM_DRAWN], int i)
 }
 
 
-bool check_namjestanje(int dobitak, int gubitak, int& igranje, int& redni)
+bool check_namjestanje(int dobitak, int gubitak, int igranje)
 {
-	return (igranje % 3 == redni) && (gubitak != dobitak*1.4);
+	return (igranje % 3 == 0) && (gubitak != dobitak*1.4);
 }
 
 
@@ -209,18 +209,14 @@ void namjesti(int izabrani[], int izvuceni[], int niz[], int optimalno)
 }
 
 
-int loto(int& stanje, int& dobitak, int& gubitak, int& igranje)
+int loto(int stanje, int dobitak, int gubitak, int igranje)
 {
-	int niz[45], izvuceni[20], izabrani[7], bodovi, redni;
+	int niz[45], izvuceni[20], izabrani[7], bodovi;
 	for(int i=0; i<45; i++)
 		niz[i] = i+1;
-	stanje -= 100;
-	gubitak += 100;
 	std::srand(std::time(0));
-	if (igranje % 3 == 0)
-		redni = std::rand()%3;
 	izaberi(izabrani, niz);
-	if (check_namjestanje(dobitak, gubitak,  igranje, redni))
+	if (check_namjestanje(dobitak, gubitak,  igranje))
 	{
 		int optimalno = get_optimalno(dobitak, gubitak);
 		namjesti(izabrani, izvuceni, niz, optimalno);
@@ -229,10 +225,7 @@ int loto(int& stanje, int& dobitak, int& gubitak, int& igranje)
 		izvuci(izvuceni, niz, NUM_DRAWN);
 	prikazi_izvlacenje(izvuceni);
 	bodovi = provjera(izvuceni, izabrani);
-	igranje++;
 	std::cout << "Osvojili ste " << bodovi << " bodova." << std::endl;
-	dobitak += bodovi;
-	stanje += bodovi;
-	std::cout << "Trenutno stanje: " << stanje << std::endl << std::endl;
+	std::cout << "Trenutno stanje: " << stanje+bodovi << std::endl << std::endl;
 	return bodovi;
 }

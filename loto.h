@@ -18,7 +18,7 @@ void prikazi_izvlacenje(int izvuceni[]);
 int provjera(int izvuceni[], int izabrani[], bool is_namjestanje=false);
 
 // glavna funkcija koja je zaduzena za izvrsavanje cijele igre
-int loto(int& stanje, int& dobitak, int& gubitak, int& igranje);
+int loto(int stanje, int dobitak, int gubitak, int igranje);
 
 // funkcija koja provjerava da li je broj u dozvoljenom opsegu
 // koristi se kao pomocna funkcija u provjeri korisnickog unosa
@@ -28,7 +28,7 @@ bool provjeri_broj(int izabrani[], int i);
 bool check_input(std::string&, int izabrani[], int niz[]);
 
 // funkcija koja provjerava da li je potrebno namjestanje
-bool check_namjestanje(int dobitak, int gubitak, int& igranje, int& redni);
+bool check_namjestanje(int dobitak, int gubitak, int igranje);
 
 // u slucaju da je namjestanje potrebno funkcija vraca koliki je optimalan
 // broj bodova koje korisnik treba da osvoji kako bi se zadovoljio uslov zadatka
