@@ -1,7 +1,7 @@
 #include "provjeraBodova.h"
 #include <iostream>
 
-bool provjeraBodova(const std::string &igra,const int &bodovi)
+bool provjeraBodova(const std::string &igra, const int &bodovi)
 {
     if(igra.compare("broj")==0 || igra.compare("kviz")==0)
         return true;
