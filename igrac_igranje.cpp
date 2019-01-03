@@ -11,8 +11,8 @@
 
 Igrac::Igrac(const std::string& ime, const std::string& sifra) : korisnicko_ime(ime), sifra(sifra), dobitak(0), gubitak(0), stanje(10), pokusajBroj(0), pokusajLoto(0)
 {
-	otkazi={0};
-	prijava={0};
+	otkazan={0};
+	prijavljen={0};
 }
 
 

@@ -10,7 +10,7 @@ class Igrac
 	int dobitak, gubitak, stanje;
 	int pokusajBroj, pokusajLoto;
 	KruzniBafer nizovi[4];
-	int otkazi[4], prijava[4];
+	int otkazan[4], prijavljen[4];
 public:
 	Igrac(const std::string&, const std::string&);
 	Igrac(FILE*);
