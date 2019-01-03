@@ -113,7 +113,7 @@ bool pritisakNaDugme(DWORD zavrsnoVrijeme, char &prviKarakter)
 }
 
 // Funkcija azurira bodove korisnika u realnom vremenu.
-int kviz(int& stanje, int* tacni, int* netacni, int* neodgovoreni)
+int kviz(int stanje, int& tacni, int& netacni, int& neodgovoreni)
 {
     int bodovi = 0; // Vrijednost koju ce funkcija vracati.
 	int brojTacnihOdgovora = 0; // Promjenjiva potrebna da bi se moglo dodijeliti dodatnih 50 bodova ako su svih 5 pitanja tacna.
@@ -270,7 +270,7 @@ int kviz(int& stanje, int* tacni, int* netacni, int* neodgovoreni)
 				bodovi -= 10;
 				stanje -= 10;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
-				(*neodgovoreni)++;
+				neodgovoreni++;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
 				continue;
 			}
@@ -282,7 +282,7 @@ int kviz(int& stanje, int* tacni, int* netacni, int* neodgovoreni)
 				bodovi -= 10;
 				stanje -= 10;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
-                		(*neodgovoreni)++;
+                		neodgovoreni++;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
 				continue;
 			}
@@ -294,7 +294,7 @@ int kviz(int& stanje, int* tacni, int* netacni, int* neodgovoreni)
 				bodovi -= 30;
 				stanje -= 30;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
-				(*netacni)++;
+				netacni++;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
 				continue;
 			}
@@ -307,7 +307,7 @@ int kviz(int& stanje, int* tacni, int* netacni, int* neodgovoreni)
 				stanje += 20;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
 				brojTacnihOdgovora++;
-				(*tacni)++;
+				tacni++;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
 				continue;
 			}
@@ -317,7 +317,7 @@ int kviz(int& stanje, int* tacni, int* netacni, int* neodgovoreni)
 		if (brojTacnihOdgovora == 5)
         {
             bodovi += 50;
-			stanje += 50;
+	    stanje += 50;
         }
 	}
 

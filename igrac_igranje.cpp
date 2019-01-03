@@ -2,6 +2,7 @@
 #include "loto.h"
 #include "broj.h"
 #include "poker.h"
+#include "kviz.h"
 #include <iostream>
 #include <iomanip>
 #include <ctime>
@@ -186,7 +187,16 @@ void Igrac::igraj_poker()
 	while(igraj_ponovo());
 }
 
-// Kviz 
+
+std::string convertBodoviToMessageKviz (int tacni, int netacni, int neodgovoreni)
+{
+	char tmp[100];
+        snprintf(tmp, sizeof(tmp), "%d tacnih, %d netacnih odgovora i %d neodgovorenih pitanja", tacni, netacni, neodgovoreni);
+	std::string poruka = tmp;
+	return poruka
+}
+
+
 void Igrac::igraj_kviz()
 {
 	int bodovi, tacni = 0, netacni = 0, neodgovoreni = 0;
@@ -199,24 +209,12 @@ void Igrac::igraj_kviz()
 		}
 		clear_screen();
 		stanje -= 5;
-		bodovi = kviz(this->stanje, &tacni, &netacni, &neodgovoreni);
-		// Prototip funkcije kviz: int kviz (int& stanje, int* tacni, int* netacni, int* neodgovoreni);
-		nizovi[1].enqueue(bodovi, convertBodoviToMessageKviz (tacni, netacni, neodgovoreni), getTime());
+		bodovi = kviz(stanje, tacni, netacni, neodgovoreni);
+		nizovi[1].enqueue(bodovi, convertBodoviToMessageKviz(tacni, netacni, neodgovoreni), getTime());
 		stanje += bodovi;
+		dobitak += bodovi;
 	}
 	while(igraj_ponovo());
-}
-
-std::string convertBodoviToMessageKviz (int tacni, int netacni, int neodgovoreni)
-{
-    std::string returnString = "";
-
-    if (bodovi>=0)
-        returnString = "Imali ste " + itoa(tacni) " tacnih odgovora, " + itoa(netacni) + " netacnih odgovora i " itoa (neodgovoreni) + " neodgovorenih pitanja.";
-    else
-        returnString = "Imali ste " + itoa(tacni) " tacnih odgovora, " + itoa(netacni) + " netacnih odgovora i " itoa (neodgovoreni) + " neodgovorenih pitanja.";
-
-    return returnString;
 }
 
 

@@ -29,10 +29,3 @@ public:
 
 void clear_screen();
 bool igraj_ponovo();
-
-std::string getTime();
-
-std::string convertBodoviToMessageLoto(int);
-std::string convertBodoviToMessageBroj(int);
-std::string convertBodoviToMessagePoker(int);
-std::string convertBodoviToMessageKviz (int, int, int);
