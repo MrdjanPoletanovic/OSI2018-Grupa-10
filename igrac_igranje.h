@@ -20,10 +20,14 @@ public:
 	inline void printStatKviz() const {nizovi[1].print();}
 	inline void printStatLoto() const {nizovi[2].print();}
 	inline void printStatPoker() const {nizovi[3].print();}
+	bool prijava(int, std::string&);
 	void igraj_loto();
 	void igraj_poker();
 	void igraj_broj();
 	void igraj_kviz();
+private:
+	void fill(std::string&);
+	std::string generate(std::string);
 };
 
 

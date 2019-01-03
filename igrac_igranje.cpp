@@ -6,7 +6,8 @@
 #include <iostream>
 #include <iomanip>
 #include <ctime>
-
+#include <random>
+#include <chrono>
 
 Igrac::Igrac(const std::string& ime, const std::string& sifra) : korisnicko_ime(ime), sifra(sifra), dobitak(0), gubitak(0), stanje(100), pokusajBroj(0), pokusajLoto(0)
 {}
@@ -249,4 +250,125 @@ bool igraj_ponovo()
 		std::cout << "Neispravan unos!" << std::endl;
 	}
 	while(true);
+}
+
+bool Igrac::prijava(int redni_broj_igre, std::string& str_gener)
+{
+	//kontrolna podrazumijeva vrijednost koja se salje iz glavne funkcije i ako ima vrijednost 1 znaci da je igra vec bila aktivirana
+	// a ako ima vrijednost 0 znaci da je treba aktivirati
+	// str_gener sluzi sa pamcenje generisanog koda u slucaju da se koristi kasnije
+	
+
+	std::string str_unos;
+
+	if (redni_broj_igre == 1 && prijava[redni_broj_igre]==0 )
+	{
+		str_gener = generate("Broj");
+		std::cout << "Aktivacioni kljuc: " << str_gener << std::endl;
+		std::cout << "Unesite aktivacioni kljuc za igru: ";
+		std::cin >> str_unos;
+		if (str_gener.compare(str_unos) == 0)
+		{
+			prijava[redni_broj_igre] = 1;
+			return true;
+		}
+		else
+			return false;
+
+	}
+	else if (redni_broj_igre == 2 && prijava[redni_broj_igre]==0 )
+	{
+		str_gener = generate("Kviz");
+		std::cout << "Aktivacioni kljuc: " << str_gener << std::endl;
+		std::cout << "Unesite aktivacioni kljuc za igru: ";
+		std::cin >> str_unos;
+		if (str_gener.compare(str_unos) == 0)
+		{
+			prijava[redni_broj_igre] = 1;
+			return true;
+		}
+		else
+			return false;
+	}
+	else if (redni_broj_igre == 3 && prijava[redni_broj_igre]==0)
+	{
+		str_gener = generate("Loto");
+		std::cout << "Aktivacioni kljuc: " << str_gener << std::endl;
+		std::cout << "Unesite aktivacioni kljuc za igru: ";
+		std::cin >> str_unos;
+		if (str_gener.compare(str_unos) == 0)
+		{
+			prijava[redni_broj_igre] = 1;
+			return true;
+		}
+		else
+			return false;
+	}
+	else if (redni_broj_igre == 4 && prijava[redni_broj_igre]==0)
+	{
+		str_gener = generate("Poker");
+		std::cout << "Aktivacioni kljuc: " << str_gener << std::endl;
+		std::cout << "Unesite aktivacioni kljuc za igru: ";
+		std::cin >> str_unos;
+		if (str_gener.compare(str_unos) == 0)
+		{
+			prijava[redni_broj_igre] = 1;
+			return true;
+		}
+		else
+			return false;
+	}
+	else 
+		return false;
+
+}
+
+void Igrac::fill(std::string& str)
+{
+	unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
+	std::default_random_engine generator(seed);
+	std::uniform_int_distribution<int> distributionInteger(0, 9);
+	std::string str1;
+	for (int i = 5; i < 19; i++)
+	{
+		if (i == 9 || i == 14)
+			str.insert(i,"-");
+		else
+		{
+			
+			int p = distributionInteger(generator);
+			str1 = std::to_string(p);
+			str.insert(i, str1);
+		}
+	}
+
+}
+std::string Igrac::generate(std::string s)
+{
+	std::string key;
+	if (s.compare("Loto")==0 )
+	{
+		
+		key = "3168-";   //broj 3 oznacava redni broj igre, a 168 vrijeme trajanja igre izrazeno u satima
+		fill(key);
+	}
+	else if (s.compare("Broj") == 0)
+	{
+		
+		key = "1024-";  // broj 1 oznacava redni broj igre, a 024 vrijeme trajanja igre izrazeno u satima
+		fill(key);
+	}
+	else if (s.compare("Kviz") == 0)
+	{
+		
+		key = "2001-";  // broj 2 oznacava redni broj igre, a 001 vrijeme trajanja igre izrazeno u satima
+		fill(key);
+	}
+	else if (s.compare("Poker") == 0)
+	{
+		
+		key = "4000-"; //  broj 4 oznacava redni broj igre, a 000 neograniceno trajanje igre
+		fill(key);
+	}
+	return key;
 }
