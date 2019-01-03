@@ -1,5 +1,5 @@
 #include "igrac_igranje.h"
-#include "prijava.h"
+#include "prijava_registracija.h"
 #include <iostream>
 
 
