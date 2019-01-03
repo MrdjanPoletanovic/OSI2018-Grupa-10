@@ -5,7 +5,9 @@
 int main()
 {
 	Igrac i("ime", "password");
-	i.igraj_broj();
+	std::string temp;
+	if(i.prijava(1,temp))
+		i.igraj_broj();
 	i.igraj_loto();
 	i.igraj_poker();
 	i.printStatBroj();
