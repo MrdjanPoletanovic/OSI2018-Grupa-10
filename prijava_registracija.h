@@ -1,4 +1,6 @@
 #pragma once
-#include <iostream>
+#include <string>
 
+bool logIn();
+void signUp();
 bool provjera(std::string&, std::string&);
