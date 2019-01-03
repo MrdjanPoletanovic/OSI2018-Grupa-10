@@ -90,10 +90,10 @@ const Node& KruzniBafer::operator[](int i) const
 
 void KruzniBafer::enqueue(int x, const std::string& poruka, const std::string& vrijeme)
 {
-	rear = (rear+1)%SIZE;
 	niz[rear] = Node(x, poruka, vrijeme);
+	rear = (rear+1)%SIZE;
 	if (front == rear)
-		front++;
+		front = (front+1)%SIZE;
 }
 
 
@@ -103,24 +103,30 @@ Node KruzniBafer::dequeue()
 		return errorNode;
 	else
 	{
+		Node tmp = niz[front];
 		front = (front+1)%SIZE;
-		return niz[front];
+		return tmp;
 	}
 }
 
 
 void KruzniBafer::print() const
 {
-	std::vector<Node> tmp;
-	for(int i=front+1; i != rear+1; i = (i+1)%SIZE)
+	if (front != rear)
 	{
-		tmp.push_back(niz[i]);
+		std::vector<Node> tmp;
+		for(int i=front; i != rear; i = (i+1)%SIZE)
+		{
+			tmp.push_back(niz[i]);
+		}
+		std::sort(tmp.begin(), tmp.end(), [](const Node& n1, const Node& n2)
+						  {
+							  return n1.rezultat > n2.rezultat;
+						  });
+		for(auto x : tmp)
+			std::cout << x.rezultat << "  " << x.poruka << "  " << x.vrijeme << std::endl;
+		std::cout << std::endl;
 	}
-	std::sort(tmp.begin(), tmp.end(), [](const Node& n1, const Node& n2)
-					  {
-						  return n1.rezultat > n2.rezultat;
-					  });
-	for(auto x : tmp)
-		std::cout << x.rezultat << "  " << x.poruka << "  " << x.vrijeme << std::endl;
-	std::cout << std::endl;
+	else
+		std::cout << "Niste igrali igru. " << std::endl;
 }

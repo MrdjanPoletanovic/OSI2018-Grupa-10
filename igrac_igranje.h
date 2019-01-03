@@ -11,6 +11,7 @@ class Igrac
 	int pokusajBroj, pokusajLoto;
 	KruzniBafer nizovi[4];
 	int otkazan[4], prijavljen[4];
+	double vrijeme_igranja[4];
 public:
 	Igrac(const std::string&, const std::string&);
 	Igrac(FILE*);
@@ -21,17 +22,19 @@ public:
 	inline void printStatKviz() const {nizovi[1].print();}
 	inline void printStatLoto() const {nizovi[2].print();}
 	inline void printStatPoker() const {nizovi[3].print();}
-	bool prijava(int, std::string&);
 	void otkazi_igru(int);
 	void igraj_loto();
 	void igraj_poker();
 	void igraj_broj();
 	void igraj_kviz();
 private:
+	bool prijava(int);
 	void fill(std::string&);
 	std::string generate(std::string);
+	bool provjera_kljuca(int, time_t, time_t);
+	bool igraj_ponovo();
 };
 
 
 void clear_screen();
-bool igraj_ponovo();
+

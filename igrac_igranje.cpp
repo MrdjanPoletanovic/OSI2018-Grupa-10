@@ -2,7 +2,6 @@
 #include "loto.h"
 #include "broj.h"
 #include "poker.h"
-#include "kviz.h"
 #include <iostream>
 #include <iomanip>
 #include <ctime>
@@ -11,8 +10,11 @@
 
 Igrac::Igrac(const std::string& ime, const std::string& sifra) : korisnicko_ime(ime), sifra(sifra), dobitak(0), gubitak(0), stanje(10), pokusajBroj(0), pokusajLoto(0)
 {
-	otkazan={0};
-	prijavljen={0};
+	for(int i=0; i<4; i++)
+	{
+		prijavljen[i] = otkazan[i] = 0;
+		vrijeme_igranja[i] = 0;
+	}
 }
 
 
@@ -133,62 +135,92 @@ std::string getTime()
 
 void Igrac::igraj_loto()
 {
-	int bodovi;
-	do
+	if (otkazan[2] == 0)
 	{
-		if (stanje < 100)
+		if (prijava(3))
 		{
-			std::cout << "Nemate dovoljno sredstava da igrate loto." << std::endl;
-			break;
+			int bodovi;
+			time_t start, end=std::time(0);
+			do
+			{
+				start = end;
+				if (stanje < 100)
+				{
+					std::cout << "Nemate dovoljno sredstava da igrate loto." << std::endl;
+					break;
+				}
+				clear_screen();
+				stanje-=100;
+				gubitak+=100;
+				pokusajLoto++;
+				bodovi = loto(stanje, dobitak, gubitak, pokusajLoto);
+				dobitak+=bodovi;
+				stanje+=bodovi;
+				nizovi[2].enqueue(bodovi, convertBodoviToMessageLoto(bodovi), getTime());
+				end = std::time(0);
+			}
+			while(provjera_kljuca(3, start, end) && igraj_ponovo());
 		}
-		clear_screen();
-		stanje-=100;
-		gubitak+=100;
-		pokusajLoto++;
-		bodovi = loto(stanje, dobitak, gubitak, pokusajLoto);
-		dobitak+=bodovi;
-		stanje+=bodovi;
-		nizovi[2].enqueue(bodovi, convertBodoviToMessageLoto(bodovi), getTime());
 	}
-	while(igraj_ponovo());
+	else
+		std::cout << "Igra je otkazana. Ne mozete je vise igrati" << std::endl;
 }
 
 
 void Igrac::igraj_broj()
 {
-	int bodovi;
-	do
+	if (otkazan[0] == 0)
 	{
-		clear_screen();
-		bodovi = broj(pokusajBroj);
-		pokusajBroj++;
-		stanje+=bodovi;
-		dobitak+=bodovi;
-		nizovi[0].enqueue(bodovi, convertBodoviToMessageBroj(bodovi), getTime());
+		if (prijava(1))
+		{
+			int bodovi;
+			time_t start, end=std::time(0);
+			do
+			{
+				start = end;
+				clear_screen();
+				bodovi = broj(pokusajBroj);
+				pokusajBroj++;
+				stanje+=bodovi;
+				dobitak+=bodovi;
+				nizovi[0].enqueue(bodovi, convertBodoviToMessageBroj(bodovi), getTime());
+				end = std::time(0);
+			}
+			while(provjera_kljuca(1, start, end) && igraj_ponovo());
+		}
 	}
-	while(igraj_ponovo());
+	else
+		std::cout << "Igra je otkazana. Ne mozete je vise igrati" << std::endl;
 }
 
 
 void Igrac::igraj_poker()
 {
-	int bodovi;
-	do
+	if (otkazan[3] == 0)
 	{
-		if (stanje < 5)
+		if (prijava(4))
 		{
-			std::cout << "Nemate dovoljno sredstava da igrate poker." << std::endl;
-			break;
+			int bodovi;
+			do
+			{
+				if (stanje < 5)
+				{
+					std::cout << "Nemate dovoljno sredstava da igrate poker." << std::endl;
+					break;
+				}
+				clear_screen();
+				gubitak += 5;
+				stanje -= 5;
+				bodovi = poker(stanje, dobitak, gubitak);
+				nizovi[3].enqueue(bodovi, convertBodoviToMessagePoker(bodovi), getTime());
+				dobitak += bodovi;
+				stanje += bodovi;
+			}
+			while(igraj_ponovo());
 		}
-		clear_screen();
-		gubitak += 5;
-		stanje -= 5;
-		bodovi = poker(stanje, dobitak, gubitak);
-		nizovi[3].enqueue(bodovi, convertBodoviToMessagePoker(bodovi), getTime());
-		dobitak += bodovi;
-		stanje += bodovi;
 	}
-	while(igraj_ponovo());
+	else
+		std::cout << "Igra je otkazana. Ne mozete je vise igrati" << std::endl;
 }
 
 
@@ -197,10 +229,10 @@ std::string convertBodoviToMessageKviz (int tacni, int netacni, int neodgovoreni
 	char tmp[100];
         snprintf(tmp, sizeof(tmp), "%d tacnih, %d netacnih odgovora i %d neodgovorenih pitanja", tacni, netacni, neodgovoreni);
 	std::string poruka = tmp;
-	return poruka
+	return poruka;
 }
 
-
+/*
 void Igrac::igraj_kviz()
 {
 	int bodovi, tacni = 0, netacni = 0, neodgovoreni = 0;
@@ -220,6 +252,7 @@ void Igrac::igraj_kviz()
 	}
 	while(igraj_ponovo());
 }
+*/
 
 
 void clear_screen()
@@ -235,7 +268,7 @@ void clear_screen()
 }
 
 
-bool igraj_ponovo()
+bool Igrac::igraj_ponovo()
 {
 	int i = 0;
 	std::string odgovor;
@@ -255,76 +288,56 @@ bool igraj_ponovo()
 	while(true);
 }
 
-bool Igrac::prijava(int redni_broj_igre, std::string& str_gener)
+
+bool Igrac::prijava(int redni_broj_igre)
 {
 	//kontrolna podrazumijeva vrijednost koja se salje iz glavne funkcije i ako ima vrijednost 1 znaci da je igra vec bila aktivirana
 	// a ako ima vrijednost 0 znaci da je treba aktivirati
 	// str_gener sluzi sa pamcenje generisanog koda u slucaju da se koristi kasnije
-	
-
-	std::string str_unos;
-
-	if (redni_broj_igre == 1 && prijava[redni_broj_igre]==0 )
+	std::string str_gener;
+	if (prijavljen[redni_broj_igre-1] == 0)
 	{
-		str_gener = generate("Broj");
-		std::cout << "Aktivacioni kljuc: " << str_gener << std::endl;
-		std::cout << "Unesite aktivacioni kljuc za igru: ";
-		std::cin >> str_unos;
+		std::string str_unos;
+		if (redni_broj_igre == 1)
+		{
+			str_gener = generate("Broj");
+			std::cout << "Aktivacioni kljuc: " << str_gener << std::endl;
+			std::cout << "Unesite aktivacioni kljuc za igru: ";
+		}
+		else if (redni_broj_igre == 2)
+		{
+			str_gener = generate("Kviz");
+			std::cout << "Aktivacioni kljuc: " << str_gener << std::endl;
+			std::cout << "Unesite aktivacioni kljuc za igru: ";
+		}
+		else if (redni_broj_igre == 3)
+		{
+			str_gener = generate("Loto");
+			std::cout << "Aktivacioni kljuc: " << str_gener << std::endl;
+			std::cout << "Unesite aktivacioni kljuc za igru: ";
+		}
+		else if (redni_broj_igre == 4)
+		{
+			str_gener = generate("Poker");
+			std::cout << "Aktivacioni kljuc: " << str_gener << std::endl;
+			std::cout << "Unesite aktivacioni kljuc za igru: ";
+		}
+		std::getline(std::cin, str_unos);
 		if (str_gener.compare(str_unos) == 0)
 		{
-			prijava[redni_broj_igre] = 1;
+			prijavljen[redni_broj_igre] = 1;
 			return true;
 		}
 		else
-			return false;
-
-	}
-	else if (redni_broj_igre == 2 && prijava[redni_broj_igre]==0 )
-	{
-		str_gener = generate("Kviz");
-		std::cout << "Aktivacioni kljuc: " << str_gener << std::endl;
-		std::cout << "Unesite aktivacioni kljuc za igru: ";
-		std::cin >> str_unos;
-		if (str_gener.compare(str_unos) == 0)
 		{
-			prijava[redni_broj_igre] = 1;
-			return true;
+			std::cout << "Aktivacija igre neuspjesna. Pokusajte ponovo." << std::endl;
 		}
-		else
-			return false;
 	}
-	else if (redni_broj_igre == 3 && prijava[redni_broj_igre]==0)
-	{
-		str_gener = generate("Loto");
-		std::cout << "Aktivacioni kljuc: " << str_gener << std::endl;
-		std::cout << "Unesite aktivacioni kljuc za igru: ";
-		std::cin >> str_unos;
-		if (str_gener.compare(str_unos) == 0)
-		{
-			prijava[redni_broj_igre] = 1;
-			return true;
-		}
-		else
-			return false;
-	}
-	else if (redni_broj_igre == 4 && prijava[redni_broj_igre]==0)
-	{
-		str_gener = generate("Poker");
-		std::cout << "Aktivacioni kljuc: " << str_gener << std::endl;
-		std::cout << "Unesite aktivacioni kljuc za igru: ";
-		std::cin >> str_unos;
-		if (str_gener.compare(str_unos) == 0)
-		{
-			prijava[redni_broj_igre] = 1;
-			return true;
-		}
-		else
-			return false;
-	}
-	else 
-		return false;
-
+	else
+		std::cout << "Nije usao" << std::endl;
+	return false;
 }
+
 
 void Igrac::fill(std::string& str)
 {
@@ -338,7 +351,6 @@ void Igrac::fill(std::string& str)
 			str.insert(i,"-");
 		else
 		{
-			
 			int p = distributionInteger(generator);
 			str1 = std::to_string(p);
 			str.insert(i, str1);
@@ -346,39 +358,37 @@ void Igrac::fill(std::string& str)
 	}
 
 }
+
+
 std::string Igrac::generate(std::string s)
 {
 	std::string key;
 	if (s.compare("Loto")==0 )
 	{
-		
 		key = "3168-";   //broj 3 oznacava redni broj igre, a 168 vrijeme trajanja igre izrazeno u satima
 		fill(key);
 	}
 	else if (s.compare("Broj") == 0)
 	{
-		
 		key = "1024-";  // broj 1 oznacava redni broj igre, a 024 vrijeme trajanja igre izrazeno u satima
 		fill(key);
 	}
 	else if (s.compare("Kviz") == 0)
 	{
-		
 		key = "2001-";  // broj 2 oznacava redni broj igre, a 001 vrijeme trajanja igre izrazeno u satima
 		fill(key);
 	}
 	else if (s.compare("Poker") == 0)
 	{
-		
 		key = "4000-"; //  broj 4 oznacava redni broj igre, a 000 neograniceno trajanje igre
 		fill(key);
 	}
 	return key;
 }
 
+
 void Igrac::otkazi_igru(int redni_broj)
 {
-	
 	otkazan[redni_broj-1] = 1;
 	if (redni_broj == 1)
 	{
@@ -396,4 +406,53 @@ void Igrac::otkazi_igru(int redni_broj)
 	{
 		std::cout << "Vise nemate pristup igri: Video Poker!\n";
 	}
+}
+
+
+bool Igrac::provjera_kljuca(int redni_broj, time_t begin, time_t end)
+{
+	double vrijeme = 0;
+	int index = redni_broj-1;
+	if (redni_broj == 1)
+	{
+		vrijeme = 86'400;
+		vrijeme_igranja[index] += difftime(end, begin);
+		if (vrijeme_igranja[index] >= vrijeme)
+		{
+			otkazi_igru(redni_broj);
+			return false;
+		}
+		else
+			return true;
+	}
+	else if (redni_broj == 2)
+	{
+		vrijeme = 3'600;
+		vrijeme_igranja[index] += difftime(end, begin);
+		if (vrijeme_igranja[index] >= vrijeme)
+		{
+			otkazi_igru(redni_broj);
+			return false;
+		}
+		else
+			return true;
+	}
+	else if (redni_broj == 3)
+	{
+		vrijeme = 604'800;
+		vrijeme_igranja[index] += difftime(end, begin);
+		if (vrijeme_igranja[index] >= vrijeme)
+		{
+			otkazi_igru(redni_broj);
+			return false;
+		}
+		else
+			return true;
+	}
+	else if (redni_broj == 4)
+	{
+		return true;
+	}
+	else
+		return false;
 }
