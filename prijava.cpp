@@ -1,6 +1,7 @@
 #include "prijava.h"
 #include <iostream>
 #include <string>
+#include <conio.h>
 #include "provjeraPrijave.h"
 
 bool logIn()
@@ -13,7 +14,7 @@ bool logIn()
     char x;
     do
     {
-	    x=std::getchar();
+	    x=getch();
 	    if(x=='\r') break;                                  //unos lozinke zavrsava pritiskom tipke "Enter"
 	    if(x=='\b')                                         //omogucavanje ponistavanje poslednjeg karaktera kad se pritisne "Backspace"
 	    {

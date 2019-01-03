@@ -1,5 +1,4 @@
 #include "signUp.h"
-
 #include <iostream>
 #include <cctype>
 #include <string>
@@ -24,7 +23,7 @@ void signUp()
 
 		cin.sync(); // Ciscenje ulaznog bafera.
 		cout << "\nMolim unesite korisnicko ime: ";
-		cin >> korisnickoIme;
+		std::getline(cin, korisnickoIme);
 
 		for (int j = 0; j < (int)korisnickoIme.length(); j++) // Provjera da li unijeto korisnicko ime sadrzi nedozvoljene karaktere.
 			if (!(isalpha(korisnickoIme.at(j)) || isdigit(korisnickoIme.at(j)) || korisnickoIme.at(j) == '_' || korisnickoIme.at(j) == '.'))
@@ -32,7 +31,7 @@ void signUp()
 
 		cin.sync(); // Ciscenje ulaznog bafera.
 		cout << "Molim unesite lozinku: ";
-		cin >> lozinka;
+		std::getline(cin, lozinka);
 
 		for (int j = 0; j < (int)lozinka.length(); j++)  // Provjera da li unijeta lozinka sadrzi nedozvoljene karaktere.
 			if (!(isalpha(lozinka.at(j)) || isdigit(lozinka.at(j))))
@@ -79,7 +78,6 @@ void signUp()
 		datotekaSaNalozimaUpis << korisnickoIme << ',' << lozinka << '\n'; // Formatiran upis korisnickog imena i lozinke u fajl.
 
 	datotekaSaNalozimaUpis.close();
-
 	return;
 }
 
