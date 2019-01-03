@@ -3,6 +3,7 @@
 #include "broj.h"
 #include "poker.h"
 #include <iostream>
+#include <fstream>
 #include <iomanip>
 #include <ctime>
 #include <random>
@@ -14,6 +15,59 @@ Igrac::Igrac(const std::string& ime, const std::string& sifra) : korisnicko_ime(
 	{
 		prijavljen[i] = otkazan[i] = 0;
 		vrijeme_igranja[i] = 0;
+	}
+}
+
+
+Igrac::Igrac(int line)
+{
+	std::ifstream file("nalozi.csv");
+	if (file.is_open())
+	{
+		std::string tmp;
+		for(int i=0; i<line; i++)
+			std::getline(file, tmp);
+		std::getline(file, tmp, ',');
+		korisnicko_ime = tmp;
+		std::getline(file, tmp);
+		sifra = tmp;
+		std::getline(file, tmp, ',');
+		stanje = std::stoi(tmp);
+		std::getline(file, tmp, ',');
+		gubitak = std::stoi(tmp);
+		std::getline(file, tmp, ',');
+		dobitak = std::stoi(tmp);
+		std::getline(file, tmp, ',');
+		pokusajBroj= std::stoi(tmp);
+		std::getline(file, tmp);
+		pokusajLoto = std::stoi(tmp);
+		for(int i=0; i<4; i++)
+		{
+			if (i != 3)
+				std::getline(file, tmp, ',');
+			else
+				std::getline(file, tmp);
+			otkazan[i] = std::stoi(tmp);
+		}
+		for(int i=0; i<4; i++)
+		{
+			if (i != 3)
+				std::getline(file, tmp, ',');
+			else
+				std::getline(file, tmp);
+			prijavljen[i] = std::stoi(tmp);
+		}
+		for(int i=0; i<4; i++)
+		{
+			if (i != 3)
+				std::getline(file, tmp, ',');
+			else
+				std::getline(file, tmp);
+			vrijeme_igranja[i] = std::stod(tmp);
+		}
+		for(int i=0; i<4; i++)
+			nizovi[i] = KruzniBafer(file);
+		file.close();
 	}
 }
 
@@ -455,4 +509,22 @@ bool Igrac::provjera_kljuca(int redni_broj, time_t begin, time_t end)
 	}
 	else
 		return false;
+}
+
+
+void Igrac::writeStat() const
+{
+	write();
+}
+
+
+Igrac::~Igrac()
+{
+	write();
+}
+
+
+void Igrac::write() const
+{
+	// tijelo funkcije koja upsisuje podakte u .csv fajl
 }

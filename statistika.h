@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 #define SIZE 11
 
 
@@ -13,6 +14,9 @@ struct Node
 };
 
 
+std::ostream& operator<<(std::ostream&, const Node&);
+
+
 class KruzniBafer
 {
 	Node *niz;
@@ -21,16 +25,18 @@ public:
 	static Node errorNode;
 	KruzniBafer();
 	KruzniBafer(const KruzniBafer&);
-	KruzniBafer(FILE*);
+	KruzniBafer(std::ifstream&);
 	KruzniBafer(KruzniBafer&&);
 	KruzniBafer& operator=(const KruzniBafer&);
 	KruzniBafer& operator=(KruzniBafer&&);
 	void enqueue(int, const std::string&, const std::string&); //funkcija za upis u kruzni bafer sa prepisom
 	Node dequeue(); // brisanje elementa iz bafera koristeci front parametar
+	void writeToFile(std::ofstream&) const;
 	const Node& operator[](int) const;
 	void print() const;
 	~KruzniBafer();
 private:
+	std::vector<Node> returnSorted() const;
 	void copy(const KruzniBafer&);
 	void move(KruzniBafer&&);
 };
