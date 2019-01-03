@@ -22,6 +22,7 @@ public:
 	inline void printStatLoto() const {nizovi[2].print();}
 	inline void printStatPoker() const {nizovi[3].print();}
 	bool prijava(int, std::string&);
+	void otkazi_igru(int);
 	void igraj_loto();
 	void igraj_poker();
 	void igraj_broj();
