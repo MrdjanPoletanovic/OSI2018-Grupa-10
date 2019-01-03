@@ -113,7 +113,7 @@ bool pritisakNaDugme(DWORD zavrsnoVrijeme, char &prviKarakter)
 }
 
 // Funkcija azurira bodove korisnika u realnom vremenu.
-int kviz(int stanje, int& tacni, int& netacni, int& neodgovoreni)
+int kviz(int& stanje, int& tacni, int& netacni, int& neodgovoreni)
 {
     int bodovi = 0; // Vrijednost koju ce funkcija vracati.
 	int brojTacnihOdgovora = 0; // Promjenjiva potrebna da bi se moglo dodijeliti dodatnih 50 bodova ako su svih 5 pitanja tacna.
