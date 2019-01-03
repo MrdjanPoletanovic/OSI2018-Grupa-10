@@ -62,18 +62,6 @@ void pisanjePitanjaCSV()
 	datotekaZaUpisPitanja.close();
 }
 
-// String to integer.
-int stoi (string s)
-{
-    int suma=0;
-    for (int i=0, p=1; s[i]; i++)
-    {
-        suma = suma * p + s[i] - 0x30;
-        p*=10;
-    }
-    return suma;
-}
-
 // Funkcija za ispis jednog pitanja sa ponudjenim odgovorima na izlaz.
 void pisiPitanjeIOdgovore(PITANJA X, int Y)
 {
@@ -84,7 +72,7 @@ void pisiPitanjeIOdgovore(PITANJA X, int Y)
 }
 
 // Funkcija koja vraca TRUE ako registruje pritisak na dugme i upisuje pritisnuto dugme na adresu karaktera 'prviKarakter' ili vraca FALSE ako dugme nije pritisnuto prije zavrsnog vremena.
-bool pritisakNaDugme(DWORD zavrsnoVrijeme, char &prviKarakter)
+bool pritisakNaDugme(DWORD zavrsnoVrijeme, char& prviKarakter)
 {
 	HANDLE pokazivacNaStandardniUlaz = GetStdHandle(STD_INPUT_HANDLE); // "HANDLE" je pokazivac na void -- "GetStdHandle();" vraca HANDLE na Windows objekat, u ovom slucaju, standardni ulaz.
 	DWORD brojEventova = 0; // "DWORD" je programski tip definisan u Windowsu, aka "Double Word".
@@ -105,7 +93,6 @@ bool pritisakNaDugme(DWORD zavrsnoVrijeme, char &prviKarakter)
 				}
 			}
 		}
-		// YieldProcessor(); // "Yield Processor();" je makro koji signalira procesoru da odobri resurse threadovima koji cekaju na izvrsavanje funkcija (Potreban multi-thread procesor).
 		GetNumberOfConsoleInputEvents(pokazivacNaStandardniUlaz, &brojEventova); // Kupi broj neprocitanih ulaznih aktivnosti sa konzole i dodjeljuje ih promjenjivoj "brojEventova".
 	}
 
@@ -188,8 +175,8 @@ int kviz(int& stanje, int& tacni, int& netacni, int& neodgovoreni)
 
 	// Kod za ispis pitanja i unos odgovora.
 	{
-		cout << "PRAVILA: " << endl << endl << "**********" << endl << endl << "- Imate 15 sekundi i 3 pokusaja da ispravno odgovorite na svako pitanje.";
-		cout << endl << "- Odgovarate unosenjem rednog broja odgovora (1, 2 ili 3) i potvrdjivanje tipkom ENTER";
+		cout << "PRAVILA: " << endl << endl << "**********" << endl << endl << "- Imate 10 sekundi i 3 pokusaja da ispravno odgovorite na svako pitanje.";
+		cout << endl << "- Odgovarate pritiskom na dugme ispred rednog broja odgovora (1, 2 ili 3)";
 		cout << endl << "- Svaki tacan odgovor nosi 20 bodova." << endl << "- Svaki netacan odgovor oduzima 30 bodova." << endl << "- Svako neodgovoreno pitanje, oduzima 10 bodova.";
 		cout << endl << "- Tacni odgovori na svih 5 pitanja nose dodatnih 50 bodova." << endl << endl << "**********" << endl << endl;
 		Sleep(3000);
@@ -199,24 +186,20 @@ int kviz(int& stanje, int& tacni, int& netacni, int& neodgovoreni)
 		{
 			pisiPitanjeIOdgovore(listaPitanja[i], i + 1);
 
-			string odgovor; // String koji unosi korisnik radi lakse prevencije greske.
+			// string odgovor; // String koji unosi korisnik radi lakse prevencije greske.
 
-			char prviKarakter; // Promjenjiva potrebna da bi se mogao "pauzirati" tajmer i asignovati prvi karakter na njenu adresu.
+			char odgovor; // Promjenjiva potrebna da bi se mogao "pauzirati" tajmer i asignovati prvi karakter na njenu adresu.
 
 			// Pomocne promjenjive "timerControl" i "brojPokusaja" su vezane uz kompletno pitanje.
 			bool timerControl = true; // Kontrolna promjenjiva za pokazivanje stanja da li je vrijeme isteklo.
 			int brojPokusaja = 0; // Kontrolna promjenjiva za provjeru broja pokusaja.
 
-			// Pomocna promjenjiva "control" je vezana uz pojedinacan odgovor koji korisnik unese, ali se mora inicijalizovati van DO - WHILE petlje jer je potrebna radi prevencije greske (lijeno izracunavanje).
-			bool control; // Kontrolna promjenjiva za provjeru da li su uneseni znakovi brojevi ili slova.
-
 			// Promjenjivu "zavrsnoVrijeme" inicijalizujemo van DO - WHILE petlje jer je zavrsno vrijeme vezano uz specificno pitanje.
-			DWORD zavrsnoVrijeme = GetTickCount() + 15000; // "GetTickCount();" vraca broj sekundi koje su prosle od pokretanja sistema.
+			DWORD zavrsnoVrijeme = GetTickCount() + 10000; // "GetTickCount();" vraca broj sekundi koje su prosle od pokretanja sistema.
 
 			// DO - WHILE petlja za citanje i provjeru ispravnosti unesenog odgovora.
 			do
 			{
-				control = true;
 				brojPokusaja++;
 
 				// Ako je broj pokusaja veci od 3, prekidanje i izlazak iz petlje.
@@ -226,24 +209,8 @@ int kviz(int& stanje, int& tacni, int& netacni, int& neodgovoreni)
 				cout << endl << "Molimo odgovorite na pitanje: ";
 
 				// Provjerava da li je tastatura aktivirana unutar 15 sekundi i dodjeljuje vrijednost pritisnutog karaktera na adresu "prviKarakter".
-				if (pritisakNaDugme(zavrsnoVrijeme, prviKarakter))
-				{
-					// Provjerava da li je prvi karakter ENTER, ESCAPE ili BACKSPACE i prekida izvrsavanje programa ako jeste.
-					if (prviKarakter == 13 || prviKarakter == 27 || prviKarakter == 8)
-					{
-						cout << ' ';
-						odgovor = " ";
-						cout << endl;
-					}
-
-					// Ako prvi karakter nije ENTER, ESCAPE ili BACKSPACE, ispisuje taj karakter i skuplja ostatak stringa koji korisnik unese.
-					else
-					{
-						cout << prviKarakter;
-						getline(cin, odgovor);
-						odgovor = prviKarakter + odgovor;
-					}
-				}
+				if (pritisakNaDugme(zavrsnoVrijeme, odgovor))
+                    		cout << odgovor;
 
 				// Ako tastatura nije aktivirana unutar 15 sekundi, postavljanje kontrolne promjenjive na false i prekidanje petlje.
 				else
@@ -252,16 +219,8 @@ int kviz(int& stanje, int& tacni, int& netacni, int& neodgovoreni)
 					break;
 				}
 
-				// Petlja za provjeru da li se u unesenom stringu nalaze karakteri koji nisu cifre radi prevencije greske.
-				for (int j = 0; j < (int)odgovor.length(); j++)
-					if (!isdigit(odgovor.at(j)))
-					{
-						// Postavljanje kontrolne promjenjive FALSE i prekidanje DO - WHILE petlje ako postoje.
-						control = false; // Promjenjiva je potrebna radi prevencije greske, lijeno izracunavanje.
-						break;
-					}
-
-			} while (!timerControl || !control || stoi(odgovor) > 3 || stoi(odgovor) < 1); // Ako samo jedna od kontrolnih promjenjivih nije zadovoljena, stoi() funkcija se nece izvrsiti pa nece doci do greske.
+			}
+			while (!timerControl || odgovor - '0' > 3 || odgovor - '0' < 1); // Ako samo jedna od kontrolnih promjenjivih nije zadovoljena, stoi() funkcija se nece izvrsiti pa nece doci do greske.
 
 			// Ako je petlja prekinuta zbog tajmera, ispisvanje greske i prelazak na sljedece pitanje (sljedeca iteracija FOR petlje).
 			if (!timerControl)
@@ -278,19 +237,19 @@ int kviz(int& stanje, int& tacni, int& netacni, int& neodgovoreni)
 			// Ako je petlja prekinuta zbog tri neispravno unesena odgovora, ispisivanje greske i prelazak na sljedece pitanje.
 			else if (brojPokusaja > 3)
 			{
-				cout << endl << "   ---   TRI PUTA STE NEPRAVILNO UNIJELI ODGOVOR !" << endl;
+				cout << endl << endl << "   ---   TRI PUTA STE NEPRAVILNO UNIJELI ODGOVOR !" << endl;
 				bodovi -= 10;
 				stanje -= 10;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
-                		neodgovoreni++;
+               			neodgovoreni++;
 				Sleep(2000); // Windows Sleep da bi korisnik imao 2s da pogleda svoj rezultat.
 				continue;
 			}
 
 			// Ako petlja nije prekinuta, uneseni string uspjesno konvertovan u integer i odgovor netacan - ispisivanje poruke i CONTINUE na FOR petlju.
-			else if (stoi(odgovor) != listaPitanja[i].tacanOdgovor)
+			else if (odgovor - '0' != listaPitanja[i].tacanOdgovor)
 			{
-				cout << endl << "   ---   NETACNO !" << endl;;
+				cout << endl  << endl << "   ---   NETACNO !" << endl;;
 				bodovi -= 30;
 				stanje -= 30;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
@@ -302,7 +261,7 @@ int kviz(int& stanje, int& tacni, int& netacni, int& neodgovoreni)
 			// Ako petlja nije prekinuta, uneseni string uspjesno konvertovan u integer i odgovor tacan - ispisivanje poruke i prelazak na sljedece pitanje.
 			else
 			{
-				cout << endl << "   ---   TACNO !" << endl;
+				cout << endl << endl << "   ---   TACNO !" << endl;
 				bodovi +=20;
 				stanje += 20;
 				cout << endl << "   ---   Trenutni broj bodova: " << bodovi << endl << endl;
@@ -315,14 +274,11 @@ int kviz(int& stanje, int& tacni, int& netacni, int& neodgovoreni)
 		}
 
 		if (brojTacnihOdgovora == 5)
-        {
-            bodovi += 50;
-	    stanje += 50;
-        }
+        	{
+            		bodovi += 50;
+			stanje += 50;
+        	}
 	}
-
-	cout << endl << "Ukupan broj bodova na kraju igre: " << bodovi << endl;
-	cout << endl << "Ukupan broj bodova na vasem nalogu: " << stanje << endl << endl;
-
+	
 	return bodovi;
 }
