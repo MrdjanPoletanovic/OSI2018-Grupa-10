@@ -128,7 +128,7 @@ void printMenu()
 	std::cout << "SOFT-GAMES\n" << "-----------------------\n";
 	std::cout << "-----------------------\n";
 	std::cout << "1. Pogadjanje broja\n" << "2. Kviz\n" << "3. Loto\n" << "4. Video Poker\n\n";
-	std::cout << "5. Registracija\n" << "6. Prijava\n" << "7. Reset\n" << "8. Statistika\n" << "9. Izlaz\n";
+	std::cout << "5. Registracija\n" << "6. Prijava\n" << "7. Reset\n" << "8. Statistika\n" << "9. Otkazivanje igre\n" << "10. Izlaz\n";
 	std::cout << "-----------------------\n";
 	std::cout << "-----------------------\n";
 

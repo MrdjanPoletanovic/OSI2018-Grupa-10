@@ -473,6 +473,16 @@ void Igrac::otkazi_igru(int redni_broj)
 	}
 }
 
+void Igrac::otkazi()
+{
+	std::cout << "Koju igru zelite otkazati?\n" << "1. Pogadjanje broja\n" << "2. Kviz\n" << "3. Loto\n" << "4. Video Poker\n";
+	std::cout << "Unesite indeks igre koju zelite otkazati: ";
+	std::string odgovor;
+	std::getline(std::cin, odgovor);
+	int a = std::stoi(odgovor);
+	otkazi_igru(a);
+
+}
 
 bool Igrac::provjera_kljuca(int redni_broj, time_t begin, time_t end)
 {

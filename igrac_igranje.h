@@ -24,6 +24,7 @@ public:
 	inline void printStatPoker() const {nizovi[3].print();}
 	void writePodaci() const;
 	void otkazi_igru(int);
+	void otkazi();
 	void igraj_loto();
 	void igraj_poker();
 	void igraj_broj();

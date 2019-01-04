@@ -36,7 +36,7 @@ int main()
 			{
 				std::cout << "Izaberite opciju:";
 				std::getline(std::cin, opcija);
-			} while (opcija != "1" && opcija != "2" && opcija != "3" && opcija != "4" && opcija != "5" && opcija != "6" && opcija != "7" && opcija != "8" && opcija != "9");
+			} while (opcija != "1" && opcija != "2" && opcija != "3" && opcija != "4" && opcija != "5" && opcija != "6" && opcija != "7" && opcija != "8" && opcija != "9" && opcija!="10");
 			if (opcija == "1")
 			{
 				i.igraj_broj();
@@ -80,9 +80,13 @@ int main()
 				i.printStatLoto();
 				i.printStatPoker();
 			}
-			std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+			else if (opcija == "9")
+			{
+				i.otkazi();
+			}
+			std::this_thread::sleep_for(std::chrono::milliseconds(4000));
 			clear_screen();
-		} while (opcija != "9");
+		} while (opcija != "10");
 
 		//std::cout << "Dobitak: " << i.getDobitak() << std::endl;
 		//std::cout << "Gubitak: " << i.getGubitak() << std::endl;
