@@ -396,9 +396,11 @@ bool Igrac::prijava(int redni_broj_igre)
 		else
 		{
 			std::cout << "Aktivacija igre neuspjesna. Pokusajte ponovo." << std::endl;
+			return false;
 		}
 	}
-	return false;
+	else
+		return true;
 }
 
 

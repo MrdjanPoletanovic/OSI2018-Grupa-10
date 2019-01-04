@@ -1,8 +1,8 @@
 #include "igrac_igranje.h"
 #include "prijava_registracija.h"
 #include <iostream>
-
-
+#include <thread>
+#include <chrono>
 
 int main()
 {
@@ -41,20 +41,24 @@ int main()
 			{
 				i.igraj_broj();
 				
+				
 			}
 			else if (opcija == "2")
 			{
 				i.igraj_kviz();
+				
 				
 			}
 			else if (opcija == "3")
 			{
 				i.igraj_loto();
 				
+				
 			}
 			else if (opcija == "4")
 			{
 				i.igraj_poker();
+				
 				
 			}
 			else if (opcija == "5")
@@ -76,7 +80,7 @@ int main()
 				i.printStatLoto();
 				i.printStatPoker();
 			}
-			
+			std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 			clear_screen();
 		} while (opcija != "9");
 
