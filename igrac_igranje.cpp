@@ -3,6 +3,7 @@
 #include "loto.h"
 #include "broj.h"
 #include "poker.h"
+#include "kviz.h"
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -288,7 +289,7 @@ std::string convertBodoviToMessageKviz (int tacni, int netacni, int neodgovoreni
 	return poruka;
 }
 
-/*
+
 void Igrac::igraj_kviz()
 {
 	int bodovi, tacni = 0, netacni = 0, neodgovoreni = 0;
@@ -308,7 +309,7 @@ void Igrac::igraj_kviz()
 	}
 	while(igraj_ponovo());
 }
-*/
+
 
 
 void clear_screen()

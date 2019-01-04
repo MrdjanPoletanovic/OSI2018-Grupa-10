@@ -17,7 +17,7 @@ Node::Node(int r, const std::string& s, const std::string& t) : rezultat(r), por
 Node KruzniBafer::errorNode = Node(-1, "greska", "greska");
 
 
-KruzniBafer::KruzniBafer() : niz(new Node[SIZE]), front(0), rear(0)
+KruzniBafer::KruzniBafer() : niz(new Node[MAX]), front(0), rear(0)
 {}
 
 
@@ -59,7 +59,7 @@ void KruzniBafer::copy(const KruzniBafer& other)
 {
 	front = other.front;
 	rear = other.rear;
-	std::copy(other.niz, other.niz + SIZE, niz);
+	std::copy(other.niz, other.niz + MAX, niz);
 }
 
 
@@ -83,9 +83,9 @@ KruzniBafer::~KruzniBafer()
 void KruzniBafer::enqueue(int x, const std::string& poruka, const std::string& vrijeme)
 {
 	niz[rear] = Node(x, poruka, vrijeme);
-	rear = (rear+1)%SIZE;
+	rear = (rear+1)%MAX;
 	if (front == rear)
-		front = (front+1)%SIZE;
+		front = (front+1)%MAX;
 }
 
 
@@ -96,7 +96,7 @@ Node KruzniBafer::dequeue()
 	else
 	{
 		Node tmp = niz[front];
-		front = (front+1)%SIZE;
+		front = (front+1)%MAX;
 		return tmp;
 	}
 }
@@ -119,7 +119,7 @@ void KruzniBafer::print() const
 std::vector<Node> KruzniBafer::returnSorted() const
 {
 	std::vector<Node> tmp;
-	for(int i=front; i != rear; i = (i+1)%SIZE)
+	for(int i=front; i != rear; i = (i+1)%MAX)
 	{
 		tmp.push_back(niz[i]);
 	}
@@ -136,7 +136,7 @@ KruzniBafer::KruzniBafer(std::ifstream& file) : KruzniBafer()
 	std::string tmp1;
 	char poruka[100], vrijeme[100];
 	int bodovi;
-	for(rear=0; rear<SIZE-1; rear++)
+	for(rear=0; rear<MAX-1; rear++)
 	{
 		std::getline(file, tmp1);
 		std::sscanf(tmp1.c_str(), "%d,%99s,%99s\n", &bodovi, poruka, vrijeme);
@@ -158,6 +158,6 @@ void KruzniBafer::writeToFile(std::fstream& file) const
 	std::vector<Node> tmp = returnSorted();
 	for(auto x : tmp)
 		file << x;
-	for(int i=tmp.size()-1; i<SIZE-2; i++)
+	for(int i=tmp.size()-1; i<MAX-2; i++)
 		file << errorNode;
 }

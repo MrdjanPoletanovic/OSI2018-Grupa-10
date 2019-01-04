@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
-#define SIZE 11
+#define MAX 11
 
 
 struct Node

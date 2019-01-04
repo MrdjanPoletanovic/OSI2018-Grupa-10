@@ -4,6 +4,7 @@
 #include <fstream>
 #include <algorithm>
 #include <ctime>
+#include <random>
 #include <cmath>
 
 
@@ -108,7 +109,7 @@ int kviz(int& stanje, int& tacni, int& netacni, int& neodgovoreni)
 
 	// Kod za dodjeljivanje 5 random rednih brojeva izmedju 1 i 15 jer imamo 15 pitanja i sortiranje u rastucem redoslijedu.
 	{
-		srand(time(NULL)); // Promjena inicijalizacije pseudo random generatora sa 1 na vrijednost trenutnog vremena.
+		std::srand(std::time(NULL)); // Promjena inicijalizacije pseudo random generatora sa 1 na vrijednost trenutnog vremena.
 		for (int i = 0; i < 5; i++)
 		{
 			int control = 1;

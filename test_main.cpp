@@ -1,8 +1,7 @@
 #include "igrac_igranje.h"
 #include "prijava_registracija.h"
 #include <iostream>
-#include "ResApl.h"
-#include <cstdio>
+
 
 
 int main()
@@ -30,6 +29,8 @@ int main()
 	{
 		i.igraj_broj();
 		i.printStatBroj();
+		i.igraj_kviz();
+		i.printStatKviz();
 		i.igraj_loto();
 		i.igraj_poker();
 		i.printStatLoto();

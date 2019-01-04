@@ -9,7 +9,7 @@ typedef struct pitanja_odgovori
 	std::string pitanje;
 	std::string odgovori[3];
 	int tacanOdgovor;
-} PITANJA;
+} PITANJA ;
 
 void pisanjePitanjaCSV();
 void pisiPitanjeIOdgovore(PITANJA, int);
