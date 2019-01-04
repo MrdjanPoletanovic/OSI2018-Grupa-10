@@ -292,22 +292,30 @@ std::string convertBodoviToMessageKviz (int tacni, int netacni, int neodgovoreni
 
 void Igrac::igraj_kviz()
 {
-	int bodovi, tacni = 0, netacni = 0, neodgovoreni = 0;
-	do
+	if (otkazan[1] == 0)
 	{
-		if (stanje < 5) // Potrebno znati koliko bodova je potrebno za kviz.
+		if (prijava(2))
 		{
-			std::cout << "Nemate dovoljno sredstava da igrate kviz." << std::endl;
-			break;
+			int bodovi, tacni = 0, netacni = 0, neodgovoreni = 0;
+			time_t start, end = std::time(0);
+			do
+			{
+				start = end;
+				if (stanje < 5) // Potrebno znati koliko bodova je potrebno za kviz.
+				{
+					std::cout << "Nemate dovoljno sredstava da igrate kviz." << std::endl;
+					break;
+				}
+				clear_screen();
+				stanje -= 5;
+				bodovi = kviz(stanje, tacni, netacni, neodgovoreni);
+				nizovi[1].enqueue(bodovi, convertBodoviToMessageKviz(tacni, netacni, neodgovoreni), getTime());
+				stanje += bodovi;
+				dobitak += bodovi;
+				end = std::time(0);
+			} while (provjera_kljuca(2, start, end) && igraj_ponovo());
 		}
-		clear_screen();
-		stanje -= 5;
-		bodovi = kviz(stanje, tacni, netacni, neodgovoreni);
-		nizovi[1].enqueue(bodovi, convertBodoviToMessageKviz(tacni, netacni, neodgovoreni), getTime());
-		stanje += bodovi;
-		dobitak += bodovi;
 	}
-	while(igraj_ponovo());
 }
 
 
