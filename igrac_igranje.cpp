@@ -512,19 +512,73 @@ bool Igrac::provjera_kljuca(int redni_broj, time_t begin, time_t end)
 }
 
 
-void Igrac::writeStat() const
+int Igrac::findName() const
 {
-	write();
+	std::ifstream file("nalozi.csv");
+	if (file.is_open())
+	{
+		int line = 0;
+		std::string tmp;
+		while(std::getline(file, tmp, ','))
+		{
+			if (tmp == korisnicko_ime)
+				return line;
+			std::getline(file, tmp);
+			for(int i=0; i<44; i++)
+				std::getline(file, tmp);
+		}
+	}
+	return -1;
+}
+
+
+void Igrac::writePodaci() const
+{
+	write(findName());
 }
 
 
 Igrac::~Igrac()
 {
-	write();
+	write(findName());
 }
 
 
-void Igrac::write() const
+void Igrac::write(int line) const
 {
-	// tijelo funkcije koja upsisuje podakte u .csv fajl
+	std::fstream file;
+	if (line == -1)
+		file.open("nalozi.csv", std::ios::app);
+	else
+	{
+		std::string tmp;
+		file.open("nalozi.csv");
+		for(int i=0; i<line; i++)
+			std::getline(file, tmp);
+	}
+	file << korisnicko_ime << "," << sifra;
+	file << stanje << "," << gubitak << "," << dobitak << "," << pokusajBroj << "," << pokusajLoto;
+	for(int i=0; i<4; i++)
+	{
+		if (i != 3)
+			file << otkazan << ",";
+		else
+			file << otkazan << std::endl;
+	}
+	for(int i=0; i<4; i++)
+	{
+		if (i != 3)
+			file << prijavljen[i] << ",";
+		else
+			file << prijavljen[i] << std::endl;
+	}
+	for(int i=0; i<4; i++)
+	{
+		if (i != 3)
+			file << vrijeme_igranja[i] << ",";
+		else
+			file << vrijeme_igranja[i] << std::endl;
+	}
+	for(int i=0; i<4; i++)
+		nizovi[i].writeToFile(file);
 }

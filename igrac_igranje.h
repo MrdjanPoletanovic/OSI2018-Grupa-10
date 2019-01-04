@@ -22,7 +22,7 @@ public:
 	inline void printStatKviz() const {nizovi[1].print();}
 	inline void printStatLoto() const {nizovi[2].print();}
 	inline void printStatPoker() const {nizovi[3].print();}
-	void writeStat() const;
+	void writePodaci() const;
 	void otkazi_igru(int);
 	void igraj_loto();
 	void igraj_poker();
@@ -35,7 +35,8 @@ private:
 	std::string generate(std::string);
 	bool provjera_kljuca(int, time_t, time_t);
 	bool igraj_ponovo();
-	void write() const;
+	void write(int) const;
+	int findName() const;
 };
 
 

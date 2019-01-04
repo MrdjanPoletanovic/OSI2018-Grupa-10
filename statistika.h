@@ -31,7 +31,7 @@ public:
 	KruzniBafer& operator=(KruzniBafer&&);
 	void enqueue(int, const std::string&, const std::string&); //funkcija za upis u kruzni bafer sa prepisom
 	Node dequeue(); // brisanje elementa iz bafera koristeci front parametar
-	void writeToFile(std::ofstream&) const;
+	void writeToFile(std::fstream&) const;
 	const Node& operator[](int) const;
 	void print() const;
 	~KruzniBafer();

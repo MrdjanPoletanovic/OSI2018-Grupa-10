@@ -155,11 +155,11 @@ KruzniBafer::KruzniBafer(std::ifstream& file) : KruzniBafer()
 
 std::ostream& operator<<(std::ostream& stream, const Node& n)
 {
-	return stream << n.rezultat << "," << n.poruka << "," << n.vrijeme << "\n";
+	return stream << n.rezultat << "," << n.poruka << "," << n.vrijeme << std::endl;
 }
 
 
-void KruzniBafer::writeToFile(std::ofstream& file) const
+void KruzniBafer::writeToFile(std::fstream& file) const
 {
 	std::vector<Node> tmp = returnSorted();
 	for(auto x : tmp)
