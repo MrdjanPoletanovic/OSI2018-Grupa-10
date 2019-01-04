@@ -12,19 +12,13 @@
 #include <chrono>
 #include <sstream>
 
-Igrac::Igrac(const std::string& ime, const std::string& sifra) : korisnicko_ime(ime), sifra(sifra), dobitak(0), gubitak(0), stanje(10), pokusajBroj(1), pokusajLoto(0)
-{
-	for(int i=0; i<4; i++)
-	{
-		prijavljen[i] = otkazan[i] = 0;
-		vrijeme_igranja[i] = 0;
-	}
-}
+
+constexpr auto naziv_datoteke = "nalozi.csv";
 
 
-Igrac::Igrac(int line)
+Igrac::Igrac(int line, bool first_time)
 {
-	std::ifstream file("nalozi.csv");
+	std::ifstream file(naziv_datoteke);
 	if (file.is_open())
 	{
 		std::string tmp;
@@ -32,45 +26,58 @@ Igrac::Igrac(int line)
 			std::getline(file, tmp);
 		std::getline(file, tmp, ',');
 		korisnicko_ime = tmp;
-		std::getline(file, tmp);
-		sifra = tmp;
-		std::getline(file, tmp, ',');
-		stanje = std::stoi(tmp);
-		std::getline(file, tmp, ',');
-		gubitak = std::stoi(tmp);
-		std::getline(file, tmp, ',');
-		dobitak = std::stoi(tmp);
-		std::getline(file, tmp, ',');
-		pokusajBroj= std::stoi(tmp);
-		std::getline(file, tmp);
-		pokusajLoto = std::stoi(tmp);
-		for(int i=0; i<4; i++)
+		if (first_time)
 		{
-			if (i != 3)
-				std::getline(file, tmp, ',');
-			else
-				std::getline(file, tmp);
-			otkazan[i] = std::stoi(tmp);
+			stanje = 10;
+			dobitak = gubitak = pokusajLoto = pokusajBroj = 0;
+			for(int i=0; i<4; i++)
+			{
+				prijavljen[i] = otkazan[i] = 0;
+				vrijeme_igranja[i] = 0;
+			}
 		}
-		for(int i=0; i<4; i++)
+		else
 		{
-			if (i != 3)
-				std::getline(file, tmp, ',');
-			else
-				std::getline(file, tmp);
-			prijavljen[i] = std::stoi(tmp);
+			std::getline(file, tmp);
+			sifra = tmp;
+			std::getline(file, tmp, ',');
+			stanje = std::stoi(tmp);
+			std::getline(file, tmp, ',');
+			gubitak = std::stoi(tmp);
+			std::getline(file, tmp, ',');
+			dobitak = std::stoi(tmp);
+			std::getline(file, tmp, ',');
+			pokusajBroj= std::stoi(tmp);
+			std::getline(file, tmp);
+			pokusajLoto = std::stoi(tmp);
+			for(int i=0; i<4; i++)
+			{
+				if (i != 3)
+					std::getline(file, tmp, ',');
+				else
+					std::getline(file, tmp);
+				otkazan[i] = std::stoi(tmp);
+			}
+			for(int i=0; i<4; i++)
+			{
+				if (i != 3)
+					std::getline(file, tmp, ',');
+				else
+					std::getline(file, tmp);
+				prijavljen[i] = std::stoi(tmp);
+			}
+			for(int i=0; i<4; i++)
+			{
+				if (i != 3)
+					std::getline(file, tmp, ',');
+				else
+					std::getline(file, tmp);
+				vrijeme_igranja[i] = std::stod(tmp);
+			}
+			for(int i=0; i<4; i++)
+				nizovi[i] = KruzniBafer(file);
+			file.close();
 		}
-		for(int i=0; i<4; i++)
-		{
-			if (i != 3)
-				std::getline(file, tmp, ',');
-			else
-				std::getline(file, tmp);
-			vrijeme_igranja[i] = std::stod(tmp);
-		}
-		for(int i=0; i<4; i++)
-			nizovi[i] = KruzniBafer(file);
-		file.close();
 	}
 }
 
@@ -535,7 +542,7 @@ bool Igrac::provjera_kljuca(int redni_broj, time_t begin, time_t end)
 
 int Igrac::findName() const
 {
-	std::ifstream file("nalozi.csv");
+	std::ifstream file(naziv_datoteke);
 	if (file.is_open())
 	{
 		int line = 0;
@@ -569,37 +576,54 @@ void Igrac::write(int line) const
 {
 	std::fstream file;
 	if (line == -1)
-		file.open("nalozi.csv", std::ios::app);
+		file.open(naziv_datoteke, std::ios::app);
 	else
 	{
 		std::string tmp;
-		file.open("nalozi.csv");
+		file.open(naziv_datoteke);
 		for(int i=0; i<line; i++)
 			std::getline(file, tmp);
 	}
-	file << korisnicko_ime << "," << sifra << "\n";
-	file << stanje << "," << gubitak << "," << dobitak << "," << pokusajBroj << "," << pokusajLoto << "\n";
+	file << korisnicko_ime << "," << sifra << std::endl;
+	file << stanje << "," << gubitak << "," << dobitak << "," << pokusajBroj << "," << pokusajLoto << std::endl;
 	for(int i=0; i<4; i++)
 	{
 		if (i != 3)
 			file << otkazan[i] << ",";
 		else
-			file << otkazan[i] << "\n";
+			file << otkazan[i] << std::endl;
 	}
 	for(int i=0; i<4; i++)
 	{
 		if (i != 3)
 			file << prijavljen[i] << ",";
 		else
-			file << prijavljen[i] << "\n";
+			file << prijavljen[i] << std::endl;
 	}
 	for(int i=0; i<4; i++)
 	{
 		if (i != 3)
 			file << vrijeme_igranja[i] << ",";
 		else
-			file << vrijeme_igranja[i] << "\n";
+			file << vrijeme_igranja[i] << std::endl;
 	}
 	for(int i=0; i<4; i++)
 		nizovi[i].writeToFile(file);
+}
+
+
+void Igrac::printAllStat() const
+{
+	std::cout << "IGRA POGADJANJE BROJA: " << std::endl << std::endl;
+	nizovi[0].print();
+	std::cout << std::endl;
+	std::cout << "IGRA KVIZ: : " << std::endl << std::endl;
+	nizovi[1].print();
+	std::cout << std::endl;
+	std::cout << "IGRA LOTO: " << std::endl << std::endl;
+	nizovi[2].print();
+	std::cout << std::endl;
+	std::cout << "IGRA POKER: " << std::endl << std::endl;
+	nizovi[3].print();
+	std::cout << std::endl;
 }

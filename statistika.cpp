@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 
 
 Node::Node() : Node(0, "", "")
@@ -107,8 +108,15 @@ void KruzniBafer::print() const
 	if (front != rear)
 	{
 		std::vector<Node> tmp = returnSorted();
+		std::cout << "----------------------------------------------------------------" << std::endl;;
+		std::cout << "| BODOVI |            PORUKA            |       VRIJEME        |";
+		std::cout << "----------------------------------------------------------------" << std::endl;;
 		for(auto x : tmp)
-			std::cout << x.rezultat << "  " << x.poruka << "  " << x.vrijeme << std::endl;
+		{
+			std::cout << "| "<< std::setw(6) <<x.rezultat << " |  " << std::setw(30) << x.poruka << " |  ";
+			std::cout << std::setw(20) << x.vrijeme << " |" << std::endl;
+		}
+		std::cout << "----------------------------------------------------------------" << std::endl;;
 		std::cout << std::endl;
 	}
 	else
@@ -133,23 +141,23 @@ std::vector<Node> KruzniBafer::returnSorted() const
 
 KruzniBafer::KruzniBafer(std::ifstream& file) : KruzniBafer()
 {
-	std::string tmp1;
-	char poruka[100], vrijeme[100];
+	std::string tmp1, tmp2;
 	int bodovi;
 	for(rear=0; rear<MAX-1; rear++)
 	{
-		std::getline(file, tmp1);
-		std::sscanf(tmp1.c_str(), "%d,%99s,%99s\n", &bodovi, poruka, vrijeme);
-		if (bodovi == -1)
+		std::getline(file, tmp1, ',');
+		if ((bodovi = std::stoi(tmp1)) == -1)
 			break;
-		niz[rear] = Node(bodovi, poruka, vrijeme);
+		std::getline(file, tmp1, ',');
+		std::getline(file, tmp2, ',');
+		niz[rear] = Node(bodovi, tmp1, tmp2);
 	}
 }
 
 
 std::ostream& operator<<(std::ostream& stream, const Node& n)
 {
-	return stream << n.rezultat << "," << n.poruka << "," << n.vrijeme << "\n";
+	return stream << n.rezultat << "," << n.poruka << "," << n.vrijeme << std::endl;
 }
 
 

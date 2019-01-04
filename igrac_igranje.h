@@ -13,8 +13,7 @@ class Igrac
 	int otkazan[4], prijavljen[4];
 	double vrijeme_igranja[4];
 public:
-	Igrac(const std::string&, const std::string&);
-	Igrac(int);
+	Igrac(int, bool);
 	//inline int getDobitak() const {return dobitak;}
 	//inline int getGubitak() const{return gubitak;}
 	inline int getStanje() const {return stanje;}
@@ -22,6 +21,7 @@ public:
 	inline void printStatKviz() const {nizovi[1].print();}
 	inline void printStatLoto() const {nizovi[2].print();}
 	inline void printStatPoker() const {nizovi[3].print();}
+	void printAllStat() const;
 	void writePodaci() const;
 	void otkazi_igru(int);
 	void otkazi();
