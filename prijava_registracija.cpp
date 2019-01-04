@@ -108,12 +108,15 @@ void signUp()
 bool provjera(std::string &userName, std::string &password)
 {
     std::ifstream dataBase;
+	std::string test;
     dataBase.open("nalozi.csv");          //otvaranje csv fajla pod imenom "nalozi"; po potrebi promijeniti naziv fajla
     while(dataBase.good())
     {
         std::string _name, _password;
-        getline(dataBase, _name, ',');
-        getline(dataBase, _password, '\n');     // pretpostavka da u tabeli postoje samo 2 kolone: username i password
+        std::getline(dataBase, _name, ',');
+        std::getline(dataBase, _password, '\n'); // pretpostavka da u tabeli postoje samo 2 kolone: username i password
+		for (int i = 0; i < 44; i++)
+			std::getline(dataBase, test,'\n');
         if(userName.compare(_name)==0 && password.compare(_password)==0)
             return true;
     }
@@ -125,7 +128,7 @@ void printMenu()
 	std::cout << "SOFT-GAMES\n" << "-----------------------\n";
 	std::cout << "-----------------------\n";
 	std::cout << "1. Pogadjanje broja\n" << "2. Kviz\n" << "3. Loto\n" << "4. Video Poker\n\n";
-	std::cout << "5. Registracija\n" << "6. Prijava\n" << "7. Reset\n" << "8. Statistika\n";
+	std::cout << "5. Registracija\n" << "6. Prijava\n" << "7. Reset\n" << "8. Statistika\n" << "9. Izlaz\n";
 	std::cout << "-----------------------\n";
 	std::cout << "-----------------------\n";
 

@@ -12,7 +12,7 @@
 #include <chrono>
 #include <sstream>
 
-Igrac::Igrac(const std::string& ime, const std::string& sifra) : korisnicko_ime(ime), sifra(sifra), dobitak(0), gubitak(0), stanje(10), pokusajBroj(0), pokusajLoto(0)
+Igrac::Igrac(const std::string& ime, const std::string& sifra) : korisnicko_ime(ime), sifra(sifra), dobitak(0), gubitak(0), stanje(10), pokusajBroj(1), pokusajLoto(0)
 {
 	for(int i=0; i<4; i++)
 	{
