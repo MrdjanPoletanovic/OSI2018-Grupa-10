@@ -1,7 +1,8 @@
 #include "igrac_igranje.h"
 #include "prijava_registracija.h"
 #include <iostream>
-
+#include "ResApl.h"
+#include <cstdio>
 
 int main()
 {
@@ -37,6 +38,7 @@ int main()
 	}
 	else
 		std::cout << "Ne mozete igrati!" << std::endl;
+	RestartujApl();
 	getchar();
 	return 0;
 }

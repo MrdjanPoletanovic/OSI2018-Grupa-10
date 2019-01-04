@@ -540,7 +540,7 @@ void Igrac::writePodaci() const
 
 Igrac::~Igrac()
 {
-	write(findName());
+	//write(findName());
 }
 
 
