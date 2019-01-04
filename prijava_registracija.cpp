@@ -27,61 +27,64 @@ void signUp()
 
 	std::cout << "*** Molim unesite korisnicko ime koristeci alfanumericke znakove i simbole tacka (.) ili donja crta (_)";
 	std::cout << std::endl << "*** Molim unesite sigurnu lozinku koristeci alfanumericke znakove." << std::endl;
-
+	bool control = true;
 	do
 	{
-		controlIme = true;
-		controlLozinka = true;
-
-		std::cin.sync(); // Ciscenje ulaznog bafera.
-		std::cout << "\nMolim unesite korisnicko ime: ";
-		std::getline(std::cin, korisnickoIme);
-
-		for (int j = 0; j < (int)korisnickoIme.length(); j++) // Provjera da li unijeto korisnicko ime sadrzi nedozvoljene karaktere.
-			if (!(isalpha(korisnickoIme.at(j)) || isdigit(korisnickoIme.at(j)) || korisnickoIme.at(j) == '_' || korisnickoIme.at(j) == '.'))
-				controlIme = false;
-
-		std::cin.sync(); // Ciscenje ulaznog bafera.
-		std::cout << "Molim unesite lozinku: ";
-		std::getline(std::cin, lozinka);
-
-		for (int j = 0; j < (int)lozinka.length(); j++)  // Provjera da li unijeta lozinka sadrzi nedozvoljene karaktere.
-			if (!(isalpha(lozinka.at(j)) || isdigit(lozinka.at(j))))
-				controlLozinka = false;
-
-		std::cout << std::endl;
-
-		if (!controlIme)
-			std::cout << "Unijeli ste ime u pogresnom formatu.\n";
-
-		if (!controlLozinka)
-			std::cout << "Unijeli ste lozinku u pogresnom formatu.\n";
-	}
-	while (!controlIme || !controlLozinka);
-
-	std::ifstream datotekaSaNalozima; // Otvaranje datoteke za iscitavanje naloga kao "Input File Stream".
-	datotekaSaNalozima.open("nalozi.csv");
-
-	std::string compareUsername, demPassword;
-	bool control = true;
-
-	if (datotekaSaNalozima.is_open())
-		// Poredjenje naloga iz fajla sa unijetim nalogom.
-		while(!datotekaSaNalozima.eof())
+		do
 		{
-			getline(datotekaSaNalozima, compareUsername, ',');
-			getline(datotekaSaNalozima, demPassword);
+			controlIme = true;
+			controlLozinka = true;
 
-			if (!korisnickoIme.compare(compareUsername))
+			std::cin.sync(); // Ciscenje ulaznog bafera.
+			std::cout << "\nMolim unesite korisnicko ime: ";
+			std::getline(std::cin, korisnickoIme);
+
+			for (int j = 0; j < (int)korisnickoIme.length(); j++) // Provjera da li unijeto korisnicko ime sadrzi nedozvoljene karaktere.
+				if (!(isalpha(korisnickoIme.at(j)) || isdigit(korisnickoIme.at(j)) || korisnickoIme.at(j) == '_' || korisnickoIme.at(j) == '.'))
+					controlIme = false;
+
+			std::cin.sync(); // Ciscenje ulaznog bafera.
+			std::cout << "Molim unesite lozinku: ";
+			std::getline(std::cin, lozinka);
+
+			for (int j = 0; j < (int)lozinka.length(); j++)  // Provjera da li unijeta lozinka sadrzi nedozvoljene karaktere.
+				if (!(isalpha(lozinka.at(j)) || isdigit(lozinka.at(j))))
+					controlLozinka = false;
+
+			std::cout << std::endl;
+
+			if (!controlIme)
+				std::cout << "Unijeli ste ime u pogresnom formatu.\n";
+
+			if (!controlLozinka)
+				std::cout << "Unijeli ste lozinku u pogresnom formatu.\n";
+		} while (!controlIme || !controlLozinka);
+
+		std::ifstream datotekaSaNalozima; // Otvaranje datoteke za iscitavanje naloga kao "Input File Stream".
+		datotekaSaNalozima.open("nalozi.csv");
+
+		std::string compareUsername, demPassword;
+
+
+		if (datotekaSaNalozima.is_open())
+			// Poredjenje naloga iz fajla sa unijetim nalogom.
+			while (!datotekaSaNalozima.eof())
 			{
-				std::cout << "\nKorisnicko ime vec postoji.\n";
-				control  = false;
-				break;
+				getline(datotekaSaNalozima, compareUsername, ',');
+				getline(datotekaSaNalozima, demPassword);
+
+				if (!korisnickoIme.compare(compareUsername))
+				{
+					std::cout << "\nKorisnicko ime vec postoji.\n";
+					control = false;
+					break;
+				}
+				else
+					control = true;
 			}
-		}
 	// Zatvaranje datoteke u modu za pisanje.
 	datotekaSaNalozima.close();
-
+	} while (!control);
 	// Otvaranje datoteke u modu za upisivanje "Output File Stream" u "Append" modu.
 	std::ofstream datotekaSaNalozimaUpis;
 	datotekaSaNalozimaUpis.open("nalozi.csv", std::ios::app);

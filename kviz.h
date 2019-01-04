@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include <string>
 
 // Definicija strukture i tipa za jedno pitanje.
 typedef struct pitanja_odgovori

@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS 
 #include "igrac_igranje.h"
 #include "loto.h"
 #include "broj.h"
@@ -8,6 +9,7 @@
 #include <ctime>
 #include <random>
 #include <chrono>
+#include <sstream>
 
 Igrac::Igrac(const std::string& ime, const std::string& sifra) : korisnicko_ime(ime), sifra(sifra), dobitak(0), gubitak(0), stanje(10), pokusajBroj(0), pokusajLoto(0)
 {
@@ -379,7 +381,7 @@ bool Igrac::prijava(int redni_broj_igre)
 		std::getline(std::cin, str_unos);
 		if (str_gener.compare(str_unos) == 0)
 		{
-			prijavljen[redni_broj_igre] = 1;
+			prijavljen[redni_broj_igre-1] = 1;
 			return true;
 		}
 		else
@@ -387,8 +389,6 @@ bool Igrac::prijava(int redni_broj_igre)
 			std::cout << "Aktivacija igre neuspjesna. Pokusajte ponovo." << std::endl;
 		}
 	}
-	else
-		std::cout << "Nije usao" << std::endl;
 	return false;
 }
 
@@ -556,28 +556,28 @@ void Igrac::write(int line) const
 		for(int i=0; i<line; i++)
 			std::getline(file, tmp);
 	}
-	file << korisnicko_ime << "," << sifra;
-	file << stanje << "," << gubitak << "," << dobitak << "," << pokusajBroj << "," << pokusajLoto;
+	file << korisnicko_ime << "," << sifra << "\n";
+	file << stanje << "," << gubitak << "," << dobitak << "," << pokusajBroj << "," << pokusajLoto << "\n";
 	for(int i=0; i<4; i++)
 	{
 		if (i != 3)
-			file << otkazan << ",";
+			file << otkazan[i] << ",";
 		else
-			file << otkazan << std::endl;
+			file << otkazan[i] << "\n";
 	}
 	for(int i=0; i<4; i++)
 	{
 		if (i != 3)
 			file << prijavljen[i] << ",";
 		else
-			file << prijavljen[i] << std::endl;
+			file << prijavljen[i] << "\n";
 	}
 	for(int i=0; i<4; i++)
 	{
 		if (i != 3)
 			file << vrijeme_igranja[i] << ",";
 		else
-			file << vrijeme_igranja[i] << std::endl;
+			file << vrijeme_igranja[i] << "\n";
 	}
 	for(int i=0; i<4; i++)
 		nizovi[i].writeToFile(file);

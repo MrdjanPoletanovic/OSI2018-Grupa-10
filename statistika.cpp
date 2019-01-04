@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "statistika.h"
 #include <utility>
 #include <algorithm>
@@ -79,15 +80,6 @@ KruzniBafer::~KruzniBafer()
 }
 
 
-const Node& KruzniBafer::operator[](int i) const
-{
-	if (i<0 || i>=SIZE)
-		return errorNode;
-	else
-		return niz[i];
-}
-
-
 void KruzniBafer::enqueue(int x, const std::string& poruka, const std::string& vrijeme)
 {
 	niz[rear] = Node(x, poruka, vrijeme);
@@ -148,6 +140,8 @@ KruzniBafer::KruzniBafer(std::ifstream& file) : KruzniBafer()
 	{
 		std::getline(file, tmp1);
 		std::sscanf(tmp1.c_str(), "%d,%99s,%99s\n", &bodovi, poruka, vrijeme);
+		if (bodovi == -1)
+			break;
 		niz[rear] = Node(bodovi, poruka, vrijeme);
 	}
 }
@@ -155,7 +149,7 @@ KruzniBafer::KruzniBafer(std::ifstream& file) : KruzniBafer()
 
 std::ostream& operator<<(std::ostream& stream, const Node& n)
 {
-	return stream << n.rezultat << "," << n.poruka << "," << n.vrijeme << std::endl;
+	return stream << n.rezultat << "," << n.poruka << "," << n.vrijeme << "\n";
 }
 
 
@@ -164,6 +158,6 @@ void KruzniBafer::writeToFile(std::fstream& file) const
 	std::vector<Node> tmp = returnSorted();
 	for(auto x : tmp)
 		file << x;
-	for(int i=tmp.size()-1; i<SIZE-1; i++)
+	for(int i=tmp.size()-1; i<SIZE-2; i++)
 		file << errorNode;
 }

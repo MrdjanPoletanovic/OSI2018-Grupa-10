@@ -1,6 +1,8 @@
 #include "broj.h"
 #include <string>
 #include <iostream>
+#include <ctime>
+#include <random>
 
 int unos(int i)
 {
@@ -44,7 +46,7 @@ int unos(int i)
 
 int broj(int pokusaj)
 {
-	srand (time(0));
+	std::srand (std::time(0));
 	int zadaniBroj=rand()%100+1;
 	int s=rand()%5+1; //s je slucajan broj od 1 do 5 koji odlucuje u kojem pokusaju ce igra omoguciti pogodak (za prva 3 igranja)
 	int uneseniBroj,min=0,max=100, bodovi=0; //granice opsega koje se odredjuju tokom igranja

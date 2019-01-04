@@ -1,6 +1,7 @@
 #include "poker.h"
 #include <iostream>
-
+#include <random>
+#include <ctime>
 
 int poker(int stanje,int gubitak,int dobici)
 {
@@ -12,11 +13,8 @@ int poker(int stanje,int gubitak,int dobici)
         std::string filter;
 
         int  dobit,j;
-        srand(time(NULL));
-	stela=(rand()%3)==0;///
-
-	stanje=stanje-5;
-	gubitak+=5;
+        std::srand(std::time(NULL));
+	stela=(rand()%3)==0;
 	std::cout<<"Trenutno stanje na racunu je "<<stanje<<" bodova"<<std::endl;
 
 	j=0;

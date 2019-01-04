@@ -16,5 +16,4 @@ void mjenjanjeKarata(karta a[10],std::string odluke[5]);
 void sortiranjeKarata(karta a[10]);
 int dobitak(karta a[10]);
 void ispisDobitka(int dobit);
-bool nastavitiIgru();
 bool NamjestanjePoker(bool,int,int);

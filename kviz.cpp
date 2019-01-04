@@ -1,5 +1,4 @@
 #include "kviz.h"
-#include "baza.h"
 #include <iostream>
 #include <string>
 #include <fstream>
