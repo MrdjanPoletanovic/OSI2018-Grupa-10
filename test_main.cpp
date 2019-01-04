@@ -4,11 +4,13 @@
 #include "ResApl.h"
 #include <cstdio>
 
+
 int main()
 {
 	int control;
 	bool test;
 	std::string control_string;
+	printMenu();
 	std::cout << "Da li zelite da se registrujete ili prijavite ( 1 / 0 )?";
 	std::getline(std::cin, control_string);
 	control = std::stoi(control_string);
