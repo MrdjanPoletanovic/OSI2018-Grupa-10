@@ -65,7 +65,7 @@ void signUp()
 		std::ifstream datotekaSaNalozima; // Otvaranje datoteke za iscitavanje naloga kao "Input File Stream".
 		datotekaSaNalozima.open("nalozi.csv");
 
-		std::string compareUsername, demPassword;
+		std::string compareUsername, temp;
 
 
 		if (datotekaSaNalozima.is_open())
@@ -73,7 +73,9 @@ void signUp()
 			while (!datotekaSaNalozima.eof())
 			{
 				getline(datotekaSaNalozima, compareUsername, ',');
-				getline(datotekaSaNalozima, demPassword);
+				getline(datotekaSaNalozima, temp);
+                for (int k=1; k<=44; k++)
+                    getline(datotekaSaNalozima, temp);
 
 				if (!korisnickoIme.compare(compareUsername))
 				{
@@ -92,7 +94,11 @@ void signUp()
 	datotekaSaNalozimaUpis.open("nalozi.csv", std::ios::app);
 
 	if (control)
+    {
 		datotekaSaNalozimaUpis << korisnickoIme << ',' << lozinka << '\n'; // Formatiran upis korisnickog imena i lozinke u fajl.
+        for (int k=1; k<=44; k++)
+            datotekaSaNalozimaUpis << "\n";
+    }
 
 	datotekaSaNalozimaUpis.close();
 	return;
