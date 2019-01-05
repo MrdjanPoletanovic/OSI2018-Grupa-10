@@ -55,7 +55,7 @@ int broj(int pokusaj)
 	{
 		uneseniBroj = unos(i);
 		if(pokusaj<3 && s==i && s<5 && (uneseniBroj<min || uneseniBroj> max)) s++;
-		if (uneseniBroj==zadaniBroj || (pokusaj<=3 && s==i && uneseniBroj>min && uneseniBroj<max))
+		if (uneseniBroj==zadaniBroj || (pokusaj<3 && s==i && uneseniBroj>min && uneseniBroj<max))
 		{
 			std::cout<<"Pogodak!! Osvojili ste "<<100/i<<" bodova!!"<<std::endl;
 			bodovi=100/i;

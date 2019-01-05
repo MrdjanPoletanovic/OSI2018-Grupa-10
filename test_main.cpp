@@ -75,7 +75,14 @@ int main()
 			}
 			else if (opcija == "7")
 			{
-				RestartujApl();
+				std::cout << "\nOva opcija podrazumijeva vracanje aplikacije na fabricka podesavanja.\nDa li ste sigurni da zelite nastaviti?\n";
+				std::cout << "Unesite DA ako zelite nastaviti proces resetovanja: ";
+				std::string str;
+				std::getline(std::cin, str);
+				if (!str.compare("Da") || !str.compare("da") || !str.compare("DA") || !str.compare("dA"))
+					RestartujApl();
+				else
+					std::cout << "Aplikacija nece biti resetovana!\n";
 			}
 			else if (opcija == "8")
 			{

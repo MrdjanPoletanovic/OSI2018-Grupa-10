@@ -262,7 +262,7 @@ void Igrac::igraj_loto()
 		}
 	}
 	else
-		std::cout << "Igra je otkazana. Ne mozete je vise igrati" << std::endl;
+		std::cout << "Igra je otkazana. Ne mozete je vise igrati." << std::endl;
 }
 
 
@@ -289,7 +289,7 @@ void Igrac::igraj_broj()
 		}
 	}
 	else
-		std::cout << "Igra je otkazana. Ne mozete je vise igrati" << std::endl;
+		std::cout << "Igra je otkazana. Ne mozete je vise igrati." << std::endl;
 }
 
 
@@ -319,7 +319,7 @@ void Igrac::igraj_poker()
 		}
 	}
 	else
-		std::cout << "Igra je otkazana. Ne mozete je vise igrati" << std::endl;
+		std::cout << "Igra je otkazana. Ne mozete je vise igrati." << std::endl;
 }
 
 
@@ -359,6 +359,8 @@ void Igrac::igraj_kviz()
 			} while (provjera_kljuca(2, start, end) && igraj_ponovo());
 		}
 	}
+	else
+		std::cout << "Igra je otkazana. Ne mozete je vise igrati." << std::endl;
 }
 
 
@@ -518,12 +520,18 @@ void Igrac::otkazi_igru(int redni_broj)
 
 void Igrac::otkazi()
 {
-	std::cout << "Koju igru zelite otkazati?\n" << "1. Pogadjanje broja\n" << "2. Kviz\n" << "3. Loto\n" << "4. Video Poker\n";
-	std::cout << "Unesite indeks igre koju zelite otkazati: ";
+	std::cout << "Koju igru zelite otkazati?\n" << "1. Pogadjanje broja\n" << "2. Kviz\n" << "3. Loto\n" << "4. Video Poker\n" << "5. Odustani\n";
+	std::cout << "Unesite indeks ispred opcije koju zelite izabrati: ";
 	std::string odgovor;
 	std::getline(std::cin, odgovor);
-	int a = std::stoi(odgovor);
-	otkazi_igru(a);
+	
+	if (!odgovor.compare("1") || !odgovor.compare("2") || !odgovor.compare("3") || !odgovor.compare("4"))
+	{
+		int a = std::stoi(odgovor);
+		otkazi_igru(a);
+	}
+	else
+		std::cout << "\nNijedna igra nije otkazana!\n";
 
 }
 

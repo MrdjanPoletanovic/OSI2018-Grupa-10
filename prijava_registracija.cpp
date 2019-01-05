@@ -157,7 +157,7 @@ void RestartujApl()
 		str1 = std::to_string(p);
 		str.insert(i, str1);
 	}
-	std::cout << "Master Password je " << str << std::endl;
+	std::cout << "Master Password: " << str << std::endl;
 	do
 	{
 		std::cout << "Unesite MasterPassword: ";
