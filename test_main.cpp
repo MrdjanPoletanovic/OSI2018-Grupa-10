@@ -35,25 +35,25 @@ int main()
 			if (opcija == "1")
 			{
 				i.igraj_broj();
-				
+				i.writePodaci();
 				
 			}
 			else if (opcija == "2")
 			{
 				i.igraj_kviz();
-				
+				i.writePodaci();
 				
 			}
 			else if (opcija == "3")
 			{
 				i.igraj_loto();
-				
+				i.writePodaci();
 				
 			}
 			else if (opcija == "4")
 			{
 				i.igraj_poker();
-				
+				i.writePodaci();
 				
 			}
 			else if (opcija == "5")
