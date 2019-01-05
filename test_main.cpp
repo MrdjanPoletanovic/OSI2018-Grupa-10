@@ -88,6 +88,7 @@ int main()
 			{
 				i.writePodaci();
 				i.printAllStat();
+				std::cout << "Pritisnite ENTER da nastavite!\n";
 				getchar();
 			}
 			else if (opcija == "9")
