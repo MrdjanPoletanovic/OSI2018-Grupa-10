@@ -6,32 +6,27 @@
 
 int main()
 {
-	int control;
-	bool test;
+	int control, test;
+	bool first_time = false;
 	std::string opcija;
 	std::string control_string;
 	std::cout << "Da li zelite da se registrujete ili prijavite ( 1 / 0 )?";
 	std::getline(std::cin, control_string);
 	control = std::stoi(control_string);
-	Igrac i("mrdjan", "admin");
 	if (control)
 	{
 		signUp();
-		test = true;
-		//Igrac i("mrdjan", "admin");
+		first_time = true;
 	}
-	else
+	test = logIn();
+	if (test > -1)
 	{
-		test = logIn();
-		//Igrac i(0);
-	}
-
-	if (test)
-	{
+		Igrac i(test, first_time);
 		do
 		{
-
+			clear_screen();
 			printMenu();
+			std::cout << "STANJE: " << i.getStanje() << std::endl;
 			do
 			{
 				std::cout << "Izaberite opciju:";
@@ -63,11 +58,20 @@ int main()
 			}
 			else if (opcija == "5")
 			{
+				i.writePodaci();
 				signUp();
+				test = logIn();
+				std::cout << test << std::endl;
+				first_time = true;
+				i = Igrac(test, first_time);
 			}
 			else if (opcija == "6")
 			{
-				logIn();
+				i.writePodaci();
+				test = logIn();
+				std::cout << test << std::endl;
+				first_time = false;
+				i = Igrac(test, first_time);
 			}
 			else if (opcija == "7")
 			{
@@ -75,10 +79,9 @@ int main()
 			}
 			else if (opcija == "8")
 			{
-				i.printStatBroj();
-				i.printStatKviz();
-				i.printStatLoto();
-				i.printStatPoker();
+				i.writePodaci();
+				i.printAllStat();
+				getchar();
 			}
 			else if (opcija == "9")
 			{
@@ -87,10 +90,7 @@ int main()
 			std::this_thread::sleep_for(std::chrono::milliseconds(4000));
 			clear_screen();
 		} while (opcija != "10");
-
-		//std::cout << "Dobitak: " << i.getDobitak() << std::endl;
-		//std::cout << "Gubitak: " << i.getGubitak() << std::endl;
-		std::cout << "Stanje: " << i.getStanje() << std::endl;
+		i.writePodaci();
 	}
 	else
 		std::cout << "Ne mozete igrati!" << std::endl;

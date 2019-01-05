@@ -9,16 +9,23 @@
 #include <ctime>
 #include <random>
 
-bool logIn()
+int logIn()
 {
-    std::cout<<"User name: ";
-    std::string name;
-    std::getline(std::cin, name);
-    std::cout<<"Password: ";
-    std::string password;
-	std::getline(std::cin, password);
-    if(provjera(name, password)) return true;
-    else return false;
+	int i = -1, pokusaji = 0;
+	do
+	{
+		pokusaji++;
+		std::cout << "User name: ";
+		std::string name;
+		std::getline(std::cin, name);
+		std::cout << "Password: ";
+		std::string password;
+		std::getline(std::cin, password);
+		i = provjera(name, password);
+	} while (i == -1 && pokusaji < 3);
+	if (pokusaji >= 3)
+		std::cout << "Ukoliko ne mozete da se sjetite sifre ili nemate profil pokusajte sa registracijom." << std::endl;
+	return i;
 }
 
 
@@ -96,8 +103,8 @@ void signUp()
 	if (control)
     {
 		datotekaSaNalozimaUpis << korisnickoIme << ',' << lozinka << '\n'; // Formatiran upis korisnickog imena i lozinke u fajl.
-        for (int k=1; k<=44; k++)
-            datotekaSaNalozimaUpis << "\n";
+		for (int i = 0; i < 44; i++)
+			datotekaSaNalozimaUpis << "\n";
     }
 
 	datotekaSaNalozimaUpis.close();
@@ -105,22 +112,24 @@ void signUp()
 }
 
 
-bool provjera(std::string &userName, std::string &password)
+int provjera(std::string &userName, std::string &password)
 {
     std::ifstream dataBase;
 	std::string test;
+	int i = 0;
     dataBase.open("nalozi.csv");          //otvaranje csv fajla pod imenom "nalozi"; po potrebi promijeniti naziv fajla
     while(dataBase.good())
     {
         std::string _name, _password;
         std::getline(dataBase, _name, ',');
-        std::getline(dataBase, _password, '\n'); // pretpostavka da u tabeli postoje samo 2 kolone: username i password
+        std::getline(dataBase, _password); // pretpostavka da u tabeli postoje samo 2 kolone: username i password
+		if (userName.compare(_name) == 0 && password.compare(_password) == 0)
+			return i;
 		for (int i = 0; i < 44; i++)
-			std::getline(dataBase, test,'\n');
-        if(userName.compare(_name)==0 && password.compare(_password)==0)
-            return true;
+			std::getline(dataBase, test);
+		i += 45;
     }
-    return false;
+    return -1;
 }
 
 void printMenu()
@@ -162,5 +171,5 @@ void RestartujApl()
 			std::cout << "Pogresan MasterPassword pokusajte ponovo" << std::endl;
 		}
 	} while (str.compare(MasterPassword) != 0);
-
+	std::cout << "Aplikacija je uspjesno restartovana!" << std::endl;
 }

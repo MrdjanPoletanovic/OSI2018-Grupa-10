@@ -75,8 +75,11 @@ void KruzniBafer::move(KruzniBafer&& other)
 
 KruzniBafer::~KruzniBafer()
 {
-	delete [] niz;
-	niz = nullptr;
+	if (niz != nullptr)
+	{
+		delete[] niz;
+		niz = nullptr;
+	}
 	front = rear = 0;
 }
 
@@ -108,15 +111,15 @@ void KruzniBafer::print() const
 	if (front != rear)
 	{
 		std::vector<Node> tmp = returnSorted();
-		std::cout << "----------------------------------------------------------------" << std::endl;;
-		std::cout << "| BODOVI |            PORUKA            |       VRIJEME        |";
-		std::cout << "----------------------------------------------------------------" << std::endl;;
+		std::cout << "-------------------------------------------------------------------------------" << std::endl;
+		std::cout << "| BODOVI |            PORUKA                           |       VRIJEME        |" <<std::endl;
+		std::cout << "-------------------------------------------------------------------------------" << std::endl;
 		for(auto x : tmp)
 		{
-			std::cout << "| "<< std::setw(6) <<x.rezultat << " |  " << std::setw(30) << x.poruka << " |  ";
-			std::cout << std::setw(20) << x.vrijeme << " |" << std::endl;
+			std::cout << "| "<< std::setw(6) <<x.rezultat << " |  " << std::setw(42) << x.poruka << " |  ";
+			std::cout << std::setw(19) << x.vrijeme << " |" << std::endl;
 		}
-		std::cout << "----------------------------------------------------------------" << std::endl;;
+		std::cout << "-------------------------------------------------------------------------------" << std::endl;;
 		std::cout << std::endl;
 	}
 	else
@@ -146,18 +149,21 @@ KruzniBafer::KruzniBafer(std::ifstream& file) : KruzniBafer()
 	for(rear=0; rear<MAX-1; rear++)
 	{
 		std::getline(file, tmp1, ',');
-		if ((bodovi = std::stoi(tmp1)) == -1)
+		bodovi = std::stoi(tmp1);
+		if (bodovi == -1)
 			break;
 		std::getline(file, tmp1, ',');
-		std::getline(file, tmp2, ',');
+		std::getline(file, tmp2);
 		niz[rear] = Node(bodovi, tmp1, tmp2);
 	}
+	for (int i = rear; i < MAX - 1; i++)
+		std::getline(file, tmp1);
 }
 
 
 std::ostream& operator<<(std::ostream& stream, const Node& n)
 {
-	return stream << n.rezultat << "," << n.poruka << "," << n.vrijeme << std::endl;
+	return stream << n.rezultat << "," << n.poruka << "," << n.vrijeme << "\n";
 }
 
 
@@ -166,6 +172,6 @@ void KruzniBafer::writeToFile(std::fstream& file) const
 	std::vector<Node> tmp = returnSorted();
 	for(auto x : tmp)
 		file << x;
-	for(int i=tmp.size()-1; i<MAX-2; i++)
+	for(int i=tmp.size(); i<MAX-1; i++)
 		file << errorNode;
 }

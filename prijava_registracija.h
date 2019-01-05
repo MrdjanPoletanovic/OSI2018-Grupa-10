@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 
-bool logIn();
+int logIn();
 void signUp();
-bool provjera(std::string&, std::string&);
+int provjera(std::string&, std::string&);
 void printMenu();
 void RestartujApl();

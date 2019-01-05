@@ -14,6 +14,8 @@ class Igrac
 	double vrijeme_igranja[4];
 public:
 	Igrac(int, bool);
+	Igrac(const Igrac&);
+	Igrac& operator=(const Igrac&);
 	//inline int getDobitak() const {return dobitak;}
 	//inline int getGubitak() const{return gubitak;}
 	inline int getStanje() const {return stanje;}
@@ -31,6 +33,7 @@ public:
 	void igraj_kviz();
 	~Igrac();
 private:
+	void copy(const Igrac&);
 	bool prijava(int);
 	void fill(std::string&);
 	std::string generate(std::string);

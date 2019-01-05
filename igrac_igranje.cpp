@@ -26,11 +26,14 @@ Igrac::Igrac(int line, bool first_time)
 			std::getline(file, tmp);
 		std::getline(file, tmp, ',');
 		korisnicko_ime = tmp;
-		if (first_time)
+		std::getline(file, tmp);
+		sifra = tmp;
+		std::cout << sifra << korisnicko_ime << std::endl;
+		if (first_time || std::getline(file, tmp, ',').eof())
 		{
 			stanje = 10;
 			dobitak = gubitak = pokusajLoto = pokusajBroj = 0;
-			for(int i=0; i<4; i++)
+			for(int i=0; i<4; i++)	
 			{
 				prijavljen[i] = otkazan[i] = 0;
 				vrijeme_igranja[i] = 0;
@@ -38,9 +41,6 @@ Igrac::Igrac(int line, bool first_time)
 		}
 		else
 		{
-			std::getline(file, tmp);
-			sifra = tmp;
-			std::getline(file, tmp, ',');
 			stanje = std::stoi(tmp);
 			std::getline(file, tmp, ',');
 			gubitak = std::stoi(tmp);
@@ -76,11 +76,46 @@ Igrac::Igrac(int line, bool first_time)
 			}
 			for(int i=0; i<4; i++)
 				nizovi[i] = KruzniBafer(file);
+			std::cout << "TEST\n";
 			file.close();
 		}
+		if (!first_time)
+			std::cout << "Pozdrav, " << korisnicko_ime << std::endl;
 	}
 }
 
+
+Igrac::Igrac(const Igrac& other)
+{
+	copy(other);
+}
+
+
+Igrac& Igrac::operator=(const Igrac& other)
+{
+	if (this != &other)
+	{
+		copy(other);
+	}
+	return *this;
+}
+
+
+void Igrac::copy(const Igrac& other)
+{
+	stanje = other.stanje;
+	gubitak = other.gubitak;
+	dobitak = other.dobitak;
+	pokusajBroj = other.pokusajBroj;
+	pokusajLoto = other.pokusajLoto;
+	for (int i = 0; i < 4; i++)
+	{
+		nizovi[i] = other.nizovi[i];
+		prijavljen[i] = other.prijavljen[i];
+		otkazan[i] = other.otkazan[i];
+		vrijeme_igranja[i] = other.vrijeme_igranja[i];
+	}
+}
 
 std::string convertBodoviToMessageLoto(int x)
 {
@@ -291,7 +326,7 @@ void Igrac::igraj_poker()
 std::string convertBodoviToMessageKviz (int tacni, int netacni, int neodgovoreni)
 {
 	char tmp[100];
-        snprintf(tmp, sizeof(tmp), "%d tacnih, %d netacnih odgovora i %d neodgovorenih pitanja", tacni, netacni, neodgovoreni);
+        snprintf(tmp, 45, "%d tacnih %d netacnih %d neodgovorenih", tacni, netacni, neodgovoreni);
 	std::string poruka = tmp;
 	return poruka;
 }
@@ -318,7 +353,8 @@ void Igrac::igraj_kviz()
 				bodovi = kviz(stanje, tacni, netacni, neodgovoreni);
 				nizovi[1].enqueue(bodovi, convertBodoviToMessageKviz(tacni, netacni, neodgovoreni), getTime());
 				stanje += bodovi;
-				dobitak += bodovi;
+				dobitak += (tacni < 5) ? tacni*20 : tacni*20+50;
+				gubitak += netacni * 30 + neodgovoreni*10;
 				end = std::time(0);
 			} while (provjera_kljuca(2, start, end) && igraj_ponovo());
 		}
@@ -554,6 +590,7 @@ int Igrac::findName() const
 			std::getline(file, tmp);
 			for(int i=0; i<44; i++)
 				std::getline(file, tmp);
+			line += 45;
 		}
 	}
 	return -1;
