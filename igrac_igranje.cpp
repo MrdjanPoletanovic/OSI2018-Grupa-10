@@ -3,7 +3,7 @@
 #include "loto.h"
 #include "broj.h"
 #include "poker.h"
-#include "kviz.h"
+//#include "kviz.h"
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -381,7 +381,7 @@ std::string convertBodoviToMessageKviz (int tacni, int netacni, int neodgovoreni
 	return poruka;
 }
 
-
+/*
 void Igrac::igraj_kviz()
 {
 	if (otkazan[1] == 0)
@@ -414,7 +414,7 @@ void Igrac::igraj_kviz()
 	else
 		std::cout << "Igra je otkazana. Ne mozete je vise igrati." << std::endl;
 }
-
+*/
 
 
 
@@ -667,43 +667,53 @@ void Igrac::writePodaci() const
 
 void Igrac::write(int line) const
 {
-	std::fstream file;
+	std::ifstream file;
+	std::ofstream new_file("new_file.csv");
+	std::string content;
 	if (line == -1)
 		file.open(naziv_datoteke, std::ios::app);
 	else
 	{
-		std::string tmp;
 		file.open(naziv_datoteke);
 		for(int i=0; i<line; i++)
-			std::getline(file, tmp);
+		{
+			std::getline(file, content);
+			new_file << content << "\n";
+		}
 	}
-	file.seekp(file.tellg(), std::ios::beg);
-	file << korisnicko_ime << "," << sifra << std::endl;
-	file << stanje << "," << gubitak << "," << dobitak << "," << pokusajBroj << "," << pokusajLoto << std::endl;
+	new_file << korisnicko_ime << "," << sifra << "\n";
+	new_file << stanje << "," << gubitak << "," << dobitak << "," << pokusajBroj << "," << pokusajLoto << "\n";
 	for(int i=0; i<broj_elemenata; i++)
 	{
 		if (i != 3)
-			file << otkazan[i] << ",";
+			new_file << otkazan[i] << ",";
 		else
-			file << otkazan[i] << std::endl;
-	}
-	for(int i=0; i<broj_elemenata; i++)
-	{
-		if (i != 3)
-			file << prijavljen[i] << ",";
-		else
-			file << prijavljen[i] << std::endl;
+			new_file << otkazan[i] << "\n";
 	}
 	for(int i=0; i<broj_elemenata; i++)
 	{
 		if (i != 3)
-			file << vrijeme_igranja[i] << ",";
+			new_file << prijavljen[i] << ",";
 		else
-			file << vrijeme_igranja[i] << std::endl;
+			new_file << prijavljen[i] << "\n";
 	}
 	for(int i=0; i<broj_elemenata; i++)
-		file << nizovi[i];
+	{
+		if (i != 3)
+			new_file << vrijeme_igranja[i] << ",";
+		else
+			new_file << vrijeme_igranja[i] << "\n";
+	}
+	for(int i=0; i<broj_elemenata; i++)
+		new_file << nizovi[i];
+	for(int i=0; i<45; i++)
+		std::getline(file, content);
+	while(std::getline(file, content))
+		new_file << content << "\n";
 	file.close();
+	new_file.close();
+	std::remove("nalozi.csv");
+	std::rename("new_file.csv", "nalozi.csv");
 }
 
 

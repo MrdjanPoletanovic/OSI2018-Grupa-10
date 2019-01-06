@@ -34,7 +34,7 @@ int main()
 		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 		clear_screen();
 	}
-	Igrac i(test, first_time);
+	Igrac i = Igrac(test, first_time);
 	do
 	{
 		clear_screen();
@@ -53,7 +53,7 @@ int main()
 		}
 		else if (opcija == "2")
 		{
-			i.igraj_kviz();
+			//i.igraj_kviz();
 			i.writePodaci(); //upis podataka u toku igranja mozda, jer ako se izadje na x ne izvrsi se upis u datoteku sa novim stanjem
 
 		}
@@ -74,7 +74,6 @@ int main()
 			i.writePodaci();
 			signUp();
 			test = logIn();
-			std::cout << test << std::endl;
 			first_time = true;
 			i = Igrac(test, first_time);
 		}
@@ -82,7 +81,6 @@ int main()
 		{
 			i.writePodaci();
 			test = logIn();
-			std::cout << test << std::endl;
 			first_time = false;
 			i = Igrac(test, first_time);
 		}

@@ -97,7 +97,7 @@ void signUp()
 					control = true;
 			}
 	// Zatvaranje datoteke u modu za pisanje.
-	datotekaSaNalozima.close();
+		datotekaSaNalozima.close();
 	} while (!control);
 	// Otvaranje datoteke u modu za upisivanje "Output File Stream" u "Append" modu.
 	std::ofstream datotekaSaNalozimaUpis;
@@ -126,11 +126,15 @@ int provjera(std::string &userName, std::string &password)
         std::getline(dataBase, _name, ',');
         std::getline(dataBase, _password); // pretpostavka da u tabeli postoje samo 2 kolone: username i password
 		if (userName.compare(_name) == 0 && password.compare(_password) == 0)
+		{
+			dataBase.close();
 			return i;
+		}
 		for (int j = 0; j < 44; j++)
 			std::getline(dataBase, test);
 		i += 45;
     }
+    dataBase.close();
     return -1;
 }
 
@@ -181,5 +185,4 @@ void RestartujApl()
 				std::cout << "Iskoristili ste sve pokusaje!" << std::endl;
 		}
 	} while (control < 3);
-	
 }
