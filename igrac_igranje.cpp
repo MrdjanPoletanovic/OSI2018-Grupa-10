@@ -239,6 +239,7 @@ void Igrac::igraj_loto()
 		if (prijava(3))
 		{
 			int bodovi;
+			printPravilaLoto();
 			time_t start, end=std::time(0);
 			do
 			{
@@ -273,6 +274,7 @@ void Igrac::igraj_broj()
 		if (prijava(1))
 		{
 			int bodovi;
+			printPravilaBroj();
 			time_t start, end=std::time(0);
 			do
 			{
@@ -300,6 +302,7 @@ void Igrac::igraj_poker()
 		if (prijava(4))
 		{
 			int bodovi;
+			printPravilaPoker();
 			do
 			{
 				if (stanje < 5)
@@ -310,7 +313,6 @@ void Igrac::igraj_poker()
 				clear_screen();
 				gubitak += 5;
 				stanje -= 5;
-				printPravilaPoker();
 				bodovi = poker(stanje, dobitak, gubitak);
 				nizovi[3].enqueue(bodovi, convertBodoviToMessagePoker(bodovi), getTime());
 				dobitak += bodovi;
@@ -340,6 +342,7 @@ void Igrac::igraj_kviz()
 		if (prijava(2))
 		{
 			int bodovi, tacni = 0, netacni = 0, neodgovoreni = 0;
+			printPravilaKviz();
 			time_t start, end = std::time(0);
 			do
 			{

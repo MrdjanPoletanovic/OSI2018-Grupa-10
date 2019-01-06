@@ -3,8 +3,7 @@
 #include <iostream>
 #include <ctime>
 #include <random>
-#include <thread>
-#include <chrono>
+#include "igrac_igranje.h"
 
 int unos(int i)
 {
@@ -48,8 +47,6 @@ int unos(int i)
 
 int broj(int pokusaj)
 {
-	printPravilaBroj();
-	std::this_thread::sleep_for(std::chrono::milliseconds(2200));
 	std::srand (std::time(0));
 	int zadaniBroj=rand()%100+1;
 	int s=rand()%5+1; //s je slucajan broj od 1 do 5 koji odlucuje u kojem pokusaju ce igra omoguciti pogodak (za prva 3 igranja)
@@ -96,8 +93,12 @@ bool namjestanje (int pokusaj, int s, int i, int uneseniBroj, int min, int max)
 
 void printPravilaBroj()
 {
+	clear_screen();
 	std::cout << "PRAVILA: " << std::endl << std::endl << "**********" << std::endl << std::endl << "- Imate 5 pokusaja za pogadjanje trazenog broja.";
-	std::cout << std::endl << "- Unosite brojeve od 0 do 100.";
+	std::cout << std::endl << "- Unosite brojeve od 1 do 100.";
 	std::cout << std::endl << "- Tacno pogodjen broj nosi 100/broj_pokusaja bodova." << std::endl << "- Nema negativnih bodova." << std::endl ;
 	std::cout << std::endl  << "**********" << std::endl << std::endl;
+	std::cout << "Da nastavite, pritisnite ENTER!" << std::endl;
+	getchar();
+	clear_screen();
 }

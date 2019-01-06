@@ -6,6 +6,7 @@
 #include <ctime>
 #include <random>
 #include <cmath>
+#include "igrac_igranje.h"
 
 
 using std::cin;
@@ -175,12 +176,7 @@ int kviz(int& stanje, int& tacni, int& netacni, int& neodgovoreni)
 
 	// Kod za ispis pitanja i unos odgovora.
 	{
-		cout << "PRAVILA: " << endl << endl << "**********" << endl << endl << "- Imate 10 sekundi i 3 pokusaja da ispravno odgovorite na svako pitanje.";
-		cout << endl << "- Odgovarate pritiskom na dugme ispred rednog broja odgovora (1, 2 ili 3)";
-		cout << endl << "- Svaki tacan odgovor nosi 20 bodova." << endl << "- Svaki netacan odgovor oduzima 30 bodova." << endl << "- Svako neodgovoreno pitanje, oduzima 10 bodova.";
-		cout << endl << "- Tacni odgovori na svih 5 pitanja nose dodatnih 50 bodova." << endl << endl << "**********" << endl << endl;
-		Sleep(3000);
-
+		
 		// For petlja za ispisivanje 5 unaprijed dodjeljenih struktura PITANJE.
 		for (int i = 0; i < 5; i++)
 		{
@@ -274,11 +270,22 @@ int kviz(int& stanje, int& tacni, int& netacni, int& neodgovoreni)
 		}
 
 		if (brojTacnihOdgovora == 5)
-        	{
-            		bodovi += 50;
+        {
+            bodovi += 50;
 			stanje += 50;
-        	}
+        }
 	}
 	
 	return bodovi;
+}
+void printPravilaKviz()
+{
+	clear_screen();
+	cout << "PRAVILA: " << endl << endl << "**********" << endl << endl << "- Imate 10 sekundi i 3 pokusaja da ispravno odgovorite na svako pitanje.";
+	cout << endl << "- Odgovarate pritiskom na dugme ispred rednog broja odgovora (1, 2 ili 3)";
+	cout << endl << "- Svaki tacan odgovor nosi 20 bodova." << endl << "- Svaki netacan odgovor oduzima 30 bodova." << endl << "- Svako neodgovoreno pitanje, oduzima 10 bodova.";
+	cout << endl << "- Tacni odgovori na svih 5 pitanja nose dodatnih 50 bodova." << endl << endl << "**********" << endl << endl;
+	std::cout << "Da nastavite, pritisnite ENTER!" << std::endl;
+	getchar();
+	clear_screen();
 }

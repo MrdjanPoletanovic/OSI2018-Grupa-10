@@ -2,6 +2,7 @@
 #include <iostream>
 #include <random>
 #include <ctime>
+#include "igrac_igranje.h"
 
 int poker(int stanje,int gubitak,int dobici)
 {
@@ -15,8 +16,6 @@ int poker(int stanje,int gubitak,int dobici)
         int  dobit,j;
         std::srand(std::time(NULL));
 	stela=(rand()%3)==0;
-	std::cout<<"Trenutno stanje na racunu je "<<stanje<<" bodova"<<std::endl;
-
 	j=0;
 	do
 	{
@@ -250,11 +249,16 @@ bool NamjestanjePoker(bool stela,int ukupna_dobit,int gubitak)
 
 void printPravilaPoker()
 {
+	clear_screen();
 	std::cout << "PRAVILA: " << std::endl << std::endl << "**********" << std::endl << std::endl << "- Prikazano je 5 karata (broj i znak karte).";
 	std::cout << std::endl << "- Pisanjem rijeci 'da' ili 'ne' ispod odabranih karata birate koje karte ostaju, i koje karte se mijenjaju.";
+	std::cout << std::endl << "- Potrebno izabrati Raster Font u podesavanju konzole.";
 	std::cout << std::endl << "- Royal Flash - 4000 bodova " << std::endl << "- Straight Flash - 250 bodova." << std::endl;
 	std::cout << "- Four of a Kind - 125 bodova. " << std::endl  << "- Full House - 45 bodova. " << std::endl;
 	std::cout << "- Flush - 30 bodova. " << std::endl << "- Straight - 20 bodova." << std::endl << "- Three of a Kind - 15 bodova. " << std::endl;
 	std::cout << "- Two Pairs - 10 bodova." << std::endl << "- Jacks or Better - 5 bodova" << std::endl;
 	std::cout << std::endl << "**********" << std::endl << std::endl;
+	std::cout << "Da nastavite, pritisnite ENTER!" << std::endl;
+	getchar();
+	clear_screen();
 }

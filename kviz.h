@@ -15,3 +15,4 @@ void pisanjePitanjaCSV();
 void pisiPitanjeIOdgovore(PITANJA, int);
 bool pritisakNaDugme (DWORD, char&);
 int kviz(int&, int&, int&, int&);
+void printPravilaKviz();
