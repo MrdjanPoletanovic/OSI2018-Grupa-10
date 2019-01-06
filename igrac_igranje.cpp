@@ -12,12 +12,14 @@
 #include <chrono>
 #include <thread>
 #include <sstream>
+#include <utility>
 
 
 constexpr auto naziv_datoteke = "nalozi.csv";
+constexpr auto broj_elemenata = 4;
 
 
-Igrac::Igrac(int line, bool first_time)
+Igrac::Igrac(int line, bool first_time) : nizovi(new KruzniBafer[broj_elemenata]), otkazan(new int[broj_elemenata]), prijavljen(new int[broj_elemenata]), vrijeme_igranja(new double[broj_elemenata])
 {
 	std::ifstream file(naziv_datoteke);
 	if (file.is_open())
@@ -34,7 +36,7 @@ Igrac::Igrac(int line, bool first_time)
 		{
 			stanje = 10;
 			dobitak = gubitak = pokusajLoto = pokusajBroj = 0;
-			for(int i=0; i<4; i++)
+			for(int i=0; i<broj_elemenata; i++)
 			{
 				prijavljen[i] = otkazan[i] = 0;
 				vrijeme_igranja[i] = 0;
@@ -51,7 +53,7 @@ Igrac::Igrac(int line, bool first_time)
 			pokusajBroj= std::stoi(tmp);
 			std::getline(file, tmp);
 			pokusajLoto = std::stoi(tmp);
-			for(int i=0; i<4; i++)
+			for(int i=0; i<broj_elemenata; i++)
 			{
 				if (i != 3)
 					std::getline(file, tmp, ',');
@@ -59,7 +61,7 @@ Igrac::Igrac(int line, bool first_time)
 					std::getline(file, tmp);
 				otkazan[i] = std::stoi(tmp);
 			}
-			for(int i=0; i<4; i++)
+			for(int i=0; i<broj_elemenata; i++)
 			{
 				if (i != 3)
 					std::getline(file, tmp, ',');
@@ -67,7 +69,7 @@ Igrac::Igrac(int line, bool first_time)
 					std::getline(file, tmp);
 				prijavljen[i] = std::stoi(tmp);
 			}
-			for(int i=0; i<4; i++)
+			for(int i=0; i<broj_elemenata; i++)
 			{
 				if (i != 3)
 					std::getline(file, tmp, ',');
@@ -75,7 +77,7 @@ Igrac::Igrac(int line, bool first_time)
 					std::getline(file, tmp);
 				vrijeme_igranja[i] = std::stod(tmp);
 			}
-			for(int i=0; i<4; i++)
+			for(int i=0; i<broj_elemenata; i++)
 				nizovi[i].readFromFile(file);
 			std::cout << "TEST\n";
 			file.close();
@@ -92,13 +94,57 @@ Igrac::Igrac(const Igrac& other)
 }
 
 
+Igrac::Igrac(Igrac&& other)
+{
+	move(std::move(other));
+}
+
+
 Igrac& Igrac::operator=(const Igrac& other)
 {
 	if (this != &other)
 	{
+		this->~Igrac();
 		copy(other);
 	}
 	return *this;
+}
+
+
+Igrac& Igrac::operator=(Igrac&& other)
+{
+	if (this != &other)
+	{
+		this->~Igrac();
+		move(std::move(other));
+	}
+	return *this;
+}
+
+
+Igrac::~Igrac()
+{
+	delete [] nizovi;
+	delete [] otkazan;
+	delete [] prijavljen;
+	delete [] vrijeme_igranja;
+}
+
+
+void Igrac::move(Igrac&& other)
+{
+	stanje = std::move(other.stanje);
+	dobitak = std::move(other.dobitak);
+	gubitak = std::move(other.gubitak);
+	pokusajBroj = std::move(other.pokusajBroj);
+	pokusajLoto = std::move(other.pokusajLoto);
+	nizovi = other.nizovi;
+	prijavljen = other.prijavljen;
+	otkazan = other.otkazan;
+	vrijeme_igranja = other.vrijeme_igranja;
+	other.nizovi = nullptr;
+	other.prijavljen = other.otkazan = nullptr;
+	other.vrijeme_igranja = nullptr;
 }
 
 
@@ -109,7 +155,7 @@ void Igrac::copy(const Igrac& other)
 	dobitak = other.dobitak;
 	pokusajBroj = other.pokusajBroj;
 	pokusajLoto = other.pokusajLoto;
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < broj_elemenata; i++)
 	{
 		nizovi[i] = other.nizovi[i];
 		prijavljen[i] = other.prijavljen[i];
@@ -371,6 +417,7 @@ void Igrac::igraj_kviz()
 
 
 
+
 void clear_screen()
 {
 #ifdef _WIN32
@@ -618,12 +665,6 @@ void Igrac::writePodaci() const
 }
 
 
-Igrac::~Igrac()
-{
-	//write(findName());
-}
-
-
 void Igrac::write(int line) const
 {
 	std::fstream file;
@@ -639,28 +680,28 @@ void Igrac::write(int line) const
 	file.seekp(file.tellg(), std::ios::beg);
 	file << korisnicko_ime << "," << sifra << std::endl;
 	file << stanje << "," << gubitak << "," << dobitak << "," << pokusajBroj << "," << pokusajLoto << std::endl;
-	for(int i=0; i<4; i++)
+	for(int i=0; i<broj_elemenata; i++)
 	{
 		if (i != 3)
 			file << otkazan[i] << ",";
 		else
 			file << otkazan[i] << std::endl;
 	}
-	for(int i=0; i<4; i++)
+	for(int i=0; i<broj_elemenata; i++)
 	{
 		if (i != 3)
 			file << prijavljen[i] << ",";
 		else
 			file << prijavljen[i] << std::endl;
 	}
-	for(int i=0; i<4; i++)
+	for(int i=0; i<broj_elemenata; i++)
 	{
 		if (i != 3)
 			file << vrijeme_igranja[i] << ",";
 		else
 			file << vrijeme_igranja[i] << std::endl;
 	}
-	for(int i=0; i<4; i++)
+	for(int i=0; i<broj_elemenata; i++)
 		file << nizovi[i];
 	file.close();
 }

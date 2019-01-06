@@ -9,13 +9,15 @@ class Igrac
 	std::string sifra;
 	int dobitak, gubitak, stanje;
 	int pokusajBroj, pokusajLoto;
-	KruzniBafer nizovi[4];
-	int otkazan[4], prijavljen[4];
-	double vrijeme_igranja[4];
+	KruzniBafer *nizovi;
+	int *otkazan, *prijavljen;
+	double *vrijeme_igranja;
 public:
 	Igrac(int, bool);
 	Igrac(const Igrac&);
+	Igrac(Igrac&&);
 	Igrac& operator=(const Igrac&);
+	Igrac& operator=(Igrac&&);
 	//inline int getDobitak() const {return dobitak;}
 	//inline int getGubitak() const{return gubitak;}
 	inline int getStanje() const {return stanje;}
@@ -33,6 +35,7 @@ public:
 	void igraj_kviz();
 	~Igrac();
 private:
+	void move(Igrac&&);
 	void copy(const Igrac&);
 	bool prijava(int);
 	void fill(std::string&);
