@@ -133,6 +133,8 @@ Igrac::~Igrac()
 
 void Igrac::move(Igrac&& other)
 {
+	korisnicko_ime = std::move(other.korisnicko_ime);
+	sifra = std::move(other.sifra);
 	stanje = std::move(other.stanje);
 	dobitak = std::move(other.dobitak);
 	gubitak = std::move(other.gubitak);
@@ -150,6 +152,8 @@ void Igrac::move(Igrac&& other)
 
 void Igrac::copy(const Igrac& other)
 {
+	korisnicko_ime = other.korisnicko_ime;
+	sifra = other.sifra;
 	stanje = other.stanje;
 	gubitak = other.gubitak;
 	dobitak = other.dobitak;
