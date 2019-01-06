@@ -106,6 +106,9 @@ void signUp()
 	if (control)
     {
 		datotekaSaNalozimaUpis << korisnickoIme << ',' << lozinka << '\n'; // Formatiran upis korisnickog imena i lozinke u fajl.
+		datotekaSaNalozimaUpis << "10, 0, 0, 0, 0\n" << "0, 0, 0, 0\n" << "0, 0, 0, 0\n" << "0, 0, 0, 0\n";
+		for (int i = 0; i < 40; i++)
+			datotekaSaNalozimaUpis << "-1, greska, greska\n";
 		std::cout << "Uspjesno ste registrovani i mozete se prijaviti na svoj nalog!" << std::endl;
     }
 

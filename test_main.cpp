@@ -25,9 +25,11 @@ int main()
 	{
 		std::cout << std::endl << "Neispravan unos! Bicete automatski proslijedjeni na prijavu!" << std::endl;
 		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+		first_time = false;
 	}
 	while ((test = logIn()) == -1)
 	{
+		first_time = true;
 		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 		clear_screen();
 		signUp();
@@ -35,6 +37,7 @@ int main()
 		clear_screen();
 	}
 	Igrac i = Igrac(test, first_time);
+	std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 	do
 	{
 		clear_screen();
@@ -53,7 +56,7 @@ int main()
 		}
 		else if (opcija == "2")
 		{
-			//i.igraj_kviz();
+			i.igraj_kviz();
 			i.writePodaci(); //upis podataka u toku igranja mozda, jer ako se izadje na x ne izvrsi se upis u datoteku sa novim stanjem
 
 		}
@@ -83,6 +86,7 @@ int main()
 			test = logIn();
 			first_time = false;
 			i = Igrac(test, first_time);
+			std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 		}
 		else if (opcija == "7")
 		{
@@ -110,6 +114,7 @@ int main()
 		else if (opcija == "9")
 		{
 			i.otkazi();
+			std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 		}
 		clear_screen();
 	} while (opcija != "0");

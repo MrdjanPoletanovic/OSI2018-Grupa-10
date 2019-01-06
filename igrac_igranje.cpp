@@ -3,7 +3,7 @@
 #include "loto.h"
 #include "broj.h"
 #include "poker.h"
-//#include "kviz.h"
+#include "kviz.h"
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -31,7 +31,7 @@ Igrac::Igrac(int line, bool first_time) : nizovi(new KruzniBafer[broj_elemenata]
 		korisnicko_ime = tmp;
 		std::getline(file, tmp);
 		sifra = tmp;
-		std::cout << sifra << korisnicko_ime << std::endl;
+		//std::cout << sifra << korisnicko_ime << std::endl;
 		if (first_time || std::getline(file, tmp, ',').eof())
 		{
 			stanje = 10;
@@ -79,11 +79,13 @@ Igrac::Igrac(int line, bool first_time) : nizovi(new KruzniBafer[broj_elemenata]
 			}
 			for(int i=0; i<broj_elemenata; i++)
 				nizovi[i].readFromFile(file);
-			std::cout << "TEST\n";
 			file.close();
 		}
 		if (!first_time)
-			std::cout << "Pozdrav, " << korisnicko_ime << std::endl;
+		{
+			clear_screen();
+			std::cout << "Pozdrav, " << korisnicko_ime << "! " << std::endl;
+		}
 	}
 }
 
@@ -287,34 +289,44 @@ void Igrac::igraj_loto()
 {
 	if (otkazan[2] == 0)
 	{
-		if (prijava(3))
+		if (stanje >= 100)
 		{
-			int bodovi;
-			printPravilaLoto();
-			time_t start, end=std::time(0);
-			do
+			if (prijava(3))
 			{
-				start = end;
-				if (stanje < 100)
+				int bodovi;
+				printPravilaLoto();
+				time_t start, end = std::time(0);
+				do
 				{
-					std::cout << "Nemate dovoljno sredstava da igrate loto." << std::endl;
-					break;
-				}
-				clear_screen();
-				stanje-=100;
-				gubitak+=100;
-				pokusajLoto++;
-				bodovi = loto(stanje, dobitak, gubitak, pokusajLoto);
-				dobitak+=bodovi;
-				stanje+=bodovi;
-				nizovi[2].enqueue(bodovi, convertBodoviToMessageLoto(bodovi), getTime());
-				end = std::time(0);
+					start = end;
+					if (stanje < 100)
+					{
+						std::cout << "Nemate dovoljno sredstava da igrate loto." << std::endl;
+						break;
+					}
+					clear_screen();
+					stanje -= 100;
+					gubitak += 100;
+					pokusajLoto++;
+					bodovi = loto(stanje, dobitak, gubitak, pokusajLoto);
+					dobitak += bodovi;
+					stanje += bodovi;
+					nizovi[2].enqueue(bodovi, convertBodoviToMessageLoto(bodovi), getTime());
+					end = std::time(0);
+				} while (provjera_kljuca(3, start, end) && igraj_ponovo());
 			}
-			while(provjera_kljuca(3, start, end) && igraj_ponovo());
+		}
+		else
+		{
+			std::cout << "Nemate dovoljno sredstava da igrate loto." << std::endl;
+			std::this_thread::sleep_for(std::chrono::milliseconds(1500));
 		}
 	}
 	else
+	{
 		std::cout << "Igra je otkazana. Ne mozete je vise igrati." << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+	}
 }
 
 
@@ -342,7 +354,10 @@ void Igrac::igraj_broj()
 		}
 	}
 	else
+	{
 		std::cout << "Igra je otkazana. Ne mozete je vise igrati." << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+	}
 }
 
 
@@ -350,30 +365,40 @@ void Igrac::igraj_poker()
 {
 	if (otkazan[3] == 0)
 	{
-		if (prijava(4))
+		if (stanje >= 5)
 		{
-			int bodovi;
-			printPravilaPoker();
-			do
+			if (prijava(4))
 			{
-				if (stanje < 5)
+				int bodovi;
+				printPravilaPoker();
+				do
 				{
-					std::cout << "Nemate dovoljno sredstava da igrate poker." << std::endl;
-					break;
-				}
-				clear_screen();
-				gubitak += 5;
-				stanje -= 5;
-				bodovi = poker(stanje, dobitak, gubitak);
-				nizovi[3].enqueue(bodovi, convertBodoviToMessagePoker(bodovi), getTime());
-				dobitak += bodovi;
-				stanje += bodovi;
+					if (stanje < 5)
+					{
+						std::cout << "Nemate dovoljno sredstava da igrate poker." << std::endl;
+						break;
+					}
+					clear_screen();
+					gubitak += 5;
+					stanje -= 5;
+					bodovi = poker(stanje, dobitak, gubitak);
+					nizovi[3].enqueue(bodovi, convertBodoviToMessagePoker(bodovi), getTime());
+					dobitak += bodovi;
+					stanje += bodovi;
+				} while (igraj_ponovo());
 			}
-			while(igraj_ponovo());
+		}
+		else
+		{
+			std::cout << "Nemate dovoljno sredstava da igrate poker." << std::endl;
+			std::this_thread::sleep_for(std::chrono::milliseconds(1500));
 		}
 	}
 	else
+	{
 		std::cout << "Igra je otkazana. Ne mozete je vise igrati." << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+	}
 }
 
 
@@ -385,41 +410,49 @@ std::string convertBodoviToMessageKviz (int tacni, int netacni, int neodgovoreni
 	return poruka;
 }
 
-/*
+
 void Igrac::igraj_kviz()
 {
 	if (otkazan[1] == 0)
 	{
-		if (prijava(2))
+		if (stanje >= 50)
 		{
-			int bodovi, tacni = 0, netacni = 0, neodgovoreni = 0;
-			printPravilaKviz();
-			time_t start, end = std::time(0);
-			do
+			if (prijava(2))
 			{
-				start = end;
-				if (stanje < 50) // Potrebno znati koliko bodova je potrebno za kviz.
+				int bodovi, tacni = 0, netacni = 0, neodgovoreni = 0;
+				printPravilaKviz();
+				time_t start, end = std::time(0);
+				do
 				{
-					std::cout << "Nemate dovoljno sredstava da igrate kviz." << std::endl;
-					break;
-				}
-				clear_screen();
-				stanje -= 50;
-				bodovi = kviz(stanje, tacni, netacni, neodgovoreni);
-				nizovi[1].enqueue(bodovi, convertBodoviToMessageKviz(tacni, netacni, neodgovoreni), getTime());
-				//stanje += bodovi;// da li se ovdje azurira stanje ili u igrici
-				dobitak += (tacni < 5) ? (tacni*20): tacni*20+50;
-				gubitak += netacni * 30 + neodgovoreni*10;
-				tacni = netacni = neodgovoreni = 0;
-				end = std::time(0);
-			} while (provjera_kljuca(2, start, end) && igraj_ponovo());
+					start = end;
+					if (stanje < 50) // Potrebno znati koliko bodova je potrebno za kviz.
+					{
+						std::cout << "Nemate dovoljno sredstava da igrate kviz." << std::endl;
+						break;
+					}
+					clear_screen();
+					stanje -= 50;
+					bodovi = kviz(stanje, tacni, netacni, neodgovoreni);
+					nizovi[1].enqueue(bodovi, convertBodoviToMessageKviz(tacni, netacni, neodgovoreni), getTime());
+					dobitak += (tacni < 5) ? (tacni * 20) : tacni * 20 + 50;
+					gubitak += netacni * 30 + neodgovoreni * 10;
+					tacni = netacni = neodgovoreni = 0;
+					end = std::time(0);
+				} while (provjera_kljuca(2, start, end) && igraj_ponovo());
+			}
+		}
+		else
+		{
+			std::cout << "Nemate dovoljno sredstava da igrate kviz." << std::endl;
+			std::this_thread::sleep_for(std::chrono::milliseconds(1500));
 		}
 	}
 	else
+	{
 		std::cout << "Igra je otkazana. Ne mozete je vise igrati." << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+	}
 }
-*/
-
 
 
 void clear_screen()
@@ -498,6 +531,7 @@ bool Igrac::prijava(int redni_broj_igre)
 		else
 		{
 			std::cout << "Aktivacija igre neuspjesna. Pokusajte ponovo." << std::endl;
+			std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 			return false;
 		}
 	}

@@ -38,7 +38,4 @@ private:
 	void move(KruzniBafer&&);
 	friend std::ostream& operator<<(std::ostream& stream, const KruzniBafer& k);
 
-
-
-
 };
