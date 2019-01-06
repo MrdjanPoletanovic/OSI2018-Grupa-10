@@ -7,15 +7,7 @@
 #include <iomanip>
 
 
-Node::Node() : Node(0, "", "")
-{}
-
-
-Node::Node(int r, const std::string& s, const std::string& t) : rezultat(r), poruka(s), vrijeme(t)
-{}
-
-
-Node KruzniBafer::errorNode = Node(-1, "greska", "greska");
+Node KruzniBafer::errorNode = {-1, "greska", "greska"};
 
 
 KruzniBafer::KruzniBafer() : niz(new Node[MAX]), front(0), rear(0)
@@ -86,7 +78,7 @@ KruzniBafer::~KruzniBafer()
 
 void KruzniBafer::enqueue(int x, const std::string& poruka, const std::string& vrijeme)
 {
-	niz[rear] = Node(x, poruka, vrijeme);
+	niz[rear] = {x, poruka, vrijeme};
 	rear = (rear+1)%MAX;
 	if (front == rear)
 		front = (front+1)%MAX;
@@ -142,7 +134,7 @@ std::vector<Node> KruzniBafer::returnSorted() const
 }
 
 
-KruzniBafer::KruzniBafer(std::ifstream& file) : KruzniBafer()
+void KruzniBafer::readFromFile(std::ifstream& file)
 {
 	std::string tmp1, tmp2;
 	int bodovi;
@@ -154,7 +146,7 @@ KruzniBafer::KruzniBafer(std::ifstream& file) : KruzniBafer()
 			break;
 		std::getline(file, tmp1, ',');
 		std::getline(file, tmp2);
-		niz[rear] = Node(bodovi, tmp1, tmp2);
+		niz[rear] = {bodovi, tmp1, tmp2};
 	}
 	for (int i = rear; i < MAX - 1; i++)
 		std::getline(file, tmp1);
@@ -167,11 +159,11 @@ std::ostream& operator<<(std::ostream& stream, const Node& n)
 }
 
 
-void KruzniBafer::writeToFile(std::fstream& file) const
+std::ostream& operator<<(std::ostream& stream, const KruzniBafer& k)
 {
-	std::vector<Node> tmp = returnSorted();
+	std::vector<Node> tmp = k.returnSorted();
 	for(auto x : tmp)
-		file << x;
+		stream << x;
 	for(int i=tmp.size(); i<MAX-1; i++)
-		file << errorNode;
+		stream << k.errorNode;
 }

@@ -34,7 +34,7 @@ Igrac::Igrac(int line, bool first_time)
 		{
 			stanje = 10;
 			dobitak = gubitak = pokusajLoto = pokusajBroj = 0;
-			for(int i=0; i<4; i++)	
+			for(int i=0; i<4; i++)
 			{
 				prijavljen[i] = otkazan[i] = 0;
 				vrijeme_igranja[i] = 0;
@@ -636,6 +636,7 @@ void Igrac::write(int line) const
 		for(int i=0; i<line; i++)
 			std::getline(file, tmp);
 	}
+	file.seekp(file.tellg(), std::ios::beg);
 	file << korisnicko_ime << "," << sifra << std::endl;
 	file << stanje << "," << gubitak << "," << dobitak << "," << pokusajBroj << "," << pokusajLoto << std::endl;
 	for(int i=0; i<4; i++)
@@ -660,7 +661,8 @@ void Igrac::write(int line) const
 			file << vrijeme_igranja[i] << std::endl;
 	}
 	for(int i=0; i<4; i++)
-		nizovi[i].writeToFile(file);
+		file << nizovi[i];
+	file.close();
 }
 
 
