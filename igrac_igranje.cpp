@@ -10,6 +10,7 @@
 #include <ctime>
 #include <random>
 #include <chrono>
+#include <thread>
 #include <sstream>
 
 
@@ -521,6 +522,7 @@ void Igrac::otkazi_igru(int redni_broj)
 	{
 		std::cout << "--> Vise nemate pristup igri: Video Poker!\n";
 	}
+	std::this_thread::sleep_for(std::chrono::milliseconds(1500));
 }
 
 void Igrac::otkazi()

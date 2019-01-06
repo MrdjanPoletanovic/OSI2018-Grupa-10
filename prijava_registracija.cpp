@@ -84,8 +84,8 @@ void signUp()
 			{
 				getline(datotekaSaNalozima, compareUsername, ',');
 				getline(datotekaSaNalozima, temp);
-                for (int k=1; k<=44; k++)
-                    getline(datotekaSaNalozima, temp);
+                /*for (int k=1; k<=44; k++)
+                    getline(datotekaSaNalozima, temp);*/
 
 				if (!korisnickoIme.compare(compareUsername))
 				{
@@ -106,8 +106,6 @@ void signUp()
 	if (control)
     {
 		datotekaSaNalozimaUpis << korisnickoIme << ',' << lozinka << '\n'; // Formatiran upis korisnickog imena i lozinke u fajl.
-		for (int i = 0; i < 44; i++)
-			datotekaSaNalozimaUpis << "\n";
 		std::cout << "Uspjesno ste registrovani i mozete se prijaviti na svoj nalog!" << std::endl;
     }
 
@@ -129,7 +127,7 @@ int provjera(std::string &userName, std::string &password)
         std::getline(dataBase, _password); // pretpostavka da u tabeli postoje samo 2 kolone: username i password
 		if (userName.compare(_name) == 0 && password.compare(_password) == 0)
 			return i;
-		for (int i = 0; i < 44; i++)
+		for (int j = 0; j < 44; j++)
 			std::getline(dataBase, test);
 		i += 45;
     }
