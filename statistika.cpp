@@ -166,4 +166,5 @@ std::ostream& operator<<(std::ostream& stream, const KruzniBafer& k)
 		stream << x;
 	for(int i=tmp.size(); i<MAX-1; i++)
 		stream << k.errorNode;
+	return stream;
 }

@@ -76,7 +76,7 @@ Igrac::Igrac(int line, bool first_time)
 				vrijeme_igranja[i] = std::stod(tmp);
 			}
 			for(int i=0; i<4; i++)
-				nizovi[i] = KruzniBafer(file);
+				nizovi[i].readFromFile(file);
 			std::cout << "TEST\n";
 			file.close();
 		}
