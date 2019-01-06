@@ -37,3 +37,6 @@ int get_optimalno(int dobitak, int gubitak);
 // funkcija koja namjesta izvucene brojeve u skladu sa parametrom optimalno
 // koji dobija na osnovu prethodne funkcije
 void namjesti(int izabrani[], int izvuceni[], int niz[], int optimalno);
+
+//funkcija za ispis pravila na ekran
+void printPravilaLoto();

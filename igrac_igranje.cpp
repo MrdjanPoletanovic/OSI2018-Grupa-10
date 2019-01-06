@@ -310,6 +310,7 @@ void Igrac::igraj_poker()
 				clear_screen();
 				gubitak += 5;
 				stanje -= 5;
+				printPravilaPoker();
 				bodovi = poker(stanje, dobitak, gubitak);
 				nizovi[3].enqueue(bodovi, convertBodoviToMessagePoker(bodovi), getTime());
 				dobitak += bodovi;
@@ -343,18 +344,19 @@ void Igrac::igraj_kviz()
 			do
 			{
 				start = end;
-				if (stanje < 5) // Potrebno znati koliko bodova je potrebno za kviz.
+				if (stanje < 50) // Potrebno znati koliko bodova je potrebno za kviz.
 				{
 					std::cout << "Nemate dovoljno sredstava da igrate kviz." << std::endl;
 					break;
 				}
 				clear_screen();
-				stanje -= 5;
+				stanje -= 50;
 				bodovi = kviz(stanje, tacni, netacni, neodgovoreni);
 				nizovi[1].enqueue(bodovi, convertBodoviToMessageKviz(tacni, netacni, neodgovoreni), getTime());
-				stanje += bodovi;
-				dobitak += (tacni < 5) ? tacni*20 : tacni*20+50;
+				//stanje += bodovi;// da li se ovdje azurira stanje ili u igrici
+				dobitak += (tacni < 5) ? (tacni*20): tacni*20+50;
 				gubitak += netacni * 30 + neodgovoreni*10;
+				tacni = netacni = neodgovoreni = 0;
 				end = std::time(0);
 			} while (provjera_kljuca(2, start, end) && igraj_ponovo());
 		}
@@ -502,26 +504,26 @@ void Igrac::otkazi_igru(int redni_broj)
 	otkazan[redni_broj-1] = 1;
 	if (redni_broj == 1)
 	{
-		std::cout << "Vise nemate pristup igri: Pogadjanje broja!\n";
+		std::cout << "--> Vise nemate pristup igri: Pogadjanje broja!\n";
 	}
 	else if (redni_broj == 2)
 	{
-		std::cout << "Vise nemate pristup igri: Kviz!\n";
+		std::cout << "--> Vise nemate pristup igri: Kviz!\n";
 	}
 	else if (redni_broj == 3)
 	{
-		std::cout << "Vise nemate pristup igri: Loto!\n";
+		std::cout << "--> Vise nemate pristup igri: Loto!\n";
 	}
 	else if (redni_broj == 4)
 	{
-		std::cout << "Vise nemate pristup igri: Video Poker!\n";
+		std::cout << "--> Vise nemate pristup igri: Video Poker!\n";
 	}
 }
 
 void Igrac::otkazi()
 {
 	std::cout << "Koju igru zelite otkazati?\n" << "1. Pogadjanje broja\n" << "2. Kviz\n" << "3. Loto\n" << "4. Video Poker\n" << "5. Odustani\n";
-	std::cout << "Unesite indeks ispred opcije koju zelite izabrati: ";
+	std::cout << "\nUnesite indeks opcije koju zelite izabrati: ";
 	std::string odgovor;
 	std::getline(std::cin, odgovor);
 	
@@ -531,7 +533,7 @@ void Igrac::otkazi()
 		otkazi_igru(a);
 	}
 	else
-		std::cout << "\nNijedna igra nije otkazana!\n";
+		std::cout << "--> Nijedna igra nije otkazana!\n";
 
 }
 

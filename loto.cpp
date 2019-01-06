@@ -214,6 +214,7 @@ int loto(int stanje, int dobitak, int gubitak, int igranje)
 	int niz[45], izvuceni[20], izabrani[7], bodovi;
 	for(int i=0; i<45; i++)
 		niz[i] = i+1;
+	printPravilaLoto();
 	std::srand(std::time(0));
 	izaberi(izabrani, niz);
 	if (check_namjestanje(dobitak, gubitak,  igranje))
@@ -228,4 +229,12 @@ int loto(int stanje, int dobitak, int gubitak, int igranje)
 	std::cout << "Osvojili ste " << bodovi << " bodova." << std::endl;
 	std::cout << "Trenutno stanje: " << stanje+bodovi << std::endl << std::endl;
 	return bodovi;
+}
+
+void printPravilaLoto()
+{
+	std::cout << "PRAVILA: " << std::endl << std::endl << "**********" << std::endl << std::endl << "- Unesite 7 razlicitih brojeva u opsegu od 1 do 45.";
+	std::cout << std::endl << "- Mozete i ukucati 'slucajno' za automatsko generisanje 7 brojeva.";
+	std::cout << std::endl << "- Za svaki pogodjen broj dobija se (redni_broj_pogotka)*10 bodova." << std::endl << "- Moguce je osvojiti maksimalno 280 bodova." << std::endl;
+	std::cout << std::endl << "**********" << std::endl << std::endl;
 }

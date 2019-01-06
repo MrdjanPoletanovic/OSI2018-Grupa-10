@@ -247,3 +247,14 @@ bool NamjestanjePoker(bool stela,int ukupna_dobit,int gubitak)
 {
     return (stela && ((14*ukupna_dobit)>(10*gubitak)));
 }
+
+void printPravilaPoker()
+{
+	std::cout << "PRAVILA: " << std::endl << std::endl << "**********" << std::endl << std::endl << "- Prikazano je 5 karata (broj i znak karte).";
+	std::cout << std::endl << "- Pisanjem rijeci 'da' ili 'ne' ispod odabranih karata birate koje karte ostaju, i koje karte se mijenjaju.";
+	std::cout << std::endl << "- Royal Flash - 4000 bodova " << std::endl << "- Straight Flash - 250 bodova." << std::endl;
+	std::cout << "- Four of a Kind - 125 bodova. " << std::endl  << "- Full House - 45 bodova. " << std::endl;
+	std::cout << "- Flush - 30 bodova. " << std::endl << "- Straight - 20 bodova." << std::endl << "- Three of a Kind - 15 bodova. " << std::endl;
+	std::cout << "- Two Pairs - 10 bodova." << std::endl << "- Jacks or Better - 5 bodova" << std::endl;
+	std::cout << std::endl << "**********" << std::endl << std::endl;
+}

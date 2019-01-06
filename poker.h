@@ -17,3 +17,4 @@ void sortiranjeKarata(karta a[10]);
 int dobitak(karta a[10]);
 void ispisDobitka(int dobit);
 bool NamjestanjePoker(bool,int,int);
+void printPravilaPoker();

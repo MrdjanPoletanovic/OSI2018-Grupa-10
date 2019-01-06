@@ -12,6 +12,7 @@
 int logIn()
 {
 	int i = -1, pokusaji = 0;
+	std::cout << "\nPRIJAVA:" << std::endl << std::endl;
 	do
 	{
 		pokusaji++;
@@ -22,9 +23,11 @@ int logIn()
 		std::string password;
 		std::getline(std::cin, password);
 		i = provjera(name, password);
+		if (pokusaji < 3 && i == -1 )
+			std::cout << std::endl << "Neuspjesna prijava! " << "Preostalo " << 3 - pokusaji << " pokusaja." << std::endl  <<std::endl;
 	} while (i == -1 && pokusaji < 3);
 	if (pokusaji >= 3)
-		std::cout << "Ukoliko ne mozete da se sjetite sifre ili nemate profil pokusajte sa registracijom." << std::endl;
+		std::cout << "\nIskoristili ste sve pokusaje! Ako nemate profil, registrujte se!" << std::endl << std::endl;
 	return i;
 }
 
@@ -33,7 +36,7 @@ void signUp()
 {
 	std::string korisnickoIme, lozinka;
 	bool controlIme, controlLozinka;
-
+	std::cout << "\nREGISTRACIJA:" << std::endl << std::endl;
 	std::cout << "*** Molim unesite korisnicko ime koristeci alfanumericke znakove i simbole tacka (.) ili donja crta (_)";
 	std::cout << std::endl << "*** Molim unesite sigurnu lozinku koristeci alfanumericke znakove." << std::endl;
 	bool control = true;
@@ -105,6 +108,7 @@ void signUp()
 		datotekaSaNalozimaUpis << korisnickoIme << ',' << lozinka << '\n'; // Formatiran upis korisnickog imena i lozinke u fajl.
 		for (int i = 0; i < 44; i++)
 			datotekaSaNalozimaUpis << "\n";
+		std::cout << "Uspjesno ste registrovani i mozete se prijaviti na svoj nalog!" << std::endl;
     }
 
 	datotekaSaNalozimaUpis.close();
@@ -137,7 +141,7 @@ void printMenu()
 	std::cout << "SOFT-GAMES\n" << "-----------------------\n";
 	std::cout << "-----------------------\n";
 	std::cout << "1. Pogadjanje broja\n" << "2. Kviz\n" << "3. Loto\n" << "4. Video Poker\n\n";
-	std::cout << "5. Registracija\n" << "6. Prijava\n" << "7. Reset\n" << "8. Statistika\n" << "9. Otkazivanje igre\n" << "10. Izlaz\n";
+	std::cout << "5. Registracija\n" << "6. Prijava\n" << "7. Reset\n" << "8. Statistika\n" << "9. Otkazivanje igre\n" << "\n0. Izlaz\n";
 	std::cout << "-----------------------\n";
 	std::cout << "-----------------------\n";
 
@@ -157,19 +161,27 @@ void RestartujApl()
 		str1 = std::to_string(p);
 		str.insert(i, str1);
 	}
-	std::cout << "Master Password: " << str << std::endl;
+	std::cout << "\nMaster Password: " << str << std::endl;
+	int control = 0;
 	do
 	{
+		control++;
 		std::cout << "Unesite MasterPassword: ";
 		std::getline(std::cin, MasterPassword);
 		if (str.compare(MasterPassword) == 0)
 		{
 			std::remove("nalozi.csv");
+			std::cout << "Aplikacija je uspjesno resetovana!" << std::endl;
+			break;
 		}
 		else
 		{
-			std::cout << "Pogresan MasterPassword pokusajte ponovo" << std::endl;
+			std::cout << "\nPogresan MasterPassword!" << std::endl;
+			if(control<3)
+				std::cout << "Preostalo " << 3 - control << " pokusaja!" << std::endl <<std::endl;
+			else
+				std::cout << "Iskoristili ste sve pokusaje!" << std::endl;
 		}
-	} while (str.compare(MasterPassword) != 0);
-	std::cout << "Aplikacija je uspjesno restartovana!" << std::endl;
+	} while (control < 3);
+	
 }

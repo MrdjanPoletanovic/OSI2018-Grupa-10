@@ -6,19 +6,33 @@
 
 int main()
 {
-	int control, test;
+	int test;
 	bool first_time = false;
 	std::string opcija;
 	std::string control_string;
-	std::cout << "Da li zelite da se registrujete ili prijavite ( 1 / 0 )?";
+	std::cout << "Da li zelite da se registrujete ili prijavite ?"<< std::endl;
+	std::cout << "Unesite 1 za registraciju, a 0 za prijavu:";
 	std::getline(std::cin, control_string);
-	control = std::stoi(control_string);
-	if (control)
+	if (control_string.compare("1") == 0)
 	{
 		signUp();
 		first_time = true;
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+		clear_screen();
 	}
-	test = logIn();
+	else if (control_string.compare("0"))
+	{
+		std::cout << std::endl  << "Neispravan unos! Bicete automatski proslijedjeni na prijavu!" << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+	}
+	while ((test = logIn()) == -1)
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+		clear_screen();
+		signUp();
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+		clear_screen();
+	}
 	if (test > -1)
 	{
 		Igrac i(test, first_time);
@@ -31,7 +45,7 @@ int main()
 			{
 				std::cout << "Izaberite opciju:";
 				std::getline(std::cin, opcija);
-			} while (opcija != "1" && opcija != "2" && opcija != "3" && opcija != "4" && opcija != "5" && opcija != "6" && opcija != "7" && opcija != "8" && opcija != "9" && opcija!="10");
+			} while (opcija != "1" && opcija != "2" && opcija != "3" && opcija != "4" && opcija != "5" && opcija != "6" && opcija != "7" && opcija != "8" && opcija != "9" && opcija!="0");
 			if (opcija == "1")
 			{
 				i.igraj_broj();
@@ -41,7 +55,7 @@ int main()
 			else if (opcija == "2")
 			{
 				i.igraj_kviz();
-				i.writePodaci();
+				i.writePodaci(); //upis podataka u toku igranja mozda, jer ako se izadje na x ne izvrsi se upis u datoteku sa novim stanjem
 				
 			}
 			else if (opcija == "3")
@@ -75,7 +89,7 @@ int main()
 			}
 			else if (opcija == "7")
 			{
-				std::cout << "\nOva opcija podrazumijeva vracanje aplikacije na fabricka podesavanja.\nDa li ste sigurni da zelite nastaviti?\n";
+				std::cout << "\nOva opcija podrazumijeva vracanje aplikacije na fabricka podesavanja i brisanje svih podataka." << std::endl;
 				std::cout << "Unesite DA ako zelite nastaviti proces resetovanja: ";
 				std::string str;
 				std::getline(std::cin, str);
@@ -83,6 +97,7 @@ int main()
 					RestartujApl();
 				else
 					std::cout << "Aplikacija nece biti resetovana!\n";
+				std::this_thread::sleep_for(std::chrono::milliseconds(1100));
 			}
 			else if (opcija == "8")
 			{
@@ -95,9 +110,9 @@ int main()
 			{
 				i.otkazi();
 			}
-			std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+			std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 			clear_screen();
-		} while (opcija != "10");
+		} while (opcija != "0");
 		i.writePodaci();
 	}
 	else
