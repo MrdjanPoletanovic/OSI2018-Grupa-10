@@ -37,7 +37,7 @@ void signUp()
 	std::string korisnickoIme, lozinka;
 	bool controlIme, controlLozinka;
 	std::cout << "\nREGISTRACIJA:" << std::endl << std::endl;
-	std::cout << "*** Molim unesite korisnicko ime koristeci alfanumericke znakove i simbole tacka (.) ili donja crta (_)";
+	std::cout << "*** Molim unesite korisnicko ime, ne krace od 4 karaktera, koristeci alfanumericke znakove i simbole tacka (.) ili donja crta (_)";
 	std::cout << std::endl << "*** Molim unesite sigurnu lozinku koristeci alfanumericke znakove." << std::endl;
 	bool control = true;
 	do
@@ -54,7 +54,8 @@ void signUp()
 			for (int j = 0; j < (int)korisnickoIme.length(); j++) // Provjera da li unijeto korisnicko ime sadrzi nedozvoljene karaktere.
 				if (!(isalpha(korisnickoIme.at(j)) || isdigit(korisnickoIme.at(j)) || korisnickoIme.at(j) == '_' || korisnickoIme.at(j) == '.'))
 					controlIme = false;
-
+			if (korisnickoIme.length() < 4)
+				controlIme = false;
 			std::cin.sync(); // Ciscenje ulaznog bafera.
 			std::cout << "Molim unesite lozinku: ";
 			std::getline(std::cin, lozinka);
@@ -62,7 +63,8 @@ void signUp()
 			for (int j = 0; j < (int)lozinka.length(); j++)  // Provjera da li unijeta lozinka sadrzi nedozvoljene karaktere.
 				if (!(isalpha(lozinka.at(j)) || isdigit(lozinka.at(j))))
 					controlLozinka = false;
-
+			if (lozinka.length() < 4)
+				controlLozinka = false;
 			std::cout << std::endl;
 
 			if (!controlIme)

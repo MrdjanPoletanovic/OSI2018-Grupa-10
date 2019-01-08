@@ -31,7 +31,6 @@ Igrac::Igrac(int line, bool first_time) : nizovi(new KruzniBafer[broj_elemenata]
 		korisnicko_ime = tmp;
 		std::getline(file, tmp);
 		sifra = tmp;
-		//std::cout << sifra << korisnicko_ime << std::endl;
 		if (first_time || std::getline(file, tmp, ',').eof())
 		{
 			stanje = 10;

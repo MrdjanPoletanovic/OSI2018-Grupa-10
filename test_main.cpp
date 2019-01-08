@@ -11,11 +11,12 @@ int main()
 	std::string opcija;
 	std::string control_string;
 	ponovo:
-	std::cout << "Da li zelite da se registrujete ili prijavite ?" << std::endl;
-	std::cout << "Unesite 1 za registraciju, a 0 za prijavu:";
+	std::cout << "Da li zelite da se registrujete ili prijavite?" << std::endl;
+	std::cout << "Unesite 1 za registraciju, a 0 za prijavu: ";
 	std::getline(std::cin, control_string);
 	if (control_string.compare("1") == 0)
 	{
+		clear_screen();
 		signUp();
 		first_time = true;
 		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
@@ -27,6 +28,7 @@ int main()
 		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 		first_time = false;
 	}
+	clear_screen();
 	while ((test = logIn()) == -1)
 	{
 		first_time = true;
@@ -42,10 +44,10 @@ int main()
 	{
 		clear_screen();
 		printMenu();
-		std::cout << "STANJE: " << i.getStanje() << std::endl;
+		std::cout << "STANJE: " << i.getStanje() << std::endl << std::endl;
 		do
 		{
-			std::cout << "Izaberite opciju:";
+			std::cout << "Izaberite opciju: ";
 			std::getline(std::cin, opcija);
 		} while (opcija != "1" && opcija != "2" && opcija != "3" && opcija != "4" && opcija != "5" && opcija != "6" && opcija != "7" && opcija != "8" && opcija != "9" && opcija != "0");
 		if (opcija == "1")
@@ -75,6 +77,7 @@ int main()
 		else if (opcija == "5")
 		{
 			i.writePodaci();
+			clear_screen();
 			signUp();
 			test = logIn();
 			first_time = true;
@@ -83,6 +86,7 @@ int main()
 		else if (opcija == "6")
 		{
 			i.writePodaci();
+			clear_screen();
 			test = logIn();
 			first_time = false;
 			i = Igrac(test, first_time);
@@ -90,6 +94,7 @@ int main()
 		}
 		else if (opcija == "7")
 		{
+			clear_screen();
 			std::cout << "\nOva opcija podrazumijeva vracanje aplikacije na fabricka podesavanja i brisanje svih podataka." << std::endl;
 			std::cout << "Unesite DA ako zelite nastaviti proces resetovanja: ";
 			std::string str;
@@ -107,14 +112,16 @@ int main()
 		else if (opcija == "8")
 		{
 			i.writePodaci();
+			clear_screen();
 			i.printAllStat();
 			std::cout << "Pritisnite ENTER da nastavite!\n";
 			getchar();
 		}
 		else if (opcija == "9")
 		{
+			clear_screen();
 			i.otkazi();
-			std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+			std::this_thread::sleep_for(std::chrono::milliseconds(1500));
 		}
 		clear_screen();
 	} while (opcija != "0");
