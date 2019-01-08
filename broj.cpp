@@ -15,8 +15,13 @@ int unos(int i)
 	{
 		std::cout << i << ". pokusaj: ";
 		std::getline(std::cin, unos);
+		if (unos.compare("") == 0)
+		{
+			std::cout << "Neispravan unos! Unesite broj izmedju 1 i 100." << std::endl;
+			continue;
+		}
 		for(j = 0; unos[j] == ' '; j++);
-		for(broj=0, dobar=true; unos[j]!='\0' && unos[j]!=' '; j++)
+		for(broj=0, dobar=true; unos[j]!='\0' && unos[j]!=' ' ; j++)
 		{
 			if (unos[j] >= '0' && unos[j] <= '9')
 			{
