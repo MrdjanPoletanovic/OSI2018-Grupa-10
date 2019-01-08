@@ -300,7 +300,8 @@ void Igrac::igraj_loto()
 					start = end;
 					if (stanje < 100)
 					{
-						std::cout << "Nemate dovoljno sredstava da igrate loto." << std::endl;
+						std::cout << std::endl << "Nemate dovoljno sredstava da igrate loto." << std::endl;
+						std::this_thread::sleep_for(std::chrono::milliseconds(1500));
 						break;
 					}
 					clear_screen();
@@ -374,7 +375,8 @@ void Igrac::igraj_poker()
 				{
 					if (stanje < 5)
 					{
-						std::cout << "Nemate dovoljno sredstava da igrate poker." << std::endl;
+						std::cout << std::endl<< "Nemate dovoljno sredstava da igrate poker." << std::endl;
+						std::this_thread::sleep_for(std::chrono::milliseconds(1500));
 						break;
 					}
 					clear_screen();
@@ -426,7 +428,8 @@ void Igrac::igraj_kviz()
 					start = end;
 					if (stanje < 50) // Potrebno znati koliko bodova je potrebno za kviz.
 					{
-						std::cout << "Nemate dovoljno sredstava da igrate kviz." << std::endl;
+						std::cout << std::endl << "Nemate dovoljno sredstava da igrate kviz." << std::endl;
+						std::this_thread::sleep_for(std::chrono::milliseconds(1500));
 						break;
 					}
 					clear_screen();

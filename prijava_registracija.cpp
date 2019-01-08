@@ -38,7 +38,7 @@ void signUp()
 	bool controlIme, controlLozinka;
 	std::cout << "\nREGISTRACIJA:" << std::endl << std::endl;
 	std::cout << "*** Molim unesite korisnicko ime, ne krace od 4 karaktera, koristeci alfanumericke znakove i simbole tacka (.) ili donja crta (_)";
-	std::cout << std::endl << "*** Molim unesite sigurnu lozinku koristeci alfanumericke znakove." << std::endl;
+	std::cout << std::endl << "*** Molim unesite sigurnu lozinku, ne kracu od 4 karaktera, koristeci alfanumericke znakove." << std::endl;
 	bool control = true;
 	do
 	{
@@ -130,7 +130,7 @@ int provjera(std::string &userName, std::string &password)
         std::string _name, _password;
         std::getline(dataBase, _name, ',');
         std::getline(dataBase, _password); // pretpostavka da u tabeli postoje samo 2 kolone: username i password
-		if (userName.compare(_name) == 0 && password.compare(_password) == 0)
+		if (userName.compare(_name) == 0 && password.compare(_password) == 0 && userName.compare("")!=0 && password.compare("")!=0)
 		{
 			dataBase.close();
 			return i;
