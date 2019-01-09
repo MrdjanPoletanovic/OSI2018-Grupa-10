@@ -42,11 +42,12 @@ int main()
 	std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 	do
 	{
-		clear_screen();
-		printMenu();
-		std::cout << "STANJE: " << i.getStanje() << std::endl << std::endl;
+		
 		do
 		{
+			clear_screen();
+			printMenu();
+			std::cout << "STANJE: " << i.getStanje() << std::endl << std::endl;
 			std::cout << "Izaberite opciju: ";
 			std::getline(std::cin, opcija);
 		} while (opcija != "1" && opcija != "2" && opcija != "3" && opcija != "4" && opcija != "5" && opcija != "6" && opcija != "7" && opcija != "8" && opcija != "9" && opcija != "0");

@@ -17,7 +17,7 @@ int unos(int i)
 		std::getline(std::cin, unos);
 		if (unos.compare("") == 0)
 		{
-			std::cout << "Neispravan unos! Unesite broj izmedju 1 i 100." << std::endl;
+			std::cout << "Neispravan unos! Unesite broj izmedju 0 i 100." << std::endl;
 			continue;
 		}
 		for(j = 0; unos[j] == ' '; j++);
@@ -43,7 +43,7 @@ int unos(int i)
 		if (dobar)
 			return broj;
 		else
-			std::cout << "Neispravan unos! Unesite broj izmedju 1 i 100." << std::endl;
+			std::cout << "Neispravan unos! Unesite broj izmedju 0 i 100." << std::endl;
 	}
 	while(true);
 }
@@ -100,7 +100,7 @@ void printPravilaBroj()
 {
 	clear_screen();
 	std::cout << "PRAVILA: " << std::endl << std::endl << "**********" << std::endl << std::endl << "- Imate 5 pokusaja za pogadjanje trazenog broja.";
-	std::cout << std::endl << "- Unosite brojeve od 1 do 100.";
+	std::cout << std::endl << "- Unosite brojeve od 0 do 100.";
 	std::cout << std::endl << "- Tacno pogodjen broj nosi 100/broj_pokusaja bodova." << std::endl << "- Nema negativnih bodova." << std::endl ;
 	std::cout << std::endl  << "**********" << std::endl << std::endl;
 	std::cout << "Da nastavite, pritisnite ENTER!" << std::endl;

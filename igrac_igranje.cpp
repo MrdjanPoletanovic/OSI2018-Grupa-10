@@ -308,11 +308,13 @@ void Igrac::igraj_loto()
 					stanje -= 100;
 					gubitak += 100;
 					pokusajLoto++;
+					writePodaci();
 					bodovi = loto(stanje, dobitak, gubitak, pokusajLoto);
 					dobitak += bodovi;
 					stanje += bodovi;
 					nizovi[2].enqueue(bodovi, convertBodoviToMessageLoto(bodovi), getTime());
 					end = std::time(0);
+					writePodaci();
 				} while (provjera_kljuca(3, start, end) && igraj_ponovo());
 			}
 		}
@@ -349,6 +351,7 @@ void Igrac::igraj_broj()
 				dobitak+=bodovi;
 				nizovi[0].enqueue(bodovi, convertBodoviToMessageBroj(bodovi), getTime());
 				end = std::time(0);
+				writePodaci();
 			}
 			while(provjera_kljuca(1, start, end) && igraj_ponovo());
 		}
@@ -382,10 +385,12 @@ void Igrac::igraj_poker()
 					clear_screen();
 					gubitak += 5;
 					stanje -= 5;
+					writePodaci();
 					bodovi = poker(stanje, dobitak, gubitak);
 					nizovi[3].enqueue(bodovi, convertBodoviToMessagePoker(bodovi), getTime());
 					dobitak += bodovi;
 					stanje += bodovi;
+					writePodaci();
 				} while (igraj_ponovo());
 			}
 		}
@@ -434,12 +439,14 @@ void Igrac::igraj_kviz()
 					}
 					clear_screen();
 					stanje -= 50;
+					writePodaci();
 					bodovi = kviz(stanje, tacni, netacni, neodgovoreni);
 					nizovi[1].enqueue(bodovi, convertBodoviToMessageKviz(tacni, netacni, neodgovoreni), getTime());
 					dobitak += (tacni < 5) ? (tacni * 20) : tacni * 20 + 50;
 					gubitak += netacni * 30 + neodgovoreni * 10;
 					tacni = netacni = neodgovoreni = 0;
 					end = std::time(0);
+					writePodaci();
 				} while (provjera_kljuca(2, start, end) && igraj_ponovo());
 			}
 		}
