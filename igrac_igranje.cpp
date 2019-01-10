@@ -307,13 +307,13 @@ void Igrac::igraj_loto()
 					clear_screen();
 					stanje -= 100;
 					gubitak += 100;
+					pokusajLoto++;
 					writePodaci();
 					bodovi = loto(stanje, dobitak, gubitak, pokusajLoto);
 					dobitak += bodovi;
 					stanje += bodovi;
 					nizovi[2].enqueue(bodovi, convertBodoviToMessageLoto(bodovi), getTime());
 					end = std::time(0);
-					pokusajLoto++;
 					writePodaci();
 				} while (provjera_kljuca(3, start, end) && igraj_ponovo());
 			}
@@ -351,6 +351,7 @@ void Igrac::igraj_broj()
 				dobitak+=bodovi;
 				nizovi[0].enqueue(bodovi, convertBodoviToMessageBroj(bodovi), getTime());
 				end = std::time(0);
+				writePodaci();
 			}
 			while(provjera_kljuca(1, start, end) && igraj_ponovo());
 		}
@@ -384,10 +385,12 @@ void Igrac::igraj_poker()
 					clear_screen();
 					gubitak += 5;
 					stanje -= 5;
+					writePodaci();
 					bodovi = poker(stanje, dobitak, gubitak);
 					nizovi[3].enqueue(bodovi, convertBodoviToMessagePoker(bodovi), getTime());
 					dobitak += bodovi;
 					stanje += bodovi;
+					writePodaci();
 				} while (igraj_ponovo());
 			}
 		}
@@ -443,6 +446,7 @@ void Igrac::igraj_kviz()
 					gubitak += netacni * 30 + neodgovoreni * 10;
 					tacni = netacni = neodgovoreni = 0;
 					end = std::time(0);
+					writePodaci();
 				} while (provjera_kljuca(2, start, end) && igraj_ponovo());
 			}
 		}
